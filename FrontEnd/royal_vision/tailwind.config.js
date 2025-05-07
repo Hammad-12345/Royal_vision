@@ -8,6 +8,9 @@ module.exports = {
       fontFamily: {
         poppins:'Poppins',
       },
+      colors: {
+        pink: '#5f304d',
+      },
     },
   },
   plugins: [],

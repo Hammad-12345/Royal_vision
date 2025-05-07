@@ -7,7 +7,7 @@ const TemplateImage = ({ currentPage }) => {
       <div
         className="w-full h-[400px] bg-cover bg-center bg-no-repeat relative flex flex-col space-y-4 justify-center px-8 font-poppins"
         style={{
-          backgroundImage: "url('/Royaltrading2.jpg')",
+          backgroundImage: "url('/Banner4.jpg')",
           backgroundColor: "rgba(31, 41, 55, 0.75)",
           backgroundBlendMode: "multiply",
         }}

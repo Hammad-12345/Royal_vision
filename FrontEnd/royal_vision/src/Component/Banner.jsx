@@ -6,21 +6,21 @@ import "swiper/css/effect-fade";
 const Banner = () => {
   const slides = [
     {
-      image: "/Banner1.jpg",
+      image: "/Banner6.jpg",
       title: "Welcome to Royal Vision Global Partner",
     },
     {
-      image: "/Banner2.jpg",
+      image: "/Banner5.jpg",
       title: "Trade Smart, Grow Fast – Your Forex Journey Begins Here",
     },
     {
-      image: "/Banner3.jpg",
+      image: "/Banner4.jpg",
       title: "Empowering Traders Worldwide with Real-Time Solutions",
     },
   ];
   return (
     <>
-      <div className="relative w-full h-screen">
+      <div className="relative z-0 w-full h-screen">
         <Swiper
           modules={[EffectFade, Autoplay]}
           effect="fade"
@@ -32,18 +32,18 @@ const Banner = () => {
           {slides.map((slide, index) => (
             <SwiperSlide key={index}>
               <div
-                className="w-full h-full bg-cover bg-center flex items-center justify-center font-poppins relative"
+                className="w-full h-full bg-cover bg-center flex items-center justify-start font-poppins relative"
                 style={{ 
                   backgroundImage: `url(${slide.image})`,
                   backgroundColor: 'rgba(31, 41, 55, 0.75)',
                   backgroundBlendMode: 'multiply'
                 }}
               >
-                <div className="flex flex-col items-center gap-8 w-4/5">
-                  <div className="bg-black bg-opacity-50 px-6 py-4 rounded-xl text-white text-3xl md:text-5xl font-bold text-center">
+                <div className="flex flex-col items-start px-6 space-y-4 w-1/2">
+                  <div className=" bg-opacity-50  py-4 rounded-xl text-white text-3xl md:text-5xl font-bold">
                     {slide.title}
                   </div>
-                  <button className="bg-blue-200 hover:bg-blue-700 text-black font-bold py-3 px-8 rounded-full transition-all duration-300 transform hover:scale-105">
+                  <button className="bg-blue-200 hover:bg-[#F6F0F0] text-black font-bold py-3 px-8 rounded-full transition-all duration-300 transform hover:scale-105">
                     Get Started
                   </button>
                 </div>
@@ -51,6 +51,7 @@ const Banner = () => {
             </SwiperSlide>
           ))}
         </Swiper>
+        
       </div>
     </>
   );
