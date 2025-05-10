@@ -8,6 +8,7 @@ import Plans from "./Pages/Plans";
 import './App.css'
 import Faqs from "./Pages/Faqs";
 import Policy from "./Pages/Policy";
+import HowitsWorks from "./Pages/HowitsWorks";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path="plans" element={<Plans />} />
           <Route path="faqs" element={<Faqs />} />
           <Route path="policy" element={<Policy />} />
+          <Route path="how-it-works" element={<HowitsWorks />} />
         </Route>
       </Routes>
     </BrowserRouter>

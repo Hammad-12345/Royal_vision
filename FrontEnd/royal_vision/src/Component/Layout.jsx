@@ -44,12 +44,23 @@ const Layout = () => {
             backgroundBlendMode: "multiply",
           }}
         >
-          <h1 className="text-white text-4xl md:text-6xl font-bold animate-pulse text-center drop-shadow-lg font-poppins">
-            Royal Vision Global Partner
-          </h1>
+          <div className="flex flex-col max-w-3xl items-center space-y-4">
+            <h1 className="text-white text-4xl md:text-6xl font-bold animate-pulse text-center drop-shadow-lg font-poppins">
+              Overland Solutions
+            </h1>
+            {/* Loading Line Animation */}
+            <div className="w-full h-1  bg-white rounded overflow-hidden relative">
+              <div className="absolute left-0 top-0 h-full w-full bg-gradient-to-r from-black via-blue-950 to-black  animate-loading-line"></div>
+            </div>
+          </div>
         </div>
       ) : (
         <>
+          <section class="wrapper">
+        <div id="stars"></div>
+        <div id="stars2"></div>
+        {/* <div id="stars3"></div> */}
+      </section>
           <Header />
           {!isHomePage && (
             <TemplateImage currentPage={location.pathname.slice(1)} />
@@ -59,7 +70,7 @@ const Layout = () => {
 
           {/* Scroll to top button */}
           <div
-            className={`size-14 text-white flex justify-center items-center rounded-full fixed z-50 bottom-6 right-6 bg-[#1c418b] cursor-pointer transition-all duration-300 ${
+            className={`size-14 text-white flex justify-center items-center rounded-full fixed z-50 bottom-6 right-6 bg-blue-600 font-semibold cursor-pointer transition-all duration-300 ${
               showScrollTop
                 ? "opacity-100 translate-y-0"
                 : "opacity-0 translate-y-10"

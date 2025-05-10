@@ -106,7 +106,7 @@ const OnlineChat = () => {
 
       {/* Chat Toggle Button */}
       <div
-        className="fixed font-poppins bottom-24 right-6 bg-[#1c418b] text-white rounded-full cursor-pointer shadow-lg transition-all duration-300 flex items-center overflow-hidden"
+        className="fixed font-poppins bottom-24 right-6 bg-blue-600 font-semibold text-white rounded-full cursor-pointer shadow-lg transition-all duration-300 flex items-center overflow-hidden"
         style={{
           width: isHovered ? "150px" : "56px",
           height: "50px",

@@ -70,7 +70,7 @@ const Faqs = () => {
       <h2 className="text-3xl font-bold text-center mb-8">
         Frequently Asked Questions
       </h2>
-      <div className="max-w-4xl mx-auto space-y-4">
+      <div className="max-w-4xl mx-auto space-y-4 relative">
         <Accordian accordian={faqs} />
       </div>
     </div>

@@ -11,6 +11,15 @@ module.exports = {
       colors: {
         pink: '#5f304d',
       },
+      animation: {
+        'loading-line': 'loadingLine 2s linear infinite',
+      },
+      keyframes: {
+        loadingLine: {
+          '0%': { transform: 'translateX(-100%)' },
+          '100%': { transform: 'translateX(100%)' },
+        },
+      },
     },
   },
   plugins: [],

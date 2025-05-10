@@ -13,13 +13,13 @@ const TotalInvester = () => {
   }, []);
 
   return (
-    <section className="bg-gray-900 py-16 text-white font-poppins">
+    <section className="bg-gradient-to-r from-black via-blue-950 to-black py-16 text-white font-poppins">
       <div className="container mx-auto px-6">
         <div className="flex flex-col md:flex-row justify-between items-center md:items-start gap-10">
           
           {/* Left Side: Title and Description */}
           <div className="md:w-1/2 text-center md:text-left">
-            <h2 className="text-4xl font-bold text-[#1c418b]">Our Achievements</h2>
+            <h2 className="text-4xl font-bold">Our <span className='text-blue-600 font-extrabold'>Achievements </span></h2>
             <p className="text-lg mt-4 text-gray-300">
               Trusted globally by investors and delivering measurable results with transparency and impact.
             </p>

@@ -7,7 +7,7 @@ const Banner = () => {
   const slides = [
     {
       image: "/Banner6.jpg",
-      title: "Welcome to Royal Vision Global Partner",
+      title: "Welcome to  Overland Solutions",
     },
     {
       image: "/Banner5.jpg",
@@ -43,7 +43,7 @@ const Banner = () => {
                   <div className=" bg-opacity-50  py-4 rounded-xl text-white text-3xl md:text-5xl font-bold">
                     {slide.title}
                   </div>
-                  <button className="bg-blue-200 hover:bg-[#F6F0F0] text-black font-bold py-3 px-8 rounded-full transition-all duration-300 transform hover:scale-105">
+                  <button className="bg-blue-600 hover:bg-[#F6F0F0] text-white font-semibold py-3 px-8 rounded-full transition-all duration-300 transform hover:scale-105">
                     Get Started
                   </button>
                 </div>

@@ -10,7 +10,7 @@ const Footer = () => {
 
   return (
     <footer
-      className=" text-white font-poppins  bg-cover bg-center"
+      className=" text-white font-poppins  bg-cover bg-center relative"
       style={{
         backgroundImage: `url(Banner1.jpg)`,
         backgroundColor: "rgba(31, 41, 55, 0.75)",
@@ -20,7 +20,7 @@ const Footer = () => {
       <div>
         <div className="w-full flex flex-col items-center justify-between space-y-6 py-8">
           <div className="text-2xl font-bold text-white hover:text-blue-200 transition-colors font-poppins">
-            Royal Vision
+            Overland Solutions
           </div>
           <div className="flex justify-center w-full space-x-12">
             <NavLink
@@ -77,7 +77,7 @@ const Footer = () => {
           <div className="text-center text-gray-400 text-lg">
             <p>
               © {new Date().getFullYear()}{" "}
-              <span className="text-blue-200"> Royal Vision. </span> All rights
+              <span className="text-blue-200"> Overland Solutions. </span> All rights
               reserved.
             </p>
           </div>
