@@ -37,7 +37,12 @@ const ProfitCalculator = () => {
   };
 
   return (
-    <div className="py-12 px-4 flex flex-col items-center font-poppins">
+    <div className="py-12 px-4 flex flex-col items-center font-poppins relative" style={{
+      backgroundImage: `url(/forexlight1.jpg)`,
+      //  backgroundColor: "rgba(31, 41, 55, 0.75)",
+      //  backgroundBlendMode: "multiply",
+       backgroundAttachment:"fixed"
+    }}>
       <h2 className="text-4xl font-bold text-center text-black">
         Profit <span className="text-blue-600 font-extrabold">Calculator</span>
       </h2>
@@ -46,7 +51,7 @@ const ProfitCalculator = () => {
         Check the calculation and you will get as our calculator says.
       </p>
 
-      <div className="mt-10 border rounded-md p-6 w-3/5 shadow-lg">
+      <div className="mt-10 border rounded-md p-6 w-3/5 shadow-lg bg-white">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
           <div className="space-y-4">
             <label className="  mb-1 block">Choose Plan</label>

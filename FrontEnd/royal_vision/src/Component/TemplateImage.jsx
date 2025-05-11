@@ -8,8 +8,8 @@ const TemplateImage = ({ currentPage }) => {
         className="w-full h-[400px] bg-cover bg-center bg-no-repeat relative flex flex-col space-y-4 justify-center px-8 font-poppins"
         style={{
           backgroundImage: "url('/Banner4.jpg')",
-          backgroundColor: "rgba(31, 41, 55, 0.75)",
-          backgroundBlendMode: "multiply",
+          backgroundColor: "hsl(215.86deg 49.32% 6.9% / 91%)",
+          backgroundBlendMode: "overlay",
         }}
       >
         <div className="text-white capitalize text-4xl">{currentPage}</div>

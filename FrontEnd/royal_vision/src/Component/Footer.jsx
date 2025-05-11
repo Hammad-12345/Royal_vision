@@ -26,7 +26,7 @@ const Footer = () => {
             <NavLink
               to="/faqs"
               className={`text-lg font-medium relative group ${
-                isActive("/faqs") ? "text-blue-400" : "hover:text-blue-200"
+                isActive("/faqs") ? "text-blue-400" : "hover:text-blue-400"
               }`}
             >
               FAQs
@@ -43,7 +43,7 @@ const Footer = () => {
               className={`text-lg font-medium relative group ${
                 isActive("/how-it-works")
                   ? "text-blue-400"
-                  : "hover:text-blue-200"
+                  : "hover:text-blue-400"
               }`}
             >
               How It Works
@@ -58,7 +58,7 @@ const Footer = () => {
             <NavLink
               to="/policy"
               className={`text-lg font-medium relative group ${
-                isActive("/policy") ? "text-blue-400" : "hover:text-blue-200"
+                isActive("/policy") ? "text-blue-400" : "hover:text-blue-400"
               }`}
             >
               Policy

@@ -57,7 +57,7 @@ const Policy = () => {
     <>
     <div className="bg-gradient-to-r from-black via-blue-950 to-black px-8 py-4 space-y-8">
       <h1 className="text-center font-poppins text-4xl text-white font-bold">
-        Overland Solutions – Company Policy
+        <span className="text-blue-600 font-extrabold">Overland Solutions</span> – Company Policy
       </h1>
       <ul className="space-y-6 relative">
         {policies.map((element) => (

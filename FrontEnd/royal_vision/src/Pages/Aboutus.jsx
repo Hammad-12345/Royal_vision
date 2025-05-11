@@ -4,7 +4,7 @@ const Aboutus = () => {
   return (
     <>
       <div className="space-y-8 font-poppins px-8 py-4 bg-gradient-to-r from-black via-blue-950 to-black text-gray-300">
-        <h1 className="text-4xl text-white font-bold text-center">About Us</h1>
+        <h1 className="text-4xl text-blue-600 font-extrabold text-center">About Us</h1>
 
         {/* Company Overview */}
         <section className="space-y-2 relative">

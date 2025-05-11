@@ -68,7 +68,7 @@ const Faqs = () => {
       // bac
     }}>
       <h2 className="text-3xl font-bold text-center mb-8">
-        Frequently Asked Questions
+        Frequently <span className="text-blue-600 font-extrabold">Asked Questions</span>
       </h2>
       <div className="max-w-4xl mx-auto space-y-4 relative">
         <Accordian accordian={faqs} />

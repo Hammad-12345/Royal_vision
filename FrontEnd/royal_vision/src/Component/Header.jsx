@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, Links, useLocation } from 'react-router-dom'
 
 const Header = () => {
   const location = useLocation();
@@ -22,7 +22,7 @@ const Header = () => {
         <div className="flex justify-between items-center">
           {/* Logo Section */}
           <div className="flex-shrink-0">
-            <Link to="/" className="text-2xl font-bold text-white hover:text-blue-200 transition-colors font-poppins">
+            <Link to="/" className="text-2xl font-bold text-white hover:text-blue-400 transition-colors font-poppins">
              Overland Solutions
             </Link>
           </div>
@@ -33,10 +33,10 @@ const Header = () => {
               <Link
                 key={link.path}
                 to={link.path}
-                className={`text-white relative group ${
+                className={`relative group ${
                   isActive(link.path)
-                    ? 'text-blue-200'
-                    : 'hover:text-blue-200'
+                    ? 'text-blue-400'
+                    : 'hover:text-blue-400'
                 }`}
               >
                 {link.label}
@@ -51,9 +51,9 @@ const Header = () => {
 
           {/* Login Button Section */}
           <div className="flex items-center">
-            <button className="bg-blue-600 font-semibold rounded-full text-white px-6 py-2  hover:bg-white/30 transition-colors duration-300 font-['Poppins'] backdrop-blur-sm">
-              Login
-            </button>
+            <Link to={"/signin"} className="bg-blue-600 font-semibold rounded-full text-white px-6 py-2  hover:bg-blue-500 transition-colors duration-300 font-poppins backdrop-blur-sm">
+              Sign In
+            </Link>
           </div>
         </div>
       </div>

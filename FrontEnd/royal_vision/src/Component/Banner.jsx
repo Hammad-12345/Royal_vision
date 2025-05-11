@@ -3,6 +3,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { EffectFade, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/effect-fade";
+import { Link } from "react-router-dom";
 const Banner = () => {
   const slides = [
     {
@@ -20,7 +21,7 @@ const Banner = () => {
   ];
   return (
     <>
-      <div className="relative z-0 w-full h-screen">
+      <div className="z-0 w-full h-screen">
         <Swiper
           modules={[EffectFade, Autoplay]}
           effect="fade"
@@ -32,20 +33,20 @@ const Banner = () => {
           {slides.map((slide, index) => (
             <SwiperSlide key={index}>
               <div
-                className="w-full h-full bg-cover bg-center flex items-center justify-start font-poppins relative"
+                className="w-full h-full bg-cover bg-center flex items-center justify-start font-poppins bg-gradient-to-r from-black via-blue-950 to-blue-600"
                 style={{ 
                   backgroundImage: `url(${slide.image})`,
-                  backgroundColor: 'rgba(31, 41, 55, 0.75)',
-                  backgroundBlendMode: 'multiply'
+                  backgroundColor: "hsl(215.86deg 49.32% 6.9% / 91%)",
+                  backgroundBlendMode: "overlay",
                 }}
               >
-                <div className="flex flex-col items-start px-6 space-y-4 w-1/2">
+                <div className="flex flex-col items-start px-6 space-y-4 w-2/5">
                   <div className=" bg-opacity-50  py-4 rounded-xl text-white text-3xl md:text-5xl font-bold">
                     {slide.title}
                   </div>
-                  <button className="bg-blue-600 hover:bg-[#F6F0F0] text-white font-semibold py-3 px-8 rounded-full transition-all duration-300 transform hover:scale-105">
+                  <Link to={"/signin"} className="bg-blue-600 font-semibold rounded-full text-white px-6 py-4  hover:bg-blue-500 transition-colors duration-300 font-poppins backdrop-blur-sm">
                     Get Started
-                  </button>
+                  </Link>
                 </div>
               </div>
             </SwiperSlide>

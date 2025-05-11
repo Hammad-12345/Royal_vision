@@ -5,7 +5,7 @@ const HowitsWorks = () => {
   return (
     <div className="bg-gradient-to-r from-black via-blue-950 to-black py-16 px-4 text-white text-center font-poppins ">
       <h2 className="text-3xl md:text-4xl font-bold mb-4">
-        How Overland Solutions Works
+        How <span className='text-blue-600 font-extrabold'>Overland Solutions </span> Works
       </h2>
       <p className="max-w-2xl mx-auto text-gray-300 mb-12">
         Get involved in our tremendous platform and invest. We will utilize your money and give you profit in your wallet automatically.

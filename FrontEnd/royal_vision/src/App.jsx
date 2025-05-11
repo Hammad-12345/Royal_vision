@@ -9,6 +9,9 @@ import './App.css'
 import Faqs from "./Pages/Faqs";
 import Policy from "./Pages/Policy";
 import HowitsWorks from "./Pages/HowitsWorks";
+import Login from "./Pages/Login";
+import AuthLayout from "./Component/AuthLayout";
+import Register from "./Pages/Register";
 
 function App() {
   return (
@@ -24,6 +27,12 @@ function App() {
           <Route path="faqs" element={<Faqs />} />
           <Route path="policy" element={<Policy />} />
           <Route path="how-it-works" element={<HowitsWorks />} />
+
+          {/* Authentication Routes */}
+        </Route>
+        <Route path="/" element={<AuthLayout/>}>
+        <Route path="signin" element={<Login/>}/>
+        <Route path="signup" element={<Register/>}/>
         </Route>
       </Routes>
     </BrowserRouter>

@@ -13,7 +13,7 @@ const TotalInvester = () => {
   }, []);
 
   return (
-    <section className="bg-gradient-to-r from-black via-blue-950 to-black py-16 text-white font-poppins">
+    <section className="bg-gradient-to-r from-black via-blue-950 to-black py-16 text-white font-poppins" >
       <div className="container mx-auto px-6">
         <div className="flex flex-col md:flex-row justify-between items-center md:items-start gap-10">
           

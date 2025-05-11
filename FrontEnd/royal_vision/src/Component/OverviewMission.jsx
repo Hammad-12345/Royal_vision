@@ -20,12 +20,17 @@ const OverviewMission = () => {
   ];
   return (
     <>
-      <div className="py-8 px-8 space-y-6 font-poppins">
+      <div className="py-8 px-8 space-y-6 font-poppins relative" style={{
+         backgroundImage: `url(/forexlight1.jpg)`,
+        //  backgroundColor: "rgba(31, 41, 55, 0.75)",
+        //  backgroundBlendMode: "multiply",
+         backgroundAttachment:"fixed"
+      }}>
         <h1 className="text-4xl font-extrabold text-blue-600 text-center ">About</h1>
         <div className=" grid grid-cols-3  space-x-4">
           {overviewmissionvision.map((item) => (
             <>
-              <div className="space-y-4 border p-4 rounded">
+              <div className="space-y-4 border border-gray-300 shadow-lg p-4 rounded">
                 <h1 className="text-2xl font-bold">{item.Title}</h1>
                 <div>{item.paragraph}</div>
               </div>
@@ -35,7 +40,7 @@ const OverviewMission = () => {
         <div className="flex justify-center">
           <Link
             to={"/about"}
-            className="bg-blue-600 rounded-full font-semibold hover:bg-blue-900 text-white py-3 px-4  focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200 shadow-lg hover:shadow-xl"
+           className="bg-blue-600 font-semibold rounded-full text-white px-6 py-2  hover:bg-blue-500 transition-colors duration-300 font-poppins backdrop-blur-sm"
           >
             View More
           </Link>
