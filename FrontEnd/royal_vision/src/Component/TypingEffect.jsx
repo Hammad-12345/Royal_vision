@@ -4,7 +4,7 @@ import { Typewriter } from 'react-simple-typewriter';
 
 const TypingEffect = () => {
   return (
-    <div className="absolute top-1/3 text-white text-3xl sm:text-5xl font-semibold py-6 font-poppins md:w-3/4 px-4">
+    <div className="absolute w-full top-1/3 text-white text-3xl sm:text-5xl font-semibold py-6 font-poppins md:w-3/4 px-4">
       <Typewriter
         words={['Start Trading Online – Build Wealth with Smart, Global Investments']}
         loop={0}

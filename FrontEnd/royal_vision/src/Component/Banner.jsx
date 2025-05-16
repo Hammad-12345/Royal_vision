@@ -11,6 +11,7 @@ const Banner = () => {
         muted
         loop
         playsInline
+        preload="auto"
         className="absolute inset-0 w-full h-full object-cover"
       />
 
@@ -18,9 +19,8 @@ const Banner = () => {
       <div className="absolute inset-0 bg-black bg-opacity-50 mix-blend-multiply"></div>
 
       {/* Typing Text Content */}
-      
-        <TypingEffect />
-      
+
+      <TypingEffect />
     </div>
   );
 };
