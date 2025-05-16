@@ -26,12 +26,12 @@ const Header = () => {
               className="text-2xl font-bold text-white hover:text-blue-400 transition-colors font-poppins"
             >
               <img
-                src="/logodesign.jpg"
+                src="/logodesign.png"
                 className="w-16 h-16"
                 alt="logo"
               />
             </Link>
-            <span className="uppercase text-[10px]"> Overland Solutions</span>
+            <span className="uppercase text-[10px] font-poppins"> Overland Solutions</span>
            
           </div>
 

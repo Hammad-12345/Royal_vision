@@ -20,7 +20,7 @@ const Footer = () => {
       <div>
         <div className="w-full flex flex-col items-center justify-between space-y-6 py-8">
           <div className="text-2xl flex flex-col items-center text-white hover:text-blue-200 transition-colors font-poppins">
-          <img src="/logodesign.jpg"  className="w-16 h-16"
+          <img src="/logodesign.png"  className="w-16 h-16"
              alt="" srcset="" />
              <span className="text-[10px] uppercase">Overland Solutions</span>
           </div>

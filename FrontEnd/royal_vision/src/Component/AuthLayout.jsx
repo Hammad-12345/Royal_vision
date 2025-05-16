@@ -55,9 +55,11 @@ const AuthLayout = () => {
     >
       {/* Left Section */}
       <div className="space-y-8 mb-10 md:mb-0">
-        <h1 className="text-white text-4xl xl:text-start text-center">
-          OverLand <span className="text-blue-600">Solutions</span>
-        </h1>
+      <div className="lg:w-44 flex flex-col items-center text-white hover:text-blue-200 transition-colors font-poppins">
+          <img src="/logodesign.png"  className="w-24 h-24"
+             alt="" srcset="" />
+             <span className=" uppercase font-poppins">Overland Solutions</span>
+          </div>
         <div className="space-y-4">
           <h1 className="md:text-5xl text-3xl text-white xl:text-start  text-center leading-tight">
             Fuel Your Trading Ambition with{" "}
