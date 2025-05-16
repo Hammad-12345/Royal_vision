@@ -5,20 +5,21 @@ const plans = [
   {
     name: "Gold Trading",
     mininvest: "$100",
-    accountType: "Daily profit: 1.5% to 2%",
+    accountType: "Daily profit: 1.5% to 3.5%",
     withdrawal: "Every 15 days",
+    limitedparthner:"Limited to 100 partners for every month",
     drawdown: "N/A",
-    fee: "N/A",
+    Withdrawfee: "2%",
     image: "https://images.unsplash.com/photo-1605792657660-596af9009e82?auto=format&fit=crop&w=800&q=80", // gold
   },
   {
     name: "RetroDrops",
     mininvest: "$1000",
-    evaluation: "2x in 6 months",
-    accountType: "No daily profit",
+    accountType: "Profit 35% to 50% in 180 Days",
     withdrawal: "After 6 months",
+    limitedparthner:"Limited to 100 partners for 6 month",
     drawdown: "N/A",
-    fee: "N/A",
+    Withdrawfee: "2%",
     image: "https://images.unsplash.com/photo-1581090700227-1e8e4c03f8f3?auto=format&fit=crop&w=800&q=80", // futuristic
   },
   {
@@ -26,8 +27,9 @@ const plans = [
     mininvest: "$5000",
     accountType: "Monthly Profit 13% to 15%",
     withdrawal: "Monthly",
+    limitedparthner:"Limited to 100 partners for every month",
     drawdown: "N/A",
-    fee: "N/A",
+    Withdrawfee: "2%",
     image: "https://images.unsplash.com/photo-1618005198919-d3d4b5a92c30?auto=format&fit=crop&w=800&q=80", // business
   },
   {
@@ -35,17 +37,19 @@ const plans = [
     mininvest: "$2000",
     accountType: "Monthly Profit 7.5% to 10%",
     withdrawal: "Monthly",
+    limitedparthner:"Limited to 100 partners for every month",
     drawdown: "N/A",
-    fee: "N/A",
+    Withdrawfee: "2%",
     image: "https://images.unsplash.com/photo-1560067174-8949f61b69a5?auto=format&fit=crop&w=800&q=80", // house
   },
   {
     name: "Mineral Water (Coming Soon)",
     mininvest: "$5000",
-    accountType: "Monthly Profit 12.5% to 20%",
+    accountType: "Monthly profit 8.5% to 12.5% of earned profit",
     withdrawal: "Monthly",
+    limitedparthner:"Limited to 100 partners for every month",
     drawdown: "N/A",
-    fee: "N/A",
+    Withdrawfee: "2%",
     image: "https://images.unsplash.com/photo-1528825871115-3581a5387919?auto=format&fit=crop&w=800&q=80", // water bottle
   },
 ];
@@ -66,21 +70,24 @@ const PricingPlans = ({ showAll = false }) => {
           <div
             key={index}
             onClick={() => setSelectedPlan(plan)}
-            className="cursor-pointer bg-gradient-to-br relative from-[#0F1120] to-[#1E2140] text-white rounded-2xl p-6 shadow-xl"
+            className="bg-gradient-to-br relative from-[#0F1120] to-[#1E2140] text-white rounded-2xl p-6 shadow-xl"
           >
             <h3 className="text-xl font-semibold mb-1">{plan.name}</h3>
             <p className="text-lg font-bold text-blue-400 mb-3">
               Min Invest: {plan.mininvest}
             </p>
-            <p className="text-sm font-medium mb-2">
-              <span className="inline-block px-3 py-1 bg-blue-900 rounded-full text-blue-300">
+            <p className="flex flex-col space-y-2 text-sm font-medium mb-2">
+              <span className="inline-block px-3 py-1 self-start bg-blue-900 rounded-full text-blue-300">
                 {plan.accountType}
+              </span>
+              <span className="inline-block px-1 py-1 text-white">
+                {plan.limitedparthner}
               </span>
             </p>
             <hr className="my-4 border-gray-600" />
             <div className="space-y-6 text-sm text-gray-300">
               <p>
-                <span className="font-medium">Withdrawal:</span> {plan.withdrawal}
+                <span className="font-medium">Withdrawal Fee:</span> {plan.Withdrawfee}
               </p>
               <p>
                 <span className="font-medium">Max Sim Drawdown:</span> {plan.drawdown}
@@ -110,7 +117,7 @@ const PricingPlans = ({ showAll = false }) => {
       )}
 
       {/* Modal */}
-      {selectedPlan && (
+      {/* {selectedPlan && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70 backdrop-blur-sm">
           <div className="relative w-full max-w-3xl p-6 py-12 bg-gradient-to-br from-[#0F1120] to-[#1E2140] text-white rounded-3xl shadow-2xl">
             <button
@@ -145,7 +152,7 @@ const PricingPlans = ({ showAll = false }) => {
             </div>
           </div>
         </div>
-      )}
+      )} */}
     </div>
   );
 };

@@ -13,7 +13,7 @@ const Home = () => {
   <OverviewMission/>
   <PricingPlans showAll={false}/>
   <WhyChooseUs/>
-  <ProfitCalculator/>
+  <ProfitCalculator/> 
   
   </>
 }

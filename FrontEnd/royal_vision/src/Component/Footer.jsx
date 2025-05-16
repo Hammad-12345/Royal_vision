@@ -19,8 +19,10 @@ const Footer = () => {
     >
       <div>
         <div className="w-full flex flex-col items-center justify-between space-y-6 py-8">
-          <div className="text-2xl font-bold text-white hover:text-blue-200 transition-colors font-poppins">
-            Overland Solutions
+          <div className="text-2xl flex flex-col items-center text-white hover:text-blue-200 transition-colors font-poppins">
+          <img src="/logodesign.jpg"  className="w-16 h-16"
+             alt="" srcset="" />
+             <span className="text-[10px] uppercase">Overland Solutions</span>
           </div>
           <div className="flex justify-center w-full space-x-12">
             <NavLink
@@ -72,7 +74,7 @@ const Footer = () => {
             </NavLink>
           </div>
         </div>
-        <div className="flex justify-between py-8 border-t border-gray-800 px-6">
+        <div className="flex lg:flex-row flex-col space-y-4 lg:items-start items-center  lg:justify-between py-8 border-t border-gray-800 px-6">
           {/* Copyright Text */}
           <div className="text-center text-gray-400 text-lg">
             <p>

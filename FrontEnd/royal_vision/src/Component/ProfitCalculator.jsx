@@ -6,19 +6,21 @@ const ProfitCalculator = () => {
   const [profit, setProfit] = useState(0);
 
   const planRates = {
-    Basic: { min: 6, max: 8 },
-    Standard: { min: 8, max: 10 },
-    Premium: { min: 10, max: 12 },
+    "Gold Trading": { min: 1.5, max: 3.5, type: "daily", duration: 30 },
+    "RetroDrops": { min: 0, max: 0, type: "none", duration: 0 },
+    "Amazon": { min: 13, max: 15, type: "monthly", duration: 1 },
+    "AirBnB": { min: 7.5, max: 10, type: "monthly", duration: 1 },
+    "Mineral Water": { min: 12.5, max: 20, type: "monthly", duration: 1 },
   };
 
   const calculateProfit = (amount, plan) => {
     if (!plan || !amount) return 0;
     const rateRange = planRates[plan];
+    if (rateRange.type === "none") return 0;
+
     const rate = Math.random() * (rateRange.max - rateRange.min) + rateRange.min;
-    const duration = 8; // assuming 8 months
-    const monthlyProfit = (amount * rate) / 100;
-    const totalProfit = monthlyProfit * duration;
-    return parseFloat(totalProfit.toFixed(2));
+    const profit = (amount * rate / 100) * rateRange.duration;
+    return parseFloat(profit.toFixed(2));
   };
 
   const handleAmountChange = (value) => {
@@ -39,31 +41,29 @@ const ProfitCalculator = () => {
   return (
     <div className="py-12 px-4 flex flex-col items-center font-poppins relative" style={{
       backgroundImage: `url(/forexlight1.jpg)`,
-      //  backgroundColor: "rgba(31, 41, 55, 0.75)",
-      //  backgroundBlendMode: "multiply",
-       backgroundAttachment:"fixed"
+      backgroundAttachment: "fixed"
     }}>
       <h2 className="text-4xl font-bold text-center text-black">
         Profit <span className="text-blue-600 font-extrabold">Calculator</span>
       </h2>
-      <p className="text-center w-2/4 mt-4 ">
+      <p className="text-center lg:w-2/4 md:w-4/5 mt-4">
         You must know the calculation before investing in any plan, so you never make mistakes.
         Check the calculation and you will get as our calculator says.
       </p>
 
-      <div className="mt-10 border rounded-md p-6 w-3/5 shadow-lg bg-white">
+      <div className="mt-10 border rounded-2xl p-6 lg:w-3/5 w-full shadow-lg bg-white">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
           <div className="space-y-4">
-            <label className="  mb-1 block">Choose Plan</label>
+            <label className="mb-1 block">Choose Plan</label>
             <select
               value={plan}
               onChange={(e) => handlePlanChange(e.target.value)}
               className="w-full px-4 py-3 rounded border font-semibold focus:outline-none"
             >
               <option value="">Select the plan</option>
-              <option value="Basic">Basic</option>
-              <option value="Standard">Standard</option>
-              <option value="Premium">Premium</option>
+              {Object.keys(planRates).map((planName) => (
+                <option key={planName} value={planName}>{planName}</option>
+              ))}
             </select>
           </div>
           <div className="space-y-4">
@@ -79,10 +79,10 @@ const ProfitCalculator = () => {
         </div>
 
         <div className="mt-4 space-y-4">
-          <label className=" mb-1 block">Profit Amount</label>
+          <label className="mb-1 block">Profit Amount</label>
           <input
             type="text"
-            value={`${profit.toFixed(1)} $`}
+            value={`${profit.toFixed(2)} $`}
             disabled
             className="w-full px-4 py-3 rounded border font-bold focus:outline-none"
           />

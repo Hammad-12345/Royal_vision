@@ -13,7 +13,7 @@ const HowitsWorks = () => {
 
      
         {/* Steps */}
-        <div className="grid grid-cols-3 justify-center items-center gap-12 relative z-10">
+        <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 justify-center items-center gap-12 relative z-10">
           {/* Step 1 */}
           <div className="flex flex-col items-center relative">
             <div className="relative z-10 bg-blue-950 flex justify-center flex-col items-center rounded-full p-6 border-2 border-blue-900 w-32 h-32 shadow-lg">
@@ -21,7 +21,7 @@ const HowitsWorks = () => {
               <div className="absolute -top-3 -right-3 bg-blue-950 text-white text-xs font-bold rounded-full px-2 py-1">01</div>
             </div>
             <p className="mt-4 text-2xl font-medium text-white">Create Account</p>
-            <div className='border border-dotted absolute w-5/12 top-1/3 right-[-24px]'></div>
+            {/* <div className='border border-dotted absolute w-5/12 top-1/3 right-[-24px] lg:block hidden'></div> */}
           </div>
 
           {/* Step 2 */}
@@ -31,8 +31,8 @@ const HowitsWorks = () => {
               <div className="absolute -top-3 -right-3 bg-blue-950 text-white text-xs font-bold rounded-full px-2 py-1">02</div>
             </div>
             <p className="mt-4 text-2xl font-medium text-white">Invest in plan</p>
-            <div className='border border-dotted absolute w-5/12 top-1/3 left-[-24px] z-0'></div>
-            <div className='border border-dotted absolute w-5/12 top-1/3 right-[-24px] z-0'></div>
+            {/* <div className='border border-dotted absolute w-5/12 top-1/3 left-[-24px] z-0 lg:block hidden'></div>
+            <div className='border border-dotted absolute w-5/12 top-1/3 right-[-24px] z-0 lg:block hidden'></div> */}
           </div>
 
           {/* Step 3 */}
@@ -42,7 +42,7 @@ const HowitsWorks = () => {
               <div className="absolute -top-3 -right-3 bg-blue-950 text-white text-xs font-bold rounded-full px-2 py-1">03</div>
             </div>
             <p className="mt-4 text-2xl font-medium text-white">Get Profit</p>
-            <div className='border border-dotted absolute w-5/12 top-1/3 left-[-24px] z-0'></div>
+            {/* <div className='border border-dotted absolute w-5/12 top-1/3 left-[-24px] z-0 lg-block hidden'></div> */}
           
           </div>
         </div>

@@ -83,9 +83,9 @@ const Contactus = () => {
         // bac
       }}
     >
-      <div className=" mx-auto flex flex-col lg:flex-row gap-8">
+      <div className=" flex lg:flex-row lg:justify-start justify-center gap-8">
         {/* Left side - Image */}
-        <div className="lg:w-1/2 flex items-center justify-center">
+        <div className="lg:w-1/2  lg:flex hidden items-center justify-center">
           {/* <img 
             src="/Contactusbg.jpg" 
             alt="Contact Us" 
@@ -94,7 +94,7 @@ const Contactus = () => {
         </div>
 
         {/* Right side - Contact Form */}
-        <div className="lg:w-1/2 font-poppins p-8 rounded-lg shadow-lg bg-gradient-to-r from-black via-blue-950 to-blue-600 relative">
+        <div className="lg:w-1/2 md:w-3/4 w-full font-poppins p-8 rounded-lg shadow-lg bg-gradient-to-r from-black via-blue-950 to-blue-600 relative">
           <h2 className="text-3xl font-bold text-white text-center mb-8">
             Contact Us
           </h2>
@@ -246,7 +246,7 @@ const Contactus = () => {
           <h1 className="text-white text-4xl">Quick Support</h1>
           <div className="text-white">You can get all information</div>
         </div>
-        <div className="grid grid-cols-3 space-x-4">
+        <div className="grid lg:grid-cols-3 md:px-0 px-2 grid-cols-1 lg:space-y-0 space-y-4 lg:space-x-4">
           {quicksupport.map((quick) => (
             <>
               <div className="text-white border border-white px-6 rounded space-y-4 h-48 flex flex-col justify-center">

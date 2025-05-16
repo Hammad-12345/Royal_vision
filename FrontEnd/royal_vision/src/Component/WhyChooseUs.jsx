@@ -77,12 +77,12 @@ const WhyChooseUs = () => {
         backgroundAttachment: "fixed",
       }}
     >
-      <div className="px-4 space-y-8">
+      <div className="px-3 space-y-8">
         <div className="space-y-4 flex flex-col items-center">
         <h2 className="text-4xl font-bold text-center text-white">
           Why Choose <span className="text-blue-600 font-extrabold">Overland Solutions</span>
         </h2>
-        <p className="w-2/4 text-center text-white">
+        <p className="lg:w-2/4 md:w-4/5 text-center text-white">
           Our goal is to provide our investors with a reliable source of high
           income, while minimizing any possible risks and offering a
           high-quality service.
@@ -92,7 +92,7 @@ const WhyChooseUs = () => {
           {benefits.map(({ icon: Icon, title, description }, idx) => (
             <div
               key={idx}
-              className="bg-gradient-to-br relative from-[#0F1120] to-[#1E2140] rounded-xl border border-gray-800 p-6 hover:shadow-lg transition"
+              className="bg-gradient-to-br relative from-[#0F1120] to-[#1E2140] rounded-2xl border border-gray-800 p-6 hover:shadow-lg transition"
             >
               <div className="mb-4 text-blue-600">
                 <Icon size={32} />

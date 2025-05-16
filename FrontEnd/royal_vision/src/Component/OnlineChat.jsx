@@ -34,11 +34,11 @@ const OnlineChat = () => {
     <div>
       {/* Chat Form */}
       <div
-        className={`fixed bottom-32 right-20 w-1/3  font-poppins z-50 shadow-xl rounded-xl overflow-hidden transition-transform duration-300 origin-bottom-right ${
+        className={`fixed bottom-36 lg:right-20 right-0 lg:w-1/2 xl:w-2/4 md:w-4/6 sm:w-3/4 w-full lg:p-0 p-2  font-poppins z-50 shadow-xl rounded overflow-hidden transition-transform duration-300 origin-bottom-right ${
           isFormOpen ? "scale-100 opacity-100" : "scale-0 opacity-0"
         }`}
       >
-        <div className="bg-gradient-to-r from-black via-blue-950 to-blue-600 text-white p-4 flex flex-col h-[500px]">
+        <div className="bg-gradient-to-r from-black via-blue-950 to-blue-600 text-white sm:p-4 p-2 flex flex-col h-[500px]">
           <h1 className="text-xl font-bold text-center mb-2">Live Chat</h1>
 
           {/* Chat History */}
@@ -53,7 +53,7 @@ const OnlineChat = () => {
             {chatHistory.map((chat, index) => (
               <div
                 key={index}
-                className={`p-2 rounded-lg flex ${
+                className={`sm:p-2 p-1 rounded-lg flex ${
                   chat.from === "user"
                     ? "justify-start   textleft"
                     : "justify-end   textleft"

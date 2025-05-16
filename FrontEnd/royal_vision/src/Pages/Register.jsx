@@ -1,14 +1,18 @@
 import React, { useState } from "react";
+import { Country, State, City } from "country-state-city";
 const Register = () => {
+  const [country,setallcountry]=useState(Country.getAllCountries())
+  // const [country,setallcountry] = usestate(Country.getAllCountries)
   const [formData, setFormData] = useState({
     Name: "",
     DateOfBirth: "",
+    Countryphonecode:"+000",
     ContactNumber: "",
     EmailAddress: "",
     Password: "",
     City: "",
   });
-
+console.log(formData)
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -77,16 +81,26 @@ const Register = () => {
           </svg> */}
         </div>
         <div className="space-y-3 relative">
-          <label className="block">City</label>
+          <label className="block">Country</label>
           <select
             name="City"
-            onChange={handleChange}
+            onChange={(e)=>{
+              const selected_country = country.find((itemfind)=>itemfind.isoCode === e.target.value)
+              setFormData({...formData,Countryphonecode:selected_country.phonecode,[e.target.name]:e.target.value})
+            }}
             value={formData.City}
             className="w-full px-12 py-3 bg-transparent border border-white rounded-lg focus:outline-none focus:ring focus:border-blue-500"
           >
             <option value={""} disabled className="text-white">
               Select Your Country
             </option>
+            {
+              country.map((country_list)=>(
+                <>
+                <option value={`${country_list.isoCode}`} className="text-black">{country_list.name}</option>
+                </>
+              ))
+            }
           </select>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -102,12 +116,10 @@ const Register = () => {
 
         <div className="space-y-3 relative">
           <label className="block">Contact Number</label>
-          <div className="flex space-x-4">
-            <select
-              name=""
-              id=""
-              className="w-24 px-4 bg-transparent border border-white rounded-lg focus:outline-none focus:ring focus:border-blue-500"
-            ></select>
+          <div className="flex">
+            <div className="w-24  flex justify-end px-4 items-center  text-white bg-transparent border border-white rounded-l-lg rounded- focus:outline-none focus:ring focus:border-blue-500">{formData.Countryphonecode}</div>
+          
+              {/* <option value={form}></option> */}
             <input
               type="number"
               name="ContactNumber"
@@ -115,7 +127,7 @@ const Register = () => {
               value={formData.ContactNumber}
               placeholder="Enter Contact Number Here"
               required
-              className="flex-1 bg-transparent px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:border-blue-500"
+              className="w-full bg-transparent px-4 py-3 border border-gray-300 rounded-r-lg focus:outline-none focus:ring focus:border-blue-500"
             />
           </div>
           <svg
@@ -157,9 +169,9 @@ const Register = () => {
           <label className="block">Password</label>
           <input
             type="password"
-            name="DateOfBirth"
+            name="Password"
             onChange={handleChange}
-            value={formData.DateOfBirth}
+            value={formData.Password}
             placeholder="Enter Password Here"
             required
             className="w-full bg-transparent px-12 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:border-blue-500"

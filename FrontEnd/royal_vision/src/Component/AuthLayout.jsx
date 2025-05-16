@@ -46,7 +46,7 @@ const AuthLayout = () => {
 
   return (
     <div
-      className="grid grid-cols-1 bg-cover md:grid-cols-2 min-h-screen font-poppins px-8 py-12 text-white"
+      className="grid grid-cols-1 bg-cover xl:space-y-0 space-y-16 xl:grid-cols-2 min-h-screen font-poppins md:px-8 px-5 py-12 text-white"
       style={{
         backgroundImage: `url(/Auth.jpg)`,
         backgroundColor: "hsl(215.86deg 49.32% 6.9% / 91%)",
@@ -55,15 +55,15 @@ const AuthLayout = () => {
     >
       {/* Left Section */}
       <div className="space-y-8 mb-10 md:mb-0">
-        <h1 className="text-white text-4xl">
+        <h1 className="text-white text-4xl xl:text-start text-center">
           OverLand <span className="text-blue-600">Solutions</span>
         </h1>
         <div className="space-y-4">
-          <h1 className="text-5xl text-white">
+          <h1 className="md:text-5xl text-3xl text-white xl:text-start  text-center leading-tight">
             Fuel Your Trading Ambition with{" "}
             <span className="text-blue-600">Overland Solutions</span>
           </h1>
-          <p className="w-5/6 text-lg">
+          <p className="md:w-5/6 w-full text-lg xl:text-start text-center xl:mx-0 mx-auto">
             Access your dashboard, track your performance, and stay connected
             with your solutions — all in one place. Secure, seamless, and
             personalized for you.
@@ -73,8 +73,8 @@ const AuthLayout = () => {
           {commonstep.map((stepitem, index) => (
             <div
               key={index}
-              style={index === 1 ? { marginLeft: "45px" } : {}}
-              className="flex  w-4/5 items-center text-white bg-blue-900 rounded-2xl px-5 py-8 shadow-md hover:shadow-xl transition-shadow duration-300"
+              // style={index === 1 ? { marginLeft: "45px" } : {}}
+              className={`flex md:w-2/3 w-full xl:mx-0 mx-auto items-center text-white ${index===1 && "xl:ml-11"} bg-blue-900 rounded-2xl px-5 py-8 shadow-md hover:shadow-xl transition-shadow duration-300`}
             >
               <div className="min-w-[80px] h-[80px] rounded-full bg-gradient-to-r from-blue-600 to-indigo-700 flex items-center justify-center text-xl font-semibold shadow-lg mr-5">
                 {`Step ${index + 1}`}
@@ -90,7 +90,7 @@ const AuthLayout = () => {
 
       {/* Right Section: Tabs + Form Outlet */}
       <div className="flex justify-center self-start">
-        <div className="w-4/5 relative rounded-xl text-black p-8 shadow-lg bg-gradient-to-r from-black via-blue-950 to-blue-600">
+        <div className="xl:w-4/5 md:w-4/5 w-full relative rounded-xl text-black p-8 shadow-lg bg-gradient-to-r from-black via-blue-950 to-blue-600">
           <Tabs
             value={tabIndex}
             onChange={handleChange}
@@ -100,7 +100,7 @@ const AuthLayout = () => {
                 display: "none",
               },
             }}
-            className="absolute top-[-30px] left-1/4  bg-blue-950 w-80 h-20 flex justify-center items-center px-3 rounded-full" // Hides default indicator
+            className="absolute top-[-30px] right-0  bg-blue-950 md:w-80 h-20 flex justify-center items-center px-3 rounded-full" // Hides default indicator
           >
             <Tab
               label="Sign In"

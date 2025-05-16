@@ -56,9 +56,9 @@ const Layout = () => {
             </h1>
 
             {/* Loading Line Animation */}
-            <div className="w-full h-1  bg-white rounded overflow-hidden relative">
+            {/* <div className="w-full h-1  bg-white rounded overflow-hidden relative">
               <div className="absolute left-0 top-0 h-full w-full bg-gradient-to-r from-black via-blue-950 to-black  animate-loading-line"></div>
-            </div>
+            </div> */}
           </div>
         </div>
       ) : (
@@ -74,7 +74,6 @@ const Layout = () => {
               <section class="wrapper">
                 <div id="stars"></div>
                 <div id="stars2"></div>
-                {/* <div id="stars3"></div> */}
               </section>
               
               <Header />
