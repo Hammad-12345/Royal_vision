@@ -77,7 +77,7 @@ const PricingPlans = ({ showAll = false }) => {
           >
             <div className="space-y-4">
               <h3 className="text-2xl font-semibold mb-1">{plan.name}</h3>
-              <p className="h-32">{plan.text}</p>
+              <p className="min-h-32">{plan.text}</p>
             </div>
             <hr className="my-4 border-gray-600" />
             <div className="space-y-2">
@@ -85,7 +85,7 @@ const PricingPlans = ({ showAll = false }) => {
                 Min Invest: {plan.mininvest}
               </p>
               <div className="flex flex-col space-y-6">
-                <span className="inline-block px-3 py-1 self-start bg-blue-900 rounded-full text-blue-300">
+                <span className="inline-block sm:px-3 px-5 py-1 self-start bg-blue-900 rounded-full text-blue-300">
                   {plan.accountType}
                 </span>
                 <button className="self-start bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-full font-semibold transition">
