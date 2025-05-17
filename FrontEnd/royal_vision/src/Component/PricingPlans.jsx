@@ -46,7 +46,7 @@ const plans = [
       "https://d3hwx9f38knfi9.cloudfront.net/Airbnb.jpg", // house
   },
   {
-    name: "Mineral Water (Coming Soon)",
+    name: "Mineral Water",
     text: "Mineral water trading investment involves buying shares in companies that produce or sell mineral water, aiming to profit from their growth andmarket demand.",
     mininvest: "$5000",
     accountType: "Monthly profit 8.5% to 12.5% of earned profit",
@@ -142,15 +142,20 @@ const PricingPlans = ({ showAll = false }) => {
 
       {/* Modal */}
       
-{selectedPlan && (
+      {selectedPlan && (
   <AnimatePresence>
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-opacity-60 backdrop-blur-sm my-10">
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-50 sm:px-6 flex items-center justify-center sm:items-center sm:justify-center bg-opacity-60 backdrop-blur-sm"
+    >
       <motion.div
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={{ opacity: 1, scale: 1 }}
-        exit={{ opacity: 0, scale: 0.95 }}
-        transition={{ duration: 0.1, ease: "linear" }}
-        className="relative w-full max-w-3xl p-6 py-12 rounded-3xl shadow-2xl text-white bg-cover bg-center bg-no-repeat bg-blend-overlay"
+        initial={{ y: '100%', opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        exit={{ y: '100%', opacity: 0 }}
+        transition={{ duration: 0.3, ease: 'easeInOut' }}
+        className="relative w-full sm:max-w-3xl sm:mx-auto sm:my-12 p-6 py-12 bg-cover bg-center bg-no-repeat text-white sm:bg-blend-overlay sm:bg-opacity-90  rounded-t-3xl sm:rounded-3xl"
         style={{
           backgroundImage: `url(${selectedPlan.image})`,
           backgroundColor: "hsl(215.86deg 49.32% 6.9% / 91%)",
@@ -160,13 +165,13 @@ const PricingPlans = ({ showAll = false }) => {
         {/* Close Button */}
         <button
           onClick={() => setSelectedPlan(null)}
-          className="absolute top-4 right-4 size-12 bg-blue-600 font-semibold rounded-full text-white flex justify-center items-center hover:bg-blue-500 transition-colors duration-300 font-poppins"
+          className="absolute top-10 sm:top-4 right-4 size-12 bg-blue-600 font-semibold rounded-full text-white flex justify-center items-center hover:bg-blue-500 transition-colors duration-300 font-poppins"
         >
           ✕
         </button>
 
         {/* Content */}
-        <div className="rounded-2xl p-6 pt-12">
+        <div className="rounded-2xl p-2 pt-12">
           <h3 className="text-3xl font-bold mb-2">{selectedPlan.name}</h3>
           <p className="text-blue-400 font-semibold text-lg mb-4">
             Min Invest: {selectedPlan.mininvest}
@@ -208,9 +213,10 @@ const PricingPlans = ({ showAll = false }) => {
           </div>
         </div>
       </motion.div>
-    </div>
+    </motion.div>
   </AnimatePresence>
 )}
+
 
     </div>
   );
