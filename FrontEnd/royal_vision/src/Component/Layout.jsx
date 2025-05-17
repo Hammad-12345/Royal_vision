@@ -40,7 +40,7 @@ const Layout = () => {
           className="fixed inset-0 z-[9999] bg-center bg-cover flex items-center justify-center transition-opacity duration-700"
         
             style={{
-              backgroundImage: `url(https://overlandresources.s3.eu-north-1.amazonaws.com/Auth.jpg)`,
+              backgroundImage: `url(https://d3hwx9f38knfi9.cloudfront.net/Auth.jpg)`,
               backgroundColor: "hsl(215.86deg 49.32% 6.9% / 91%)",
               backgroundBlendMode: "overlay",
           }}

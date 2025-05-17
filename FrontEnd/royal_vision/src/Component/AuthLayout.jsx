@@ -48,7 +48,7 @@ const AuthLayout = () => {
     <div
       className="grid grid-cols-1 bg-cover xl:space-y-0 space-y-16 xl:grid-cols-2 min-h-screen font-poppins md:px-8 px-5 py-12 text-white"
       style={{
-        backgroundImage: `url(https://overlandresources.s3.eu-north-1.amazonaws.com/Auth.jpg)`,
+        backgroundImage: `url(https://d3hwx9f38knfi9.cloudfront.net/Auth.jpg)`,
         backgroundColor: "hsl(215.86deg 49.32% 6.9% / 91%)",
         backgroundBlendMode: "overlay",
       }}
@@ -56,7 +56,7 @@ const AuthLayout = () => {
       {/* Left Section */}
       <div className="space-y-8 mb-10 md:mb-0">
       <div className="lg:w-44 flex flex-col items-center text-white hover:text-blue-200 transition-colors font-poppins">
-          <img src="https://overlandresources.s3.eu-north-1.amazonaws.com/logodesign.png"  className="w-24 h-24"
+          <img src="https://d3hwx9f38knfi9.cloudfront.net/logodesign.png"  className="w-24 h-24"
              alt="" srcset="" />
              <span className=" uppercase font-poppins">Overland Solutions</span>
           </div>

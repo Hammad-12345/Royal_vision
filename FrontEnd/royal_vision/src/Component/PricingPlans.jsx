@@ -10,7 +10,7 @@ const plans = [
     withdrawal: "Every 15 days",
     limitedparthner: "Limited to 100 partners for every month",
     Withdrawfee: "2%",
-    image: "https://overlandresources.s3.eu-north-1.amazonaws.com/Banner4.jpg", // gold
+    image: "https://d3hwx9f38knfi9.cloudfront.net/Banner4.jpg", // gold
   },
   {
     name: "RetroDrops",
@@ -21,7 +21,7 @@ const plans = [
     limitedparthner: "Limited to 100 partners for 6 month",
     Withdrawfee: "2%",
     image:
-      "https://overlandresources.s3.eu-north-1.amazonaws.com/Retrodrop.jpg", // futuristic
+      "https://d3hwx9f38knfi9.cloudfront.net/Retrodrop.jpg", // futuristic
   },
   {
     name: "Amazon",
@@ -32,7 +32,7 @@ const plans = [
     // limitedparthner:"Limited to 100 partners for every month",
     Withdrawfee: "0%",
     image:
-      "https://overlandresources.s3.eu-north-1.amazonaws.com/Amazon.jpg", // business
+      "https://d3hwx9f38knfi9.cloudfront.net/Amazon.jpg", // business
   },
   {
     name: "AirBnB",
@@ -43,7 +43,7 @@ const plans = [
     limitedparthner: "Limited to 100 partners for every month",
     Withdrawfee: "2%",
     image:
-      "https://overlandresources.s3.eu-north-1.amazonaws.com/Airbnb.jpg", // house
+      "https://d3hwx9f38knfi9.cloudfront.net/Airbnb.jpg", // house
   },
   {
     name: "Mineral Water (Coming Soon)",
@@ -54,7 +54,7 @@ const plans = [
     limitedparthner: "Limited to 100 partners for every month",
     Withdrawfee: "2%",
     image:
-      "https://overlandresources.s3.eu-north-1.amazonaws.com/Mineralwater.jpg", // water bottle
+      "https://d3hwx9f38knfi9.cloudfront.net/Mineralwater.jpg", // water bottle
   },
 ];
 
@@ -144,7 +144,7 @@ const PricingPlans = ({ showAll = false }) => {
       
 {selectedPlan && (
   <AnimatePresence>
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60 backdrop-blur-sm">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60 backdrop-blur-sm my-6">
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}

@@ -7,7 +7,7 @@ const TemplateImage = ({ currentPage }) => {
       <div
         className="w-full h-[400px] bg-cover bg-center bg-no-repeat relative flex flex-col space-y-4 justify-center px-8 font-poppins"
         style={{
-          backgroundImage: "url('https://overlandresources.s3.eu-north-1.amazonaws.com/Banner4.jpg')",
+          backgroundImage: "url('https://d3hwx9f38knfi9.cloudfront.net/Banner4.jpg')",
           backgroundColor: "hsl(215.86deg 49.32% 6.9% / 91%)",
           backgroundBlendMode: "overlay",
         }}

@@ -76,7 +76,7 @@ const Contactus = () => {
     <div
       className=" py-8 px-4 sm:px-6 lg:px-8 bg-cover space-y-4"
       style={{
-        backgroundImage: `url(https://overlandresources.s3.eu-north-1.amazonaws.com/Contactusbg.jpg)`,
+        backgroundImage: `url(https://d3hwx9f38knfi9.cloudfront.net/Contactusbg.jpg)`,
         backgroundColor: "rgba(31, 41, 55, 0.75)",
         backgroundBlendMode: "multiply",
         backgroundAttachment: "fixed",
