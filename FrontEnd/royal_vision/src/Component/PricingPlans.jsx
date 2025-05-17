@@ -144,7 +144,7 @@ const PricingPlans = ({ showAll = false }) => {
       
 {selectedPlan && (
   <AnimatePresence>
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60 backdrop-blur-sm my-6">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-opacity-60 backdrop-blur-sm my-10">
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -173,7 +173,7 @@ const PricingPlans = ({ showAll = false }) => {
           </p>
 
           {selectedPlan.text && (
-            <p className="text-sm text-gray-300 mb-6">
+            <p className="text-lg text-gray-300 mb-6">
               {selectedPlan.text}
             </p>
           )}
