@@ -12,7 +12,7 @@ const Footer = () => {
     <footer
       className=" text-white font-poppins  bg-cover bg-center relative"
       style={{
-        backgroundImage: `url(Banner1.jpg)`,
+        backgroundImage: `url(https://overlandresources.s3.eu-north-1.amazonaws.com/Banner1.jpg)`,
         backgroundColor: "rgba(31, 41, 55, 0.75)",
         backgroundBlendMode: "multiply",
       }}
@@ -20,7 +20,7 @@ const Footer = () => {
       <div>
         <div className="w-full flex flex-col items-center justify-between space-y-6 py-8">
           <div className="text-2xl flex flex-col items-center text-white hover:text-blue-200 transition-colors font-poppins">
-          <img src="/logodesign.png"  className="w-16 h-16"
+          <img src="https://overlandresources.s3.eu-north-1.amazonaws.com/logodesign.png"  className="w-16 h-16"
              alt="" srcset="" />
              <span className="text-[10px] uppercase">Overland Solutions</span>
           </div>

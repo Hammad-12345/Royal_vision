@@ -61,7 +61,7 @@ const faqs = [
 const Faqs = () => {
   return (
     <div className="bg-blue-950 text-white py-10 px-5 md:px-20 font-poppins bg-cover bg-no-repeat" style={{
-      backgroundImage: `url(/Faqsbg.jpg)`,
+      backgroundImage: `url(https://overlandresources.s3.eu-north-1.amazonaws.com/Faqsbg.jpg)`,
       backgroundColor: "rgba(31, 41, 55, 0.75)",
       backgroundBlendMode: "multiply",
       backgroundAttachment:"fixed"

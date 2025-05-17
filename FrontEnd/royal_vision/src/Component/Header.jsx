@@ -26,7 +26,7 @@ const Header = () => {
               className="text-2xl font-bold text-white hover:text-blue-400 transition-colors font-poppins"
             >
               <img
-                src="/logodesign.png"
+                src="https://overlandresources.s3.eu-north-1.amazonaws.com/logodesign.png"
                 className="w-16 h-16"
                 alt="logo"
               />

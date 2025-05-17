@@ -56,7 +56,7 @@ const ProfitCalculator = () => {
     <div
       className="py-12 px-4 flex flex-col items-center font-poppins relative"
       style={{
-        backgroundImage: `url(/forexlight1.jpg)`,
+        backgroundImage: `url(https://overlandresources.s3.eu-north-1.amazonaws.com/forexlight1.jpg)`,
         backgroundAttachment: "fixed",
       }}
     >

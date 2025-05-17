@@ -23,7 +23,7 @@ const OverviewMission = () => {
       <div
         className="p-6 space-y-6 font-poppins relative"
         style={{
-          backgroundImage: `url(/forexlight1.jpg)`,
+          backgroundImage: `url(https://overlandresources.s3.eu-north-1.amazonaws.com/forexlight1.jpg)`,
           //  backgroundColor: "rgba(31, 41, 55, 0.75)",
           //  backgroundBlendMode: "multiply",
           backgroundAttachment: "fixed",
