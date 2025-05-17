@@ -13,16 +13,16 @@ const ProfitCalculator = () => {
     // "Mineral Water": { min: 12.5, max: 20, type: "monthly", duration: 1 },
   };
 
-  const calculateProfit = (amount, plan) => {
-    if (!plan || !amount) return 0;
-    const rateRange = planRates[plan];
-    if (rateRange.type === "none") return 0;
+  // const calculateProfit = (amount, plan) => {
+  //   if (!plan || !amount) return 0;
+  //   const rateRange = planRates[plan];
+  //   if (rateRange.type === "none") return 0;
 
-    const rate =
-      Math.random() * (rateRange.max - rateRange.min) + rateRange.min;
-    const profit = ((amount * rate) / 100) * rateRange.duration;
-    return parseFloat(profit.toFixed(2));
-  };
+  //   const rate =
+  //     Math.random() * (rateRange.max - rateRange.min) + rateRange.min;
+  //   const profit = ((amount * rate) / 100) * rateRange.duration;
+  //   return parseFloat(profit.toFixed(2));
+  // };
 
   const handleAmountChange = (value) => {
     const num = Number(value);
