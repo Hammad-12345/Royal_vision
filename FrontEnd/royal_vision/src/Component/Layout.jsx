@@ -16,7 +16,7 @@ const Layout = () => {
     setIsSplashVisible(true);
     const timer = setTimeout(() => {
       setIsSplashVisible(false);
-    }, 3500); // Show splash screen for 2.5 seconds
+    }, 1350); // Show splash screen for 2.5 seconds
     return () => clearTimeout(timer);
   }, [location]);
 
@@ -70,10 +70,10 @@ const Layout = () => {
               // exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.6,ease:"easeInOut"}}
             > */}
-              <section class="wrapper">
+              {/* <section class="wrapper">
                 <div id="stars"></div>
                 <div id="stars2"></div>
-              </section>
+              </section> */}
               
               <Header />
               {!isHomePage && (

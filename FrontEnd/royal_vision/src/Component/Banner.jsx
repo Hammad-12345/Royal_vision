@@ -1,5 +1,6 @@
 import React from "react";
 import TypingEffect from "./TypingEffect";
+import { Link } from "react-router-dom";
 
 const Banner = () => {
   return (
@@ -13,7 +14,10 @@ const Banner = () => {
         preload="auto"
         className="absolute inset-0 w-full h-full object-cover"
       >
-         <source src="https://overlandresources.s3.eu-north-1.amazonaws.com/changes.mp4" type="video/mp4" />
+        <source
+          src="https://overlandresources.s3.eu-north-1.amazonaws.com/changes.mp4"
+          type="video/mp4"
+        />
       </video>
       {/* <div className="w-full h-full bg-cover bg-no-repeat"  style={{
       backgroundImage: `url(/Banner4.jpg)`,
@@ -26,11 +30,22 @@ const Banner = () => {
       ></div> */}
 
       {/* Blend Overlay */}
-      <div className="absolute inset-0 bg-black bg-opacity-50 mix-blend-multiply"></div>
+      {/* <div className="absolute inset-0 bg-black bg-opacity-50 mix-blend-multiply"></div> */}
 
+      <div className="absolute w-full top-1/3 text-white text-3xl sm:text-5xl font-semibold py-6 font-poppins lg:w-3/4 px-4">
+        <div>
+        Overland Solutions — Bridging Innovation Across Commerce, Lifestyle &
+        Emerging Markets
+        </div>
+        <div className="mt-6">
+        <Link to={"/signin"} className="bg-blue-600 hover:bg-blue-700 text-white text-lg px-6 py-3 rounded-full transition duration-300">
+          Get Started
+        </Link>
+      </div>
+      </div>
       {/* Typing Text Content */}
 
-      <TypingEffect />
+      {/* <TypingEffect /> */}
     </div>
   );
 };
