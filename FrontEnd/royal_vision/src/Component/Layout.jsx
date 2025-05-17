@@ -16,7 +16,7 @@ const Layout = () => {
     setIsSplashVisible(true);
     const timer = setTimeout(() => {
       setIsSplashVisible(false);
-    }, 2500); // Show splash screen for 2.5 seconds
+    }, 3500); // Show splash screen for 2.5 seconds
     return () => clearTimeout(timer);
   }, [location]);
 
@@ -47,11 +47,11 @@ const Layout = () => {
     
         >
           <div className="flex flex-col max-w-3xl items-center space-y-4">
-            <h1 className="text-white flex space-x-4 px-4 text-4xl md:text-6xl font-bold text-center drop-shadow-lg font-poppins">
-              <span> Overland </span>
-              <span className="text-blue-400 font-extrabold typing overflow-hidden">
+            <h1 className="text-white flex flex-col sm:flex-row sm:space-x-4 text-4xl md:text-6xl font-bold sm:items-start items-center drop-shadow-lg font-poppins">
+              <div> Overland </div>
+              <div className="text-blue-400 font-extrabold typing overflow-hidden">
                 Solutions
-              </span>
+              </div>
             </h1>
 
             {/* Loading Line Animation */}
