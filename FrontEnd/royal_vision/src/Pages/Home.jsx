@@ -9,12 +9,11 @@ import PricingPlans from '../Component/PricingPlans'
 const Home = () => {
   return <>
   <Banner/>
-  <TotalInvester/>
-  <OverviewMission/>
   <PricingPlans showAll={false}/>
   <WhyChooseUs/>
   <ProfitCalculator/> 
-  
+  <TotalInvester/>
+  <OverviewMission/>
   </>
 }
 

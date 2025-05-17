@@ -25,17 +25,17 @@ const plans = [
   {
     name: "Amazon",
     mininvest: "$5000",
-    accountType: "Monthly Profit 13% to 15%",
+    accountType: "Monthly Profit 13% to 15% of earned profit",
     withdrawal: "Monthly",
-    limitedparthner:"Limited to 100 partners for every month",
+    // limitedparthner:"Limited to 100 partners for every month",
     drawdown: "N/A",
-    Withdrawfee: "2%",
+    Withdrawfee: "0%",
     image: "https://images.unsplash.com/photo-1618005198919-d3d4b5a92c30?auto=format&fit=crop&w=800&q=80", // business
   },
   {
     name: "AirBnB",
     mininvest: "$2000",
-    accountType: "Monthly Profit 7.5% to 10%",
+    accountType: "Monthly Profit 7.5% to 10% of earned profit",
     withdrawal: "Monthly",
     limitedparthner:"Limited to 100 partners for every month",
     drawdown: "N/A",

@@ -63,14 +63,14 @@ const Layout = () => {
         </div>
       ) : (
         <>
-          <AnimatePresence mode="wait">
+          {/* <AnimatePresence mode="wait">
             <motion.div
               key={location.pathname}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               // exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.6,ease:"easeInOut"}}
-            >
+            > */}
               <section class="wrapper">
                 <div id="stars"></div>
                 <div id="stars2"></div>
@@ -83,8 +83,8 @@ const Layout = () => {
 
               <Outlet />
               <Footer />
-            </motion.div>
-          </AnimatePresence>
+            {/* </motion.div>
+          </AnimatePresence> */}
 
           {/* Scroll to top button */}
           <div
