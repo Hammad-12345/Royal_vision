@@ -48,7 +48,7 @@ const Layout = () => {
     
         >
           <div className="flex flex-col max-w-3xl items-center space-y-4">
-            <h1 className="text-white flex space-x-4 text-4xl md:text-6xl font-bold text-center drop-shadow-lg font-poppins">
+            <h1 className="text-white flex space-x-4 px-4 text-4xl md:text-6xl font-bold text-center drop-shadow-lg font-poppins">
               <span> Overland </span>
               <span className="text-blue-400 font-extrabold typing overflow-hidden">
                 Solutions
