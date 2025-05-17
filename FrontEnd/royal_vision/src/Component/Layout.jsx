@@ -4,7 +4,6 @@ import Footer from "./Footer";
 import { Outlet, useLocation } from "react-router-dom";
 import TemplateImage from "./TemplateImage";
 import OnlineChat from "./OnlineChat";
-import { AnimatePresence, motion } from "framer-motion";
 
 const Layout = () => {
   const location = useLocation();
