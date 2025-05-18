@@ -1,1 +1,13 @@
+services:
+  - type: web
+    name: overland-backend
+    env: node
+    branch: master
+    buildCommand: cd BackEnd && npm install
+    startCommand: cd BackEnd && node index.js
+    envVars:
+      - key: PORT
+        value: 8080
+      - key: MONGO_DB
+        value: mongodb+srv://hafizmuhammadhammad503:9kcBn4wwBGXYPUda@cluster0.eaorkp7.mongodb.net/overlandsolutions
 
