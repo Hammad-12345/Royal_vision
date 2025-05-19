@@ -207,9 +207,9 @@ const PricingPlans = ({ showAll = false }) => {
           </div>
 
           <div className="mt-8 text-center">
-            <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-full font-semibold text-lg transition">
+            <Link to={"/signin"} className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-full font-semibold text-lg transition">
               Deposit Now
-            </button>
+            </Link>
           </div>
         </div>
       </motion.div>
