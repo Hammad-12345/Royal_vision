@@ -6,7 +6,6 @@ const OnlineChat = () => {
     register,
     handleSubmit,
     reset,
-    formState: { errors },
   } = useForm();
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
