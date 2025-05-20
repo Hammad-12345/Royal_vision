@@ -7,7 +7,7 @@ const authroute = require("./mvc/route/authroutes")
 
 const allowedOrigins = [
   "http://localhost:3000",
-  "https://overlandsolutions.net",
+  "https://overlandsolutions.net/",
 ];
 app.use(cors({
   origin: function (origin, callback) {
