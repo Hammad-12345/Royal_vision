@@ -59,7 +59,7 @@ export default function Register() {
     const fullData = { ...data, CountryPhoneCode: phoneCode };
 
     try {
-      const response = await fetch("http://overlandsolutions-env.eba-32k3gqpk.eu-north-1.elasticbeanstalk.com/auth/register", {
+      const response = await fetch("http://overland-env.eba-8ysiettm.eu-north-1.elasticbeanstalk.com/auth/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
