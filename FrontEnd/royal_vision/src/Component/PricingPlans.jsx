@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
+import { useSelector } from "react-redux";
 const plans = [
   {
     name: "Gold Trading",
@@ -59,14 +60,18 @@ const plans = [
 ];
 
 const PricingPlans = ({ showAll = false }) => {
+  const token = useSelector((state) => state.Token.DashboardRoutes);
+  console.log(token);
   const [selectedPlan, setSelectedPlan] = useState(null);
   const visiblePlans = showAll ? plans : plans.slice(0, 3);
 
   return (
-    <div className="p-6 font-poppins bg-gradient-to-r from-black via-blue-950 to-black">
-      <h2 className="text-4xl font-bold text-center text-white mb-10">
+    <div className={` font-poppins ${!token && ' p-6 bg-gradient-to-r from-black via-blue-950 to-black'}`}>
+      {
+        !token && <h2 className="text-4xl font-bold text-center text-white mb-10">
         Investment <span className="text-blue-600 font-extrabold">Plans</span>
       </h2>
+      }
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {visiblePlans.map((plan, index) => (
@@ -207,7 +212,7 @@ const PricingPlans = ({ showAll = false }) => {
           </div>
 
           <div className="mt-8 text-center">
-            <Link to={"/signin"} className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-full font-semibold text-lg transition">
+            <Link to={token ?"/Deposit" :"/signin"} className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-full font-semibold text-lg transition">
               Deposit Now
             </Link>
           </div>

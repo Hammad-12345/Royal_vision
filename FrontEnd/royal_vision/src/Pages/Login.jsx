@@ -2,7 +2,10 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaEnvelope, FaLock } from "react-icons/fa";
 import { toast } from "react-toastify";
+import { LoggedIn } from '../Redux/Slice/auth'
+import { useDispatch } from "react-redux";
 const Login = () => {
+  const dispatch = useDispatch()
   const [step, setStep] = useState(1);
   const {
     register,
@@ -61,6 +64,7 @@ const Login = () => {
       if (response.ok) {
         toast.success(result.message);
         const mytoken = JSON.stringify(result.newtoken);
+        dispatch(LoggedIn(result.newtoken))
         localStorage.setItem("mytoken", mytoken);
         const user = JSON.stringify(result.user);
         localStorage.setItem("user", user);
