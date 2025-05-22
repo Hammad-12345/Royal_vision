@@ -5,10 +5,7 @@ const app = express();
 const { connectiondb } = require("./db/connect");
 const authroute = require("./mvc/route/authroutes")
 
-const allowedOrigins = [
-  "http://localhost:3000",
-  "https://overlandsolutions.net",
-];
+const allowedOrigins = [ 'http://localhost:3000', 'https://overlandsolutions.net', 'http://overlandsolutions.net' ]; 
 app.use(cors({
   origin: function (origin, callback) {
     // Allow requests with no origin (like mobile apps, curl, etc.)
