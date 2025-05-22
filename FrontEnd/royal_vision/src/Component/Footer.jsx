@@ -10,12 +10,12 @@ const Footer = () => {
 
   return (
     <footer
-      className=" text-white font-poppins  bg-cover bg-center relative"
-      style={{
-        backgroundImage: `url(https://overlandresources.s3.eu-north-1.amazonaws.com/Banner1.jpg)`,
-        backgroundColor: "rgba(31, 41, 55, 0.75)",
-        backgroundBlendMode: "multiply",
-      }}
+      className=" text-white font-poppins bg-gradient-to-r from-black via-blue-950 to-black  bg-cover bg-center relative"
+      // style={{
+      //   backgroundImage: `url(https://overlandresources.s3.eu-north-1.amazonaws.com/Banner1.jpg)`,
+      //   backgroundColor: "rgba(31, 41, 55, 0.75)",
+      //   backgroundBlendMode: "multiply",
+      // }}
     >
       <div>
         <div className="w-full flex flex-col items-center justify-between space-y-6 py-8">

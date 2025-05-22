@@ -4,6 +4,7 @@ import { FaEnvelope, FaLock } from "react-icons/fa";
 import { toast } from "react-toastify";
 import { LoggedIn } from '../Redux/Slice/auth'
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 const Login = () => {
   const dispatch = useDispatch()
   const [step, setStep] = useState(1);
@@ -13,7 +14,7 @@ const Login = () => {
     formState: { errors },
   } = useForm();
   const [token, settoken] = useState("");
-
+  const navigate = useNavigate()
   // ✅ LOGIN with fetch
   const onLoginSubmit = async (data) => {
     try {
@@ -65,6 +66,7 @@ const Login = () => {
         toast.success(result.message);
         const mytoken = JSON.stringify(result.newtoken);
         dispatch(LoggedIn(result.newtoken))
+        navigate("/")
         localStorage.setItem("mytoken", mytoken);
         const user = JSON.stringify(result.user);
         localStorage.setItem("user", user);

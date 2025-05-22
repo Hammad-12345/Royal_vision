@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import {
   FaTachometerAlt,
@@ -12,22 +12,25 @@ import {
   FaChevronDown,
   FaChevronUp,
   FaBars,
+  FaWallet,
 } from "react-icons/fa";
 import { AnimatePresence, motion } from "framer-motion";
-
+import { LoggedOut } from "../Redux/Slice/auth";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 // Spinner Component
-const Spinner = () => (
-  <div className="h-full w-full flex items-center justify-center">
-    <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-blue-500 border-solid"></div>
-  </div>
-);
+// const Spinner = () => (
+//   <div className="h-full w-full flex items-center justify-center">
+//     <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-blue-500 border-solid"></div>
+//   </div>
+// );
 
 const sidebarLinks = [
   { label: "Dashboard", icon: <FaTachometerAlt />, path: "/" },
   { label: "Investment Plans", icon: <FaMoneyCheckAlt />, path: "/Plans" },
   { label: "Deposit", icon: <FaDownload />, path: "/Deposit" },
   { label: "Withdraw", icon: <FaUpload />, path: "/Withdraw" },
-  { label: "Wallet", icon: <FaUpload />, path: "/Withdraw" },
+  { label: "Wallet", icon: <FaWallet />, path: "/Wallet" },
 ];
 
 const nestedLinks = [
@@ -45,6 +48,7 @@ const routeTitles = {
   "/Plans": "Investment Plans",
   "/Deposit": "Deposit",
   "/Withdraw": "Withdraw",
+  "/Wallet": "Wallet",
   "/investment-history": "Overall Investment History",
   "/deposit-history/gold": "Gold Trading History",
   "/deposit-history/airbnb": "Airbnb History",
@@ -52,19 +56,40 @@ const routeTitles = {
   "/deposit-history/retro-drops": "Retro Drops History",
   "/deposit-history/amazon": "Amazon History",
   "/logout": "Logout",
+  "/account": "Account",
 };
 
 const UserDashboardLayout = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   const location = useLocation();
 
   const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
 
   const isActive = (path) => location.pathname === path;
+  const [showUserPopover, setShowUserPopover] = useState(false);
+  const [showNotificationPopover, setShowNotificationPopover] = useState(false);
 
+  const toggleUserPopover = () => {
+    setShowUserPopover(!showUserPopover);
+    setShowNotificationPopover(false); // Close the other popover
+  };
+
+  const toggleNotificationPopover = () => {
+    setShowNotificationPopover(!showNotificationPopover);
+    setShowUserPopover(false); // Close the other popover
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("mytoken");
+    localStorage.removeItem("user");
+    dispatch(LoggedOut());
+    navigate("/");
+  };
   // // Show spinner on route change
   // useEffect(() => {
   //   setLoading(true);
@@ -77,7 +102,6 @@ const UserDashboardLayout = () => {
 
   return (
     <div className="flex h-screen font-poppins bg-gradient-to-r from-black via-blue-950 to-black text-white">
-
       {/* Sidebar */}
       <aside
         className={`fixed h-full z-20 flex flex-col border-r border-gray-800 shadow-2xl transition-all duration-300 ${
@@ -151,7 +175,12 @@ const UserDashboardLayout = () => {
 
         <div className="p-4 border-t border-gray-800">
           <Link
-            to="/logout"
+            onClick={() => {
+              localStorage.removeItem("mytoken");
+              localStorage.removeItem("user");
+              dispatch(LoggedOut());
+              navigate("/");
+            }}
             className="p-2 flex items-center space-x-2 hover:bg-blue-500 transition-colors duration-300 rounded cursor-pointer"
           >
             <FaSignOutAlt /> <span>Logout</span>
@@ -174,12 +203,61 @@ const UserDashboardLayout = () => {
             >
               <FaBars />
             </button>
-            <span className="text-xl font-semibold m-0">{headerTitle}</span>
+            <span className="text-xl font-semibold m-0 text-white">
+              {headerTitle}
+            </span>
           </div>
-          <div className="flex items-center space-x-4">
-            <FaBell className="text-xl text-gray-400 cursor-pointer" />
+
+          <div className="flex items-center space-x-6 relative">
+            {/* Notification Icon */}
             <div className="relative">
-              <FaUserCircle className="text-2xl text-gray-400 cursor-pointer" />
+              <FaBell
+                onClick={toggleNotificationPopover}
+                className="text-xl text-gray-400 cursor-pointer"
+              />
+              {showNotificationPopover && (
+                <div className="absolute right-0 mt-2 w-64 bg-[#1b1f2a] text-white rounded shadow-lg z-20">
+                  <div className="px-4 py-2 border-b border-gray-700 font-semibold">
+                    Notifications
+                  </div>
+                  <ul className="max-h-60 overflow-auto">
+                    <li className="px-4 py-2 hover:bg-gray-700 cursor-pointer">
+                      You have a new message
+                    </li>
+                    <li className="px-4 py-2 hover:bg-gray-700 cursor-pointer">
+                      Your order was confirmed
+                    </li>
+                    <li className="px-4 py-2 hover:bg-gray-700 cursor-pointer">
+                      System update at 10 PM
+                    </li>
+                  </ul>
+                </div>
+              )}
+            </div>
+
+            {/* User Icon */}
+            <div className="relative">
+              <FaUserCircle
+                onClick={toggleUserPopover}
+                className="text-2xl text-gray-400 cursor-pointer"
+              />
+              {showUserPopover && (
+                <div className="absolute right-0 mt-2 w-48 bg-[#1b1f2a] text-white rounded shadow-lg z-20">
+                  <ul>
+                    <li className="flex items-center px-4 py-2 hover:bg-gray-700 cursor-pointer">
+                      <FaUserCircle className="mr-2" />
+                      <Link to="/account">Account</Link>
+                    </li>
+                    <li
+                      className="flex items-center px-4 py-2 hover:bg-gray-700 cursor-pointer"
+                      onClick={handleLogout}
+                    >
+                      <FaSignOutAlt className="mr-2" />
+                      <span>Logout</span>
+                    </li>
+                  </ul>
+                </div>
+              )}
             </div>
           </div>
         </header>
@@ -189,22 +267,23 @@ const UserDashboardLayout = () => {
           {/* {loading ? (
             <Spinner />
           ) : ( */}
-            <AnimatePresence mode="popLayout">
-              <motion.div
-                key={location.pathname}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.6, ease: "easeInOut" }}
-              >
-                <Outlet />
-              </motion.div>
-            </AnimatePresence>
+          <AnimatePresence mode="popLayout">
+            <motion.div
+              key={location.pathname}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.6, ease: "easeInOut" }}
+            >
+              <Outlet />
+            </motion.div>
+          </AnimatePresence>
           {/* )} */}
         </main>
 
         {/* Footer */}
         <footer className="text-center p-4 border-t border-gray-800">
-          &copy; {new Date().getFullYear()} Overland Solutions. All rights reserved.
+          &copy; {new Date().getFullYear()} Overland Solutions. All rights
+          reserved.
         </footer>
       </div>
     </div>

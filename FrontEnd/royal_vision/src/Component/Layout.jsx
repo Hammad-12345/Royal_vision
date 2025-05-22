@@ -35,7 +35,7 @@ const Layout = () => {
   return (
     <>
       {/* Splash Screen with banner4 */}
-      {isSplashVisible ? (
+      {/* {isSplashVisible ? (
         <div
           className="fixed inset-0 z-[9999] bg-center bg-cover flex items-center justify-center transition-opacity duration-700"
         
@@ -58,9 +58,9 @@ const Layout = () => {
             {/* <div className="w-full h-1  bg-white rounded overflow-hidden relative">
               <div className="absolute left-0 top-0 h-full w-full bg-gradient-to-r from-black via-blue-950 to-black  animate-loading-line"></div>
             </div> */}
-          </div>
-        </div>
-      ) : (
+          {/* </div> */}
+        {/* </div> */}
+      {/* ) : ( */}
         <>
           {/* <AnimatePresence mode="wait">
             <motion.div
@@ -106,7 +106,7 @@ const Layout = () => {
           </div>
           {showScrollTop && <OnlineChat />}
         </>
-      )}
+      {/* )} */}
     </>
   );
 };

@@ -21,6 +21,8 @@ import Deposit from "./UserDashboard/Pages/Deposit";
 import Withdraw from "./UserDashboard/Pages/Withdraw";
 import InvestmentPlans from "./UserDashboard/Pages/InvestmentPlans";
 import InvestmentHistory from "./UserDashboard/Pages/InvestmentHistory";
+import Wallet from "./UserDashboard/Pages/Wallet";
+import Account from "./UserDashboard/Pages/Account";
 function App() {
   const token = useSelector((state) => state.Token.DashboardRoutes);
   console.log(token);
@@ -66,6 +68,8 @@ function App() {
             <Route path="Withdraw" element={<Withdraw/>}/>
             <Route path="Plans" element={<InvestmentPlans/>}/>
             <Route path="investment-history" element={<InvestmentHistory/>}/>
+            <Route path="wallet" element={<Wallet/>}/>
+            <Route path="account" element={<Account/>}/>
             </Route>
             </>
           )}

@@ -561,3 +561,23 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     transform: translateY(-2000px);
   }
 }
+
+
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color:dimgray; /* Tailwind blue-500 */
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background:gray; /* Tailwind blue-600 */
+}

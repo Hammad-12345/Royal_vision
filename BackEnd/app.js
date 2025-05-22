@@ -34,6 +34,6 @@ app.get("/register",(req,res)=>
 })
 
 app.use("/auth", authroute);
-app.listen(`${process.env.PORT}`, () => {
+app.listen(`${process.env.PORT}`,'0.0.0.0', () => {
   console.log("server listen");
 });
