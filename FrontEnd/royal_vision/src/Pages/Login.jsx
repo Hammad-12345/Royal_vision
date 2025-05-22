@@ -18,7 +18,7 @@ const Login = () => {
   // ✅ LOGIN with fetch
   const onLoginSubmit = async (data) => {
     try {
-      const response = await fetch("http://backendoverland-env.eba-agakzdv8.eu-north-1.elasticbeanstalk.com/auth/login", {
+      const response = await fetch("http://api.overlandsolutions.net/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -51,7 +51,7 @@ const Login = () => {
     console.log("OTP entered:", otp);
 
     try {
-      const response = await fetch("http://backendoverland-env.eba-agakzdv8.eu-north-1.elasticbeanstalk.com/auth/otp", {
+      const response = await fetch("http://api.overlandsolutions.net/auth/otp", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -87,7 +87,7 @@ const Login = () => {
     };
   
     try {
-      const response = await fetch("http://backendoverland-env.eba-agakzdv8.eu-north-1.elasticbeanstalk.com/auth/newpassword", {
+      const response = await fetch("http://api.overlandsolutions.net/auth/newpassword", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
