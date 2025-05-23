@@ -50,7 +50,7 @@ const OverallInvestmentHistory = () => {
   useEffect(() => {
     const fetchInvestments = async () => {
       try {
-        const token = localStorage.getItem('authToken'); // adjust key as you stored it
+        const token = localStorage.getItem('mytoken'); // adjust key as you stored it
         const res = await fetch('http://localhost:8080/dashboard/fetchallinvestment', {
           headers: {
             'Content-Type': 'application/json',
