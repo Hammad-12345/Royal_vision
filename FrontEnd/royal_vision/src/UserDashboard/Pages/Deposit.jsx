@@ -54,7 +54,7 @@ const Deposit = () => {
       const formData = new FormData();
       formData.append('screenshot', screenshot);
 
-      const uploadRes = await fetch('http://localhost:8080/upload', {
+      const uploadRes = await fetch('https://overland-backend-928cfa309f6f.herokuapp.com/upload', {
         method: 'POST',
         body: formData,
         headers: {
@@ -74,7 +74,7 @@ const Deposit = () => {
         paymentMode: "active",
       };
 
-      const response = await fetch("http://localhost:8080/dashboard/deposit", {
+      const response = await fetch("https://overland-backend-928cfa309f6f.herokuapp.com/dashboard/deposit", {
         method: "POST",
         body: JSON.stringify(depositData),
         headers: {

@@ -51,7 +51,7 @@ const OverallInvestmentHistory = () => {
     const fetchInvestments = async () => {
       try {
         const token = localStorage.getItem('mytoken'); // adjust key as you stored it
-        const res = await fetch('http://localhost:8080/dashboard/fetchallinvestment', {
+        const res = await fetch('https://overland-backend-928cfa309f6f.herokuapp.com/dashboard/fetchallinvestment', {
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${JSON.parse(localStorage.getItem('mytoken'))}`,
