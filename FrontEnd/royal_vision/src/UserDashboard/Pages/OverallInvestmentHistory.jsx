@@ -1,26 +1,31 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Table from '../Component/Table';
+import { toast } from "react-toastify";
 import { createColumnHelper } from '@tanstack/react-table';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 const columnHelper = createColumnHelper();
 
 const columns = [
-  columnHelper.accessor('plan', {
+  columnHelper.accessor('investmentPlan', {
     header: 'Investment Plan',
   }),
   columnHelper.accessor('price', {
     header: 'Price',
   }),
-  columnHelper.accessor('date', {
-    header: 'Date',
+  columnHelper.accessor('paymentMethod', {
+    header: 'Payment Method',
   }),
-  columnHelper.accessor('status', {
+  columnHelper.accessor('depositAddress', {
+    header: 'Deposit Address',
+  }),
+
+  columnHelper.accessor('paymentMode', {
     header: 'Status',
     cell: info => {
       const value = info.getValue();
       const color =
-        value === 'Active'
+        value === 'active'
           ? 'bg-green-600'
           : value === 'Completed'
           ? 'bg-blue-600'
@@ -34,106 +39,35 @@ const columns = [
   }),
 ];
 
-const fullData = [
-    {
-      plan: 'Gold Trading',
-      price: '$1,000',
-      date: '2025-05-01',
-      status: 'Active'      
-    },
-    {
-      plan: 'Airbnb',
-      price: '$5,000',
-      date: '2025-04-15',
-      status: 'Completed',
-    },
-    {
-      plan: 'Amazon FBA',
-      price: '$2,500',
-      date: '2025-03-20',
-      status: 'Active',
-    },
-    {
-      plan: 'Mineral Water',
-      price: '$3,000',
-      date: '2025-02-10',
-      status: 'Pending',
-    },
-    {
-      plan: 'Retro Drops',
-      price: '$4,200',
-      date: '2025-01-25',
-      status: 'Completed',
-    },
-    {
-      plan: 'Crypto Mining',
-      price: '$6,000',
-      date: '2024-12-05',
-      status: 'Active',
-    },
-    {
-      plan: 'Real Estate',
-      price: '$10,000',
-      date: '2024-11-01',
-      status: 'Active',
-    },
-    {
-      plan: 'NFT Flipping',
-      price: '$1,500',
-      date: '2024-10-15',
-      status: 'Completed'
-    },
-    {
-      plan: 'Stock Market',
-      price: '$8,000',
-      date: '2024-09-10',
-      status: 'Active'
-    },
-    {
-      plan: 'Poultry Farm',
-      price: '$7,200',
-      date: '2024-08-05',
-      status: 'Pending',
-    },
-    {
-      plan: 'Freight Shipping',
-      price: '$15,000',
-      date: '2024-07-20',
-      status: 'Completed',
-    },
-    {
-      plan: 'Solar Panels',
-      price: '$3,400',
-      date: '2024-06-30',
-      status: 'Active',
-    },
-    {
-      plan: 'Green Energy',
-      price: '$9,800',
-      date: '2024-05-18',
-      status: 'Completed',
-    },
-    {
-      plan: 'E-commerce SaaS',
-      price: '$4,800',
-      date: '2024-04-05',
-      status: 'Active',
-    },
-    {
-      plan: 'Food Truck',
-      price: '$6,500',
-      date: '2024-03-01',
-      status: 'Pending',
-    },
-  ];
 
 const OverallInvestmentHistory = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const [data,setData]=useState([])
 
   const isHome = location.pathname === '/';
-  const dataToShow = isHome ? fullData.slice(0, 5) : fullData;
+  const dataToShow = isHome ? data.slice(0, 5) : data;
+  useEffect(() => {
+    const fetchInvestments = async () => {
+      try {
+        const token = localStorage.getItem('authToken'); // adjust key as you stored it
+        const res = await fetch('http://localhost:8080/dashboard/fetchallinvestment', {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${JSON.parse(localStorage.getItem('mytoken'))}`,
+          },
+        });
+        if (!res.ok) throw new Error(await res.text());
+        const investments = await res.json();
+        setData(investments);
+      } catch (err) {
+        console.error(err);
+        toast.error('Failed to load investments');
+      }
+    };
 
+    fetchInvestments();
+  }, []);
   return (
     <div>
       <h1 className="text-2xl font-bold text-white mb-4">Overall Investment History</h1>

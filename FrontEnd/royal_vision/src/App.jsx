@@ -25,7 +25,6 @@ import Wallet from "./UserDashboard/Pages/Wallet";
 import Account from "./UserDashboard/Pages/Account";
 function App() {
   const token = useSelector((state) => state.Token.DashboardRoutes);
-  console.log(token);
   return (
     <>
       <ToastContainer

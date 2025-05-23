@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaRegCopy } from "react-icons/fa";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+
 const plans = [
   { name: "Gold Trading", mininvest: "$100" },
   { name: "RetroDrops", mininvest: "$1000" },
@@ -20,6 +22,7 @@ const paymentMethods = [
 ];
 
 const Deposit = () => {
+  const navigate = useNavigate()
   const {
     register,
     handleSubmit,
@@ -44,16 +47,54 @@ const Deposit = () => {
     setSelectedPlan(plan);
   };
 
-  const handleSecondFormSubmit = (e) => {
+  const handleSecondFormSubmit = async (e) => {
     e.preventDefault();
-    console.log("Payment Confirmation Submitted:", {
-      paymentMethod: submittedData.paymentMethod,
-      address: selectedPayment?.address,
-      screenshot,
-    });
-    alert("Payment proof submitted successfully!");
+    try {
+      // 1. Upload screenshot to backend
+      const formData = new FormData();
+      formData.append('screenshot', screenshot);
+
+      const uploadRes = await fetch('http://localhost:8080/upload', {
+        method: 'POST',
+        body: formData,
+        headers: {
+          "Authorization": `Bearer ${JSON.parse(localStorage.getItem('mytoken'))}`,
+        },
+      });
+      const uploadData = await uploadRes.json();
+      const screenshotUrl = uploadData.url;
+
+      // 2. Submit deposit with screenshot URL
+      const depositData = {
+        investmentPlan: submittedData.plan,
+        price: submittedData.amount,
+        paymentMethod: submittedData.paymentMethod,
+        depositAddress: selectedPayment?.address,
+        screenshot: screenshotUrl,
+        paymentMode: "active",
+      };
+
+      const response = await fetch("http://localhost:8080/dashboard/deposit", {
+        method: "POST",
+        body: JSON.stringify(depositData),
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${JSON.parse(localStorage.getItem('mytoken'))}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const data = await response.json();
+      console.log("Deposit created:", data);
+      toast.success("Deposit created successfully!");
+      navigate('/investment-history')
+    } catch (error) {
+      console.error("Error submitting deposit:", error);
+      toast.error("Error creating deposit. Please try again.");
+    }
     setShowPaymentDetails(false);
-    reset();
   };
 
   const selectedPayment = paymentMethods.find(
@@ -164,13 +205,13 @@ const Deposit = () => {
           </h2>
 
           {/* QR Code */}
-          <div className="bg-white p-2 rounded">
+          {/* <div className="bg-white p-2 rounded">
             <img
               src="https://overlandresources.s3.eu-north-1.amazonaws.com/qr+code.png"
               alt="QR Code"
               className="w-48 h-48 object-contain"
             />
-          </div>
+          </div> */}
 
           {/* Network */}
           <div className="w-full">
