@@ -55,7 +55,7 @@ const Policy = () => {
   ];
   return (
     <>
-    <div className="bg-gradient-to-r from-black via-blue-950 to-black px-8 py-4 space-y-8">
+    <div className="bg-gradient-to-r from-black via-blue-950 to-black space-y-8">
       <h1 className="text-center font-poppins text-4xl text-white font-bold">
         <span className="text-blue-600 font-extrabold">Overland Solutions</span> – Company Policy
       </h1>

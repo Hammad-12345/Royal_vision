@@ -84,7 +84,7 @@ const Totalprofitchart = () => {
   return (
     <div className="bg-gradient-to-br from-[#0F1120] to-[#070c3e] rounded-2xl p-6 shadow-lg text-white">
       <h2 className="text-xl font-bold mb-4">Total Profit (Monthly)</h2>
-      <div className="w-full h-[500px]">
+      <div className="w-full h-[300px]">
         <Line data={data} options={options} />
       </div>
     </div>

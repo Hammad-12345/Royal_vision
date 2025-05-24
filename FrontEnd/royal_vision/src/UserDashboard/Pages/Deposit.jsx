@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { FaRegCopy } from "react-icons/fa";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const plans = [
   { name: "Gold Trading", mininvest: "$100" },
@@ -23,6 +23,7 @@ const paymentMethods = [
 
 const Deposit = () => {
   const navigate = useNavigate()
+  const { id } = useParams();
   const {
     register,
     handleSubmit,
@@ -35,6 +36,15 @@ const Deposit = () => {
   const [showPaymentDetails, setShowPaymentDetails] = useState(false);
   const [submittedData, setSubmittedData] = useState(null);
   const [screenshot, setScreenshot] = useState(null);
+
+  useEffect(() => {
+    if (id) {
+      const plan = plans.find(p => p.name.toLowerCase() === id.toLowerCase());
+      if (plan) {
+        setSelectedPlan(plan);
+      }
+    }
+  }, [id]);
 
   const onSubmit = (data) => {
     console.log("Deposit Submitted:", data);
@@ -52,9 +62,9 @@ const Deposit = () => {
     try {
       // 1. Upload screenshot to backend
       const formData = new FormData();
-      formData.append('screenshot', screenshot);
+      formData.append('img', screenshot);
 
-      const uploadRes = await fetch('https://overland-backend-928cfa309f6f.herokuapp.com/upload', {
+      const uploadRes = await fetch('http://localhost:8080/upload', {
         method: 'POST',
         body: formData,
         headers: {
@@ -74,7 +84,7 @@ const Deposit = () => {
         paymentMode: "active",
       };
 
-      const response = await fetch("https://overland-backend-928cfa309f6f.herokuapp.com/dashboard/deposit", {
+      const response = await fetch("http://localhost:8080/dashboard/deposit", {
         method: "POST",
         body: JSON.stringify(depositData),
         headers: {
@@ -102,6 +112,7 @@ const Deposit = () => {
   );
 
   return (
+    
     <div className="max-w-2xl mx-auto p-8 bg-gradient-to-r from-black via-blue-950 to-blue-600 rounded-lg shadow-md text-white">
       {!showPaymentDetails ? (
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">

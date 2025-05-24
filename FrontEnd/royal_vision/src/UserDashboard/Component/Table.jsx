@@ -48,18 +48,26 @@ const Table = ({ data, columns,pagination }) => {
           ))}
         </thead>
         <tbody>
-          {table.getRowModel().rows.map(row => (
-            <tr
-              key={row.id}
-              className="bg-[#1E2140] hover:bg-[#2a2e52] transition rounded-lg"
-            >
-              {row.getVisibleCells().map(cell => (
-                <td key={cell.id} className="px-4 py-3">
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </td>
-              ))}
+          {table.getRowModel().rows.length === 0 ? (
+            <tr>
+              <td colSpan={columns.length} className="px-4 py-3 text-center text-gray-400 bg-[#1E2140] border border-gray-700 rounded-lg">
+                No data found
+              </td>
             </tr>
-          ))}
+          ) : (
+            table.getRowModel().rows.map(row => (
+              <tr
+                key={row.id}
+                className="bg-[#1E2140] hover:bg-[#2a2e52] transition rounded-lg"
+              >
+                {row.getVisibleCells().map(cell => (
+                  <td key={cell.id} className="px-4 py-3">
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </td>
+                ))}
+              </tr>
+            ))
+          )}
         </tbody>
       </table>
 

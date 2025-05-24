@@ -23,6 +23,14 @@ import InvestmentPlans from "./UserDashboard/Pages/InvestmentPlans";
 import InvestmentHistory from "./UserDashboard/Pages/InvestmentHistory";
 import Wallet from "./UserDashboard/Pages/Wallet";
 import Account from "./UserDashboard/Pages/Account";
+// import GoldTradingHistory from "./UserDashboard/Pages/GoldTradingHistory";
+// import Airbnbhistory from "./UserDashboard/Pages/Airbnbhistory";
+// import Amazonhistory from "./UserDashboard/Pages/Amazonhistory";
+// import MineralWater from "./UserDashboard/Pages/MineralWater";
+// import Retrodrops from "./UserDashboard/Pages/Retrodrops";
+import Referal from "./UserDashboard/Pages/Referal";
+import Withdrawhistory from "./UserDashboard/Pages/Withdrawhistory";
+// import PlansDashboard from "./UserDashboard/Pages/PlansDashboard";
 function App() {
   const token = useSelector((state) => state.Token.DashboardRoutes);
   return (
@@ -40,37 +48,48 @@ function App() {
       />
       <BrowserRouter>
         <Routes>
-          {!token ? (
-            <>
-              <Route path="/" element={<Layout />}>
-                <Route index element={<Home />} />
-                <Route path="news" element={<News />} />
-                <Route path="contact" element={<Contactus />} />
-                <Route path="about" element={<Aboutus />} />
-                <Route path="plans" element={<Plans />} />
-                <Route path="faqs" element={<Faqs />} />
-                <Route path="policy" element={<Policy />} />
-                <Route path="how-it-works" element={<HowitsWorks />} />
+          <Route path="/" element={<Layout />}>
+            <Route index element={<Home />} />
+            <Route path="news" element={<News />} />
+            <Route path="contact" element={<Contactus />} />
+            <Route path="about" element={<Aboutus />} />
+            <Route path="plans" element={<Plans />} />
+            <Route path="faqs" element={<Faqs />} />
+            <Route path="policy" element={<Policy />} />
+            <Route path="how-it-works" element={<HowitsWorks />} />
 
-                {/* Authentication Routes */}
-              </Route>
-              <Route path="/" element={<AuthLayout />}>
-                <Route path="signin" element={<Login />} />
-                <Route path="signup" element={<Register />} />
-              </Route>
-            </>
-          ) : (
-            <>
-            <Route path="/" element = {<UserDashboardLayout/>}>
-            <Route index element={<Dashboard/>}/>
-            <Route path="Deposit" element={<Deposit/>}/>
-            <Route path="Withdraw" element={<Withdraw/>}/>
-            <Route path="Plans" element={<InvestmentPlans/>}/>
-            <Route path="investment-history" element={<InvestmentHistory/>}/>
-            <Route path="wallet" element={<Wallet/>}/>
-            <Route path="account" element={<Account/>}/>
+            {/* Authentication Routes */}
+
+            {token && (
+              <>
+                {/* // <Route path="/" element={<UserDashboardLayout />}> */}
+                <Route path="dashboard" element={<Dashboard />} />
+                <Route path="Deposit" element={<Deposit />} />
+                <Route path="Deposit/:id" element={<Deposit />} />
+                <Route path="Withdraw" element={<Withdraw />} />
+                <Route path="Plans" element={<InvestmentPlans />} />
+                <Route
+                  path="investment-history"
+                  element={<InvestmentHistory />}
+                />
+                {/* <Route path="goldhistory" element={<GoldTradingHistory/>}/>
+            <Route path="airbnbhistory" element={<Airbnbhistory/>}/>
+            <Route path="amazonhistory" element={<Amazonhistory/>}/>
+            <Route path="mineralwaterhistory" element={<MineralWater/>}/>
+            <Route path="retrodropshistory" element={<Retrodrops/>}/> */}
+                <Route path="wallet" element={<Wallet />} />
+                <Route path="referal" element={<Referal />} />
+                <Route path="withdrawhistory" element={<Withdrawhistory />} />
+                <Route path="account" element={<Account />} />
+                {/* </Route> */}
+              </>
+            )}
+          </Route>
+          {!token && (
+            <Route path="/" element={<AuthLayout />}>
+              <Route path="signin" element={<Login />} />
+              <Route path="signup" element={<Register />} />
             </Route>
-            </>
           )}
         </Routes>
       </BrowserRouter>

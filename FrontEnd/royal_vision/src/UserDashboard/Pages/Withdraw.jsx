@@ -1,7 +1,11 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 
-const paymentMethods = ["PayPal", "Crypto", "Bank Transfer"];
+const paymentMethods = [
+  { name: "Tron (TRC20)", address: "TRgtXC27Nm8td1DNySmK5Ynh1Gvp8CY8AP" },
+  { name: "BNB Smart Chain (BEP20)", address: "0x01d5220ed693ddbea45918033eb7ac53c9008bb9" },
+  { name: "Binance ID", address: "199783750" }
+];
 
 const Withdraw = () => {
   const {
@@ -61,8 +65,8 @@ const Withdraw = () => {
           >
             <option value="" className="text-black">Select method</option>
             {paymentMethods.map((method) => (
-              <option key={method} value={method} className="text-black">
-                {method}
+              <option key={method.name} value={method.name} className="text-black">
+                {method.name}
               </option>
             ))}
           </select>

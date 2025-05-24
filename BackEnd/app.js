@@ -41,7 +41,7 @@ dotenv.config();
 connectiondb()
 
 // File upload endpoint
-app.post("/upload", upload.single("screenshot"), (req, res) => {
+app.post("/upload", upload.single("img"), (req, res) => {
   if (!req.file) {
     return res.status(400).json({ error: "No file uploaded" });
   }

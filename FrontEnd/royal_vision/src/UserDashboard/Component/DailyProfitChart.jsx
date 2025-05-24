@@ -24,16 +24,15 @@ ChartJS.register(
   Filler
 );
 
-// Chart Data
+// Chart Data (Placeholder)
 const data = {
   labels: [
-    "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+    "Day 1", "Day 2", "Day 3", "Day 4", "Day 5", "Day 6", "Day 7"
   ],
   datasets: [
     {
-      label: "Total Investment ($)",
-      data: [300, 4000, 5000, 3560, 5670, 2000, 45780, 9080, 4560, 7890, 8990, 7880],
+      label: "Daily Profit ($)",
+      data: [100, 150, 120, 180, 200, 160, 220], // Placeholder data
       fill: true,
       backgroundColor: "rgba(59, 130, 246, 0.1)", // Tailwind blue-500 with transparency
       borderColor: "#3B82F6", // Tailwind blue-500
@@ -57,7 +56,7 @@ const options = {
       },
       title: {
         display: true,
-        text: "Monthly Total Investment",
+        text: "Daily Profits",
         color: "#fff",
         font: {
           size: 20,
@@ -95,16 +94,15 @@ const options = {
   };
   
 
-const Totalinvestchart = () => {
+const DailyProfitChart = () => {
   return (
     <div className="bg-gradient-to-br from-[#0F1120] to-[#070c3e] rounded-2xl p-6 shadow-lg text-white">
-    <h2 className="text-xl font-bold mb-4">Total Investment (Monthly)</h2>
-    <div className="w-full h-[300px]"> {/* 👈 Set custom height here */}
+    <h2 className="text-xl font-bold mb-4">Daily Profits</h2>
+    <div className="w-full h-[300px]"> {/* Set custom height here */}
       <Line data={data} options={options} />
     </div>
   </div>
-  
   );
 };
 
-export default Totalinvestchart;
+export default DailyProfitChart; 

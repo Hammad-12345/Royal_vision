@@ -19,7 +19,13 @@ const columns = [
   columnHelper.accessor('depositAddress', {
     header: 'Deposit Address',
   }),
-
+  columnHelper.accessor('createdAt', {
+    header: 'Date',
+    cell: info => {
+      const date = new Date(info.getValue());
+      return date.toLocaleDateString();
+    },
+  }),
   columnHelper.accessor('paymentMode', {
     header: 'Status',
     cell: info => {
@@ -51,7 +57,7 @@ const OverallInvestmentHistory = () => {
     const fetchInvestments = async () => {
       try {
         const token = localStorage.getItem('mytoken'); // adjust key as you stored it
-        const res = await fetch('https://overland-backend-928cfa309f6f.herokuapp.com/dashboard/fetchallinvestment', {
+        const res = await fetch('http://localhost:8080/dashboard/fetchallinvestment', {
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${JSON.parse(localStorage.getItem('mytoken'))}`,
@@ -70,7 +76,10 @@ const OverallInvestmentHistory = () => {
   }, []);
   return (
     <div>
-      <h1 className="text-2xl font-bold text-white mb-4">Overall Investment History</h1>
+      <div className='flex justify-between items-center'>
+      <h1 className="text-2xl font-bold text-white mb-4">Deposit History</h1>
+      <h1 className="text-lg font-bold text-white mb-4">Total {data.length}</h1>
+      </div>
       <Table data={dataToShow} columns={columns} pagination={isHome? false:true} />
 
       {isHome && (

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 const plans = [
   {
     name: "Gold Trading",
@@ -60,18 +61,20 @@ const plans = [
 ];
 
 const PricingPlans = ({ showAll = false }) => {
+  const location = useLocation();
+  const isHomePage = location.pathname === "/"
   const token = useSelector((state) => state.Token.DashboardRoutes);
   console.log(token);
   const [selectedPlan, setSelectedPlan] = useState(null);
   const visiblePlans = showAll ? plans : plans.slice(0, 3);
 
   return (
-    <div className={` font-poppins ${!token && ' p-6 bg-gradient-to-r from-black via-blue-950 to-black'}`}>
-      {
-        !token && <h2 className="text-4xl font-bold text-center text-white mb-10">
+    <div className={` font-poppins bg-gradient-to-r ${isHomePage && "p-6"} from-black via-blue-950 to-black`}>
+      
+         <h2 className="text-4xl font-bold text-center text-white mb-10">
         Investment <span className="text-blue-600 font-extrabold">Plans</span>
       </h2>
-      }
+      
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {visiblePlans.map((plan, index) => (

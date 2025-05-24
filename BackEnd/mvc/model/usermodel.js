@@ -8,7 +8,7 @@ const UserSchema = new mongoose.Schema(
       trim: true,
     },
     DateOfBirth: {
-      type: Date,
+      type: String,
       required: true,
     },
     Country: {
@@ -33,9 +33,13 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    Otp:{
-      type:Number,
-      required:true
+    Otp: {
+      type: Number,
+      required: true
+    },
+    profileImage: {
+      type: String,
+      default: "" // Default empty string for no image
     }
   },
   { timestamps: true }

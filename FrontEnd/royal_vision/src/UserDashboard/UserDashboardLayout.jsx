@@ -18,6 +18,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { LoggedOut } from "../Redux/Slice/auth";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 // Spinner Component
 // const Spinner = () => (
 //   <div className="h-full w-full flex items-center justify-center">
@@ -26,35 +27,48 @@ import { useNavigate } from "react-router-dom";
 // );
 
 const sidebarLinks = [
-  { label: "Dashboard", icon: <FaTachometerAlt />, path: "/" },
+  { label: "Dashboard", icon: <FaTachometerAlt />, path: "/dashboard" },
   { label: "Investment Plans", icon: <FaMoneyCheckAlt />, path: "/Plans" },
   { label: "Deposit", icon: <FaDownload />, path: "/Deposit" },
   { label: "Withdraw", icon: <FaUpload />, path: "/Withdraw" },
   { label: "Wallet", icon: <FaWallet />, path: "/Wallet" },
+  { label: "Referal", icon: <FaWallet />, path: "/referal" },
+  {
+    label: "Deposit History",
+    icon: <FaHistory />,
+    path: "/investment-history",
+  },
+  {
+    label: "Withdraw History",
+    icon: <FaHistory />,
+    path: "/withdrawhistory",
+  },
 ];
 
 const nestedLinks = [
   { label: "Overall Investment History", path: "/investment-history" },
-  { label: "Gold Trading", path: "/deposit-history/gold" },
-  { label: "Air bnb", path: "/deposit-history/airbnb" },
-  { label: "Mineral Water", path: "/deposit-history/mineral-water" },
-  { label: "Retro Drops", path: "/deposit-history/retro-drops" },
-  { label: "Amazon", path: "/deposit-history/amazon" },
+  { label: "Gold Trading", path: "/goldhistory" },
+  { label: "Air bnb", path: "/airbnbhistory" },
+  { label: "Mineral Water", path: "/mineralwaterhistory" },
+  { label: "Retro Drops", path: "/retrodropshistory" },
+  { label: "Amazon", path: "/amazonhistory" },
 ];
 
 // Route to title mapping
 const routeTitles = {
-  "/": "Dashboard",
+  "/dashboard": "Dashboard",
   "/Plans": "Investment Plans",
   "/Deposit": "Deposit",
   "/Withdraw": "Withdraw",
   "/Wallet": "Wallet",
-  "/investment-history": "Overall Investment History",
-  "/deposit-history/gold": "Gold Trading History",
-  "/deposit-history/airbnb": "Airbnb History",
-  "/deposit-history/mineral-water": "Mineral Water History",
-  "/deposit-history/retro-drops": "Retro Drops History",
-  "/deposit-history/amazon": "Amazon History",
+  "/withdrawhistory": "Withdraw History",
+  "/referal": "Referal",
+  "/investment-history": "Deposit History",
+  "/goldhistory": "Gold Trading History",
+  "/airbnbhistory": "Airbnb History",
+  "/mineralwaterhistory": "Mineral Water History",
+  "/retrodropshistory": "Retro Drops History",
+  "/amazonhistory": "Amazon History",
   "/logout": "Logout",
   "/account": "Account",
 };
@@ -64,6 +78,7 @@ const UserDashboardLayout = () => {
   const navigate = useNavigate();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const user = useSelector((state) => state.Token.userDetail);
   // const [loading, setLoading] = useState(false);
   const location = useLocation();
 
@@ -140,7 +155,7 @@ const UserDashboardLayout = () => {
               </Link>
             ))}
 
-            <div>
+            {/* <div>
               <div
                 onClick={toggleDropdown}
                 className="flex items-center justify-between space-x-2 p-2 hover:bg-blue-800 rounded cursor-pointer"
@@ -169,7 +184,7 @@ const UserDashboardLayout = () => {
                   </Link>
                 ))}
               </div>
-            </div>
+            </div> */}
           </div>
         </nav>
 
@@ -237,10 +252,21 @@ const UserDashboardLayout = () => {
 
             {/* User Icon */}
             <div className="relative">
-              <FaUserCircle
+              <div
+                className="flex items-center space-x-3 cursor-pointer"
                 onClick={toggleUserPopover}
-                className="text-2xl text-gray-400 cursor-pointer"
-              />
+              >
+                {user.profileImage ? (
+                  <img
+                    src={user.profileImage}
+                    alt="Profile"
+                    className="w-12 h-12 rounded-full object-cover"
+                  />
+                ) : (
+                  <FaUserCircle className="text-2xl text-gray-400" />
+                )}
+                <div>{user.Name?.split(" ")[1]}</div>
+              </div>
               {showUserPopover && (
                 <div className="absolute right-0 mt-2 w-48 bg-[#1b1f2a] text-white rounded shadow-lg z-20">
                   <ul>

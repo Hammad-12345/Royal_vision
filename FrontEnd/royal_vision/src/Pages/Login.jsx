@@ -62,17 +62,30 @@ const Login = () => {
 
       const result = await response.json();
       console.log(result);
+      
       if (response.ok) {
         toast.success(result.message);
+      
         const mytoken = JSON.stringify(result.newtoken);
-        dispatch(LoggedIn(result.newtoken))
-        navigate("/")
-        localStorage.setItem("mytoken", mytoken);
         const user = JSON.stringify(result.user);
+      
+        // Save to localStorage
+        localStorage.setItem("mytoken", mytoken);
         localStorage.setItem("user", user);
-
+      
+        // Dispatch both token and user to Redux
+        dispatch(
+          LoggedIn({
+            token: result.newtoken,
+            user: result.user,
+          })
+        );
+      
+        navigate("/");
+      }
+      
         // redirect or store session, etc.
-      } else {
+      else {
         toast.error(result.message || "OTP verification failed");
       }
     } catch (error) {

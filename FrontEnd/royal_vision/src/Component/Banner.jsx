@@ -1,8 +1,20 @@
 import React from "react";
 // import TypingEffect from "./TypingEffect";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Banner = () => {
+  const navigate = useNavigate();
+  const token = useSelector((state) => state.Token.DashboardRoutes);
+
+  const handleGetStarted = () => {
+    if (token) {
+      navigate("/dashboard");
+    } else {
+      navigate("/signin");
+    }
+  };
+
   return (
     <div className="relative w-full h-screen overflow-hidden">
       {/* Video Background */}
@@ -38,10 +50,13 @@ const Banner = () => {
         Emerging Markets
         </div>
         <div className="mt-6">
-        <Link to={"/signin"} className="bg-blue-600 hover:bg-blue-700 text-white text-lg px-6 py-3 rounded-full transition duration-300">
-          Get Started
-        </Link>
-      </div>
+          <button 
+            onClick={handleGetStarted}
+            className="bg-blue-600 hover:bg-blue-700 text-white text-lg px-6 py-3 rounded-full transition duration-300"
+          >
+            Get Started
+          </button>
+        </div>
       </div>
       {/* Typing Text Content */}
 

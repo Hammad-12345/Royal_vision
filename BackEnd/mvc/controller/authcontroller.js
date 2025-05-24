@@ -102,6 +102,7 @@ const register = async (req, res) => {
         ContactNumber: newUser.ContactNumber,
         Country: newUser.Country,
         Role: newUser.Role,
+        
       },
     });
   } catch (error) {
