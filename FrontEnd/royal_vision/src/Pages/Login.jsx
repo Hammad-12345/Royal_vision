@@ -138,7 +138,7 @@ const Login = () => {
           ? "Welcome back! Please enter your details."
           : step === 2
           ? "Enter the OTP sent to your email."
-          : "We'll send a password reset link to your email."}
+          : ""}
       </p>
 
       {/* Step 1: LOGIN */}
@@ -194,6 +194,18 @@ const Login = () => {
           >
             Sign In
           </button>
+
+          <div className="text-center mt-4">
+            <p className="text-white">Don't have an account?{" "}
+              <button
+                type="button"
+                onClick={() => navigate("/signup")}
+                className="text-blue-400 hover:text-blue-300 font-semibold"
+              >
+                Sign Up
+              </button>
+            </p>
+          </div>
         </form>
       )}
 
