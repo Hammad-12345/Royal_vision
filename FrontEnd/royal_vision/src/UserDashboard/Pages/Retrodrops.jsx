@@ -10,7 +10,7 @@ const Retrodrops = () => {
     const fetchRetrodropsInvestments = async () => {
       try {
         const token = localStorage.getItem('mytoken');
-        const res = await fetch('http://localhost:8080/dashboard/fetchallinvestment', {
+        const res = await fetch('https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/dashboard/fetchallinvestment', {
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${JSON.parse(token)}`,

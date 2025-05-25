@@ -59,7 +59,7 @@ export default function Register() {
     const fullData = { ...data, CountryPhoneCode: phoneCode };
 
     try {
-      const response = await fetch("https://overland-backend-928cfa309f6f.herokuapp.com/auth/register", {
+      const response = await fetch("https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/auth/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

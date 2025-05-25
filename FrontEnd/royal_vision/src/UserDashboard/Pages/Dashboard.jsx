@@ -199,7 +199,7 @@ const Dashboard = () => {
       try {
         const token = localStorage.getItem("mytoken");
         const res = await fetch(
-          "http://localhost:8080/dashboard/fetchallinvestment",
+          "https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/dashboard/fetchallinvestment",
           {
             headers: {
               "Content-Type": "application/json",
