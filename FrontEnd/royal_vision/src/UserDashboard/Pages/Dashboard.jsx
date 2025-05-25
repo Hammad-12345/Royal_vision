@@ -313,7 +313,7 @@ console.log(inactivePlans)
                   <div className="bg-gradient-to-br from-[#0F1120] to-[#070c3e] p-4 rounded-lg">
                     <h4 className="text-gray-400 text-sm">Action</h4>
                     <button
-                      onClick={() => navigate(`/deposit/${plan.name}`)}
+                      onClick={() => navigate(`/Deposit/${plan.name}`)}
                       className="text-blue-400 hover:text-blue-300 font-semibold"
                     >
                       Start Investing →

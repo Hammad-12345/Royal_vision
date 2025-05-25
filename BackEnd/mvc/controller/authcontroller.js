@@ -52,7 +52,7 @@ const register = async (req, res) => {
     });
 
     const mailOptions = {
-      from: '"Overland Solutions" <overlandsolutions@gmail.com>',
+      from: '"Overland Solutions" <overlandssolutions@gmail.com>',
       to: EmailAddress,
       subject: "Welcome to Overland Solutions",
       html: `
@@ -151,7 +151,7 @@ const login = async (req, res) => {
     });
 
     const mailOptions = {
-      from: `"Overland Solutions"`,
+      from: `"Overland Solutions <overlandssolutions@gmail.com>"`,
       to: email,
       subject: "Your OTP Code for Login",
       html: `<div style="max-width: 600px; margin: auto; font-family: 'Poppins', sans-serif; border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden;">

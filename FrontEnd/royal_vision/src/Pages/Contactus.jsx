@@ -48,7 +48,7 @@ const Contactus = () => {
           <path d="M3 3H21C21.5523 3 22 3.44772 22 4V20C22 20.5523 21.5523 21 21 21H3C2.44772 21 2 20.5523 2 20V4C2 3.44772 2.44772 3 3 3ZM20 7.23792L12.0718 14.338L4 7.21594V19H20V7.23792ZM4.51146 5L12.0619 11.662L19.501 5H4.51146Z"></path>
         </svg>
       ),
-      text: "overland1234@gmail.com",
+      text: "overlandssolutions@gmail.com",
     },
     {
       title: "Visit us",
@@ -63,7 +63,7 @@ const Contactus = () => {
           <path d="M18.364 17.364L12 23.7279L5.63604 17.364C2.12132 13.8492 2.12132 8.15076 5.63604 4.63604C9.15076 1.12132 14.8492 1.12132 18.364 4.63604C21.8787 8.15076 21.8787 13.8492 18.364 17.364ZM12 13C13.1046 13 14 12.1046 14 11C14 9.89543 13.1046 9 12 9C10.8954 9 10 9.89543 10 11C10 12.1046 10.8954 13 12 13Z"></path>
         </svg>
       ),
-      text: "#65 Street, Overland Plaza, Rawalpindi",
+      text: "Sheikh Zayed Road,Trade center 2,Dubai opposite The monarch Hotel Zip code 9292",
     },
   ];
   const onSubmit = (data) => {
