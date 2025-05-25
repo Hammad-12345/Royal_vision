@@ -2,7 +2,7 @@ const express = require("express");
 const dashboardrouter = express.Router();
 const { createDeposit, fetchallinvestment, updateProfile } = require("../controller/dashboardcomtroller");
 const jwt = require("jsonwebtoken");
-const { verifyToken } = require("../Middleware/auth");
+const { verifyToken } = require("../middleware/auth");
 
 
 

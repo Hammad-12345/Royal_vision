@@ -87,7 +87,7 @@ const Header = () => {
               {/* Mobile Menu Icon */}
               <button
                 onClick={() => {!token ? setMenuOpen(!menuOpen) : setSidebarOpen(!sidebarOpen)}}
-                className="text-gray-400 hover:text-white transition-colors lg:hidden"
+                className={`text-gray-400 hover:text-white transition-colors ${!token ? 'lg:hidden' : ''}`}
               >
                 <FaBars size={24} />
               </button>
