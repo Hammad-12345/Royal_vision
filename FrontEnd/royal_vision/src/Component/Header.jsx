@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { FaBars, FaTachometerAlt, FaMoneyCheckAlt, FaDownload, FaUpload, FaHistory, FaSignOutAlt, FaWallet, FaHome, FaUserCircle, FaBell } from "react-icons/fa";
@@ -53,9 +53,14 @@ const Header = () => {
 
   const userDisplayName = useMemo(() => user?.Name?.split(" ")[1] || "User", [user?.Name]);
 
+  // Add effect to close mobile menu on navigation
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [location.pathname]);
+
   return (
     <>
-      <header className="fixed top-0 left-0 w-full text-white shadow-lg z-50 bg-gradient-to-r from-black via-blue-950 to-black">
+      <header className="fixed top-0 left-0 w-full text-white shadow-lg z-50 bg-gradient-to-r from-black via-blue-950 to-black font-poppins">
         <div className="w-full px-4 sm:px-6 lg:px-8 py-2">
           <div className="flex justify-between items-center relative">
             {/* Logo Section */}
@@ -122,7 +127,7 @@ const Header = () => {
             </div>
 
             {/* Header Right Section (Icons and User) */}
-            <div className="hidden lg:flex items-center space-x-6 relative">
+            <div className="flex items-center space-x-6 relative">
               {!token ? (
                 <Link
                   to={"/signin"}
@@ -138,19 +143,18 @@ const Header = () => {
                   >
                     <FaBars size={24} />
                   </button>
-                   {/* Notification Icon */}
+                  {/* Notification Icon */}
                   <div className="relative">
                     <FaBell
                       onClick={toggleNotificationPopover}
                       className="text-xl text-gray-400 cursor-pointer hover:text-white transition-colors"
                     />
-                     {showNotificationPopover && (
+                    {showNotificationPopover && (
                       <div className="absolute right-0 mt-2 w-64 bg-[#1b1f2a] text-white rounded shadow-lg z-20">
-                         <div className="px-4 py-2 border-b border-gray-700 font-semibold">
+                        <div className="px-4 py-2 border-b border-gray-700 font-semibold">
                           Notifications
                         </div>
                         <ul className="max-h-60 overflow-auto">
-                          {/* Notification items will go here */}
                           <li className="px-4 py-2 text-sm text-gray-400">No new notifications</li>
                         </ul>
                       </div>
@@ -172,46 +176,29 @@ const Header = () => {
                       ) : (
                         <FaUserCircle className="text-2xl text-gray-400" />
                       )}
-                      <div className="text-sm font-poppins hidden md:block">{userDisplayName}</div>
+                      <div className="text-sm font-poppins">{userDisplayName}</div>
                     </div>
-                     {showUserPopover && (
-                       <div className="absolute right-0 mt-2 w-48 bg-[#1b1f2a] text-white rounded shadow-lg z-20">
-                       <ul>
-                         <li className="flex items-center px-4 py-2 hover:bg-gray-700 cursor-pointer">
-                           <FaUserCircle className="mr-2" />
-                           <Link to="/account">Account</Link>
-                         </li>
-                         <li
-                           className="flex items-center px-4 py-2 hover:bg-gray-700 cursor-pointer"
-                           onClick={handleLogout}
-                         >
-                           <FaSignOutAlt className="mr-2" />
-                           <span>Logout</span>
-                         </li>
-                       </ul>
-                     </div>
+                    {showUserPopover && (
+                      <div className="absolute right-0 mt-2 w-48 bg-[#1b1f2a] text-white rounded shadow-lg z-20">
+                        <ul>
+                          <li className="flex items-center px-4 py-2 hover:bg-gray-700 cursor-pointer">
+                            <FaUserCircle className="mr-2" />
+                            <Link to="/account">Account</Link>
+                          </li>
+                          <li
+                            className="flex items-center px-4 py-2 hover:bg-gray-700 cursor-pointer"
+                            onClick={handleLogout}
+                          >
+                            <FaSignOutAlt className="mr-2" />
+                            <span>Logout</span>
+                          </li>
+                        </ul>
+                      </div>
                     )}
                   </div>
                 </>
               )}
             </div>
-
-            {/* Hamburger Icon (Mobile) */}
-            <button
-              className="lg:hidden z-50"
-              onClick={() => setMenuOpen(!menuOpen)}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                width={28}
-                height={28}
-                className="text-white"
-              >
-                <path d="M3 4H21V6H3V4ZM3 11H21V13H3V11ZM3 18H21V20H3V18Z"></path>
-              </svg>
-            </button>
           </div>
         </div>
       </header>
@@ -271,6 +258,52 @@ const Header = () => {
           </nav>
         </aside>
       )}
+
+      {/* Mobile Sidebar */}
+      <div
+        className={`fixed inset-y-0 right-0 w-64 bg-[#1b1f2a] transform transition-transform duration-300 ease-in-out z-50 lg:hidden ${
+          sidebarOpen ? "translate-x-0" : "translate-x-full"
+        }`}
+      >
+        <div className="p-4">
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-xl font-semibold text-white">Menu</h2>
+            <button
+              onClick={() => setSidebarOpen(false)}
+              className="text-gray-400 hover:text-white"
+            >
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+          </div>
+          <nav className="space-y-2">
+            {sidebarLinks.map((link, index) => (
+              <Link
+                key={index}
+                to={link.path}
+                className={`flex items-center px-4 py-2 text-gray-400 hover:text-white transition-colors rounded-lg ${
+                  isActive(link.path) ? "bg-gray-700 text-white" : ""
+                }`}
+                onClick={() => setSidebarOpen(false)}
+              >
+                <span className="mr-3">{link.icon}</span>
+                {link.label}
+              </Link>
+            ))}
+          </nav>
+        </div>
+      </div>
     </>
   );
 };

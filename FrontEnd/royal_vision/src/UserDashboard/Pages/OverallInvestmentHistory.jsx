@@ -75,18 +75,18 @@ const OverallInvestmentHistory = () => {
     fetchInvestments();
   }, []);
   return (
-    <div>
+    <div className="w-full block">
       <div className='flex justify-between items-center'>
-      <h1 className="text-2xl font-bold text-white mb-4">Deposit History</h1>
-      <h1 className="text-lg font-bold text-white mb-4">Total {data.length}</h1>
+      <h1 className="text-xl sm:text-2xl font-bold text-white mb-3 sm:mb-4">Deposit History</h1>
+      <h1 className="text-base sm:text-lg font-bold text-white mb-3 sm:mb-4">Total {data.length}</h1>
       </div>
       <Table data={dataToShow} columns={columns} pagination={isHome? false:true} />
 
       {isHome && (
-        <div className="mt-4 text-right">
+        <div className="mt-3 sm:mt-4 text-right">
           <button
             onClick={() => navigate('/investment-history')}
-            className="text-blue-400 hover:underline"
+            className="text-blue-400 hover:underline text-sm sm:text-base"
           >
             View All
           </button>

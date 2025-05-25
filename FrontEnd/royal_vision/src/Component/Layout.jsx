@@ -87,7 +87,11 @@ const Layout = () => {
         {!isHomePage && (
           <TemplateImage currentPage={getCurrentPage(location.pathname)} />
         )}
-        <div className={`font-poppins bg-gradient-to-r from-black via-blue-950 to-black ${location.pathname !== "/" && location.pathname !== "/faqs" && location.pathname !== "/contact" && "p-8 text-white"}`}>
+        <div className={`font-poppins bg-gradient-to-r from-black via-blue-950 to-black ${
+          location.pathname !== "/" && location.pathname !== "/faqs" && location.pathname !== "/contact" 
+          ? "px-4 sm:px-6 lg:px-8 py-8 text-white" 
+          : ""
+        }`}>
           <Outlet />
         </div>
         <Footer />
@@ -96,7 +100,7 @@ const Layout = () => {
 
         {/* Scroll to top button */}
         <div
-          className={`size-14 text-white flex justify-center items-center rounded-full fixed z-50 bottom-6 right-6 bg-blue-600 font-semibold cursor-pointer transition-all duration-300 ${
+          className={`size-12 sm:size-14 text-white flex justify-center items-center rounded-full fixed z-50 bottom-4 sm:bottom-6 right-4 sm:right-6 bg-blue-600 font-semibold cursor-pointer transition-all duration-300 ${
             showScrollTop
               ? "opacity-100 translate-y-0"
               : "opacity-0 translate-y-10"
@@ -105,10 +109,11 @@ const Layout = () => {
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            width={22}
-            height={22}
+            width={20}
+            height={20}
             viewBox="0 0 24 24"
             fill="currentColor"
+            className="sm:w-[22px] sm:h-[22px]"
           >
             <path d="M11.9999 10.8284L7.0502 15.7782L5.63599 14.364L11.9999 8L18.3639 14.364L16.9497 15.7782L11.9999 10.8284Z"></path>
           </svg>

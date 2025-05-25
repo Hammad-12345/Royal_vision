@@ -5,7 +5,7 @@ import { Pie } from "react-chartjs-2";
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 // Chart Data (Placeholder)
-export const data = {
+const defaultData = {
   labels: ["Profit", "Withdrawal"],
   datasets: [
     {
@@ -25,19 +25,18 @@ export const data = {
 };
 
 // Chart Options
-export const options = {
+const options = {
     responsive: true,
-    maintainAspectRatio: false, // Allow custom height
+    maintainAspectRatio: false,
     plugins: {
       legend: {
         position: "top",
         labels: {
           color: "#fff",
           font: {
-            size: 14,
-            weight: "500",
+            size: window.innerWidth < 640 ? 12 : 14,
           },
-          padding: 20,
+          padding: window.innerWidth < 640 ? 10 : 20,
         },
       },
       title: {
@@ -45,11 +44,10 @@ export const options = {
         text: "Profit vs Withdrawal",
         color: "#fff",
         font: {
-          size: 20,
-          weight: "600",
+          size: window.innerWidth < 640 ? 16 : 20,
         },
         padding: {
-          bottom: 20,
+          bottom: window.innerWidth < 640 ? 10 : 20,
         },
       },
       tooltip: {
@@ -64,12 +62,20 @@ export const options = {
     },
   };
 
-const ProfitWithdrawalChart = () => {
+const ProfitWithdrawalChart = ({ data = defaultData }) => {
+  const hasData = data?.datasets?.[0]?.data?.some(value => value > 0) ?? false;
+
   return (
-    <div className="bg-gradient-to-br from-[#0F1120] to-[#070c3e] rounded-2xl p-6 shadow-lg text-white ">
-      <h2 className="text-xl font-bold mb-4">Profit vs Withdrawal</h2>
-      <div className="w-full h-[300px]"> {/* Set custom height here, smaller for pie chart */}
-        <Pie data={data} options={options} />
+    <div className="bg-gradient-to-br from-[#0F1120] to-[#070c3e] rounded-2xl p-4 sm:p-6 shadow-lg text-white">
+      <h2 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4">Profit vs Withdrawal</h2>
+      <div className="w-full h-[250px] sm:h-[300px]">
+        {hasData ? (
+          <Pie data={data} options={options} />
+        ) : (
+          <div className="h-full flex items-center justify-center text-gray-400">
+            No data available
+          </div>
+        )}
       </div>
     </div>
   );

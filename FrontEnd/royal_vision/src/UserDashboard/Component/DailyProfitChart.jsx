@@ -25,7 +25,7 @@ ChartJS.register(
 );
 
 // Chart Data (Placeholder)
-const data = {
+const defaultData = {
   labels: [
     "Day 1", "Day 2", "Day 3", "Day 4", "Day 5", "Day 6", "Day 7"
   ],
@@ -46,12 +46,16 @@ const data = {
 // Chart Options
 const options = {
     responsive: true,
-    maintainAspectRatio: false, // Allow custom height
+    maintainAspectRatio: false,
     plugins: {
       legend: {
         position: "top",
         labels: {
           color: "#fff",
+          font: {
+            size: window.innerWidth < 640 ? 12 : 14,
+          },
+          padding: window.innerWidth < 640 ? 10 : 20,
         },
       },
       title: {
@@ -59,7 +63,7 @@ const options = {
         text: "Daily Profits",
         color: "#fff",
         font: {
-          size: 20,
+          size: window.innerWidth < 640 ? 16 : 20,
         },
       },
       tooltip: {
@@ -78,12 +82,20 @@ const options = {
     },
     scales: {
       x: {
-        ticks: { color: "#fff" },
+        ticks: { 
+          color: "#fff",
+          font: {
+            size: window.innerWidth < 640 ? 10 : 12,
+          },
+        },
         grid: { color: "#2D3748" },
       },
       y: {
         ticks: {
           color: "#fff",
+          font: {
+            size: window.innerWidth < 640 ? 10 : 12,
+          },
           callback: function (value) {
             return `${value} $`;
           },
@@ -93,15 +105,22 @@ const options = {
     },
   };
   
+const DailyProfitChart = ({ data = defaultData }) => {
+  const hasData = data?.datasets?.[0]?.data?.some(value => value > 0) ?? false;
 
-const DailyProfitChart = () => {
   return (
-    <div className="bg-gradient-to-br from-[#0F1120] to-[#070c3e] rounded-2xl p-6 shadow-lg text-white">
-    <h2 className="text-xl font-bold mb-4">Daily Profits</h2>
-    <div className="w-full h-[300px]"> {/* Set custom height here */}
-      <Line data={data} options={options} />
+    <div className="bg-gradient-to-br from-[#0F1120] to-[#070c3e] rounded-2xl p-4 sm:p-6 shadow-lg text-white">
+      <h2 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4">Daily Profits</h2>
+      <div className="w-full h-[250px] sm:h-[300px]">
+        {hasData ? (
+          <Line data={data} options={options} />
+        ) : (
+          <div className="h-full flex items-center justify-center text-gray-400">
+            No data available
+          </div>
+        )}
+      </div>
     </div>
-  </div>
   );
 };
 

@@ -63,21 +63,21 @@ const Retrodrops = () => {
         <MetricCard
           icon={FaMoneyBillWave}
           title="Total Profit"
-          value={<span className="text-green-400">30% ($30)</span>}
+          value={<span className="text-green-400">$0</span>}
           color="text-green-400"
         />
         
         <MetricCard
           icon={FaCalendarAlt}
           title="Today's Profit"
-          value={<span className="text-green-400">2.1% ($2.10)</span>}
+          value={<span className="text-green-400">$0</span>}
           color="text-green-400"
         />
         
         <MetricCard
           icon={FaWallet}
           title="Total Withdrawal"
-          value={<span className="text-blue-400">$10</span>}
+          value={<span className="text-blue-400">$0</span>}
           color="text-blue-400"
         />
       </div>

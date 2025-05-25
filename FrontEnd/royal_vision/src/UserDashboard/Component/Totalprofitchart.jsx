@@ -23,7 +23,7 @@ ChartJS.register(
 );
 
 // Dummy monthly profit data
-const data = {
+const defaultData = {
   labels: [
     "Jan", "Feb", "Mar", "Apr", "May", "Jun",
     "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
@@ -49,6 +49,10 @@ const options = {
       position: "top",
       labels: {
         color: "#fff",
+        font: {
+          size: window.innerWidth < 640 ? 12 : 14,
+        },
+        padding: window.innerWidth < 640 ? 10 : 20,
       },
     },
     title: {
@@ -56,7 +60,7 @@ const options = {
       text: "Monthly Total Profit",
       color: "#fff",
       font: {
-        size: 20,
+        size: window.innerWidth < 640 ? 16 : 20,
       },
     },
     tooltip: {
@@ -67,12 +71,20 @@ const options = {
   },
   scales: {
     x: {
-        ticks: { color: "#fff" },
-        grid: { color: "#2D3748" },
+      ticks: { 
+        color: "#fff",
+        font: {
+          size: window.innerWidth < 640 ? 10 : 12,
+        },
+      },
+      grid: { color: "#2D3748" },
     },
     y: {
       ticks: {
         color: "#fff",
+        font: {
+          size: window.innerWidth < 640 ? 10 : 12,
+        },
         callback: (value) => `$${value}`,
       },
       grid: { color: "#2D3748" },
@@ -80,12 +92,20 @@ const options = {
   },
 };
 
-const Totalprofitchart = () => {
+const Totalprofitchart = ({ data = defaultData }) => {
+  const hasData = data?.datasets?.[0]?.data?.some(value => value > 0) ?? false;
+
   return (
-    <div className="bg-gradient-to-br from-[#0F1120] to-[#070c3e] rounded-2xl p-6 shadow-lg text-white">
-      <h2 className="text-xl font-bold mb-4">Total Profit (Monthly)</h2>
-      <div className="w-full h-[300px]">
-        <Line data={data} options={options} />
+    <div className="bg-gradient-to-br from-[#0F1120] to-[#070c3e] rounded-2xl p-4 sm:p-6 shadow-lg text-white">
+      <h2 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4">Total Profit (Monthly)</h2>
+      <div className="w-full h-[250px] sm:h-[300px]">
+        {hasData ? (
+          <Line data={data} options={options} />
+        ) : (
+          <div className="h-full flex items-center justify-center text-gray-400">
+            No data available
+          </div>
+        )}
       </div>
     </div>
   );

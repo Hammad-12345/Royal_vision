@@ -10,24 +10,22 @@ const Footer = () => {
 
   return (
     <footer
-      className=" text-white border-t border-blue-950 font-poppins bg-gradient-to-r from-black via-blue-950 to-black  bg-cover bg-center relative"
-      // style={{
-      //   backgroundImage: `url(https://overlandresources.s3.eu-north-1.amazonaws.com/Banner1.jpg)`,
-      //   backgroundColor: "rgba(31, 41, 55, 0.75)",
-      //   backgroundBlendMode: "multiply",
-      // }}
+      className="text-white border-t border-blue-950 font-poppins bg-gradient-to-r from-black via-blue-950 to-black bg-cover bg-center relative"
     >
-      <div>
-        <div className="w-full flex flex-col items-center justify-between space-y-6 py-8">
+      <div className="max-w-7xl mx-auto">
+        <div className="w-full flex flex-col items-center justify-between space-y-6 py-8 px-4 sm:px-6 lg:px-8">
           <div className="text-2xl flex flex-col items-center text-white hover:text-blue-200 transition-colors font-poppins">
-          <img src="https://d3hwx9f38knfi9.cloudfront.net/logodesign.png"  className="w-16 h-16"
-             alt="" srcset="" />
-             <span className="text-[10px] uppercase">Overland Solutions</span>
+            <img 
+              src="https://d3hwx9f38knfi9.cloudfront.net/logodesign.png"  
+              className="w-14 h-14 sm:w-16 sm:h-16"
+              alt="Overland Solutions Logo" 
+            />
+            <span className="text-[10px] uppercase mt-1">Overland Solutions</span>
           </div>
-          <div className="flex justify-center w-full space-x-12">
+          <div className="flex flex-wrap justify-center w-full gap-6 sm:gap-12">
             <NavLink
               to="/faqs"
-              className={`text-lg font-medium relative group ${
+              className={`text-base sm:text-lg font-medium relative group ${
                 isActive("/faqs") ? "text-blue-400" : "hover:text-blue-400"
               }`}
             >
@@ -42,7 +40,7 @@ const Footer = () => {
             </NavLink>
             <NavLink
               to="/how-it-works"
-              className={`text-lg font-medium relative group ${
+              className={`text-base sm:text-lg font-medium relative group ${
                 isActive("/how-it-works")
                   ? "text-blue-400"
                   : "hover:text-blue-400"
@@ -59,7 +57,7 @@ const Footer = () => {
             </NavLink>
             <NavLink
               to="/policy"
-              className={`text-lg font-medium relative group ${
+              className={`text-base sm:text-lg font-medium relative group ${
                 isActive("/policy") ? "text-blue-400" : "hover:text-blue-400"
               }`}
             >
@@ -74,24 +72,24 @@ const Footer = () => {
             </NavLink>
           </div>
         </div>
-        <div className="flex lg:flex-row flex-col space-y-4 lg:items-start items-center  lg:justify-between py-8 border-t border-gray-800 px-6">
+        <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:items-center sm:justify-between py-8 border-t border-gray-800 px-4 sm:px-6 lg:px-8">
           {/* Copyright Text */}
-          <div className="text-center text-gray-400 text-lg">
+          <div className="text-center sm:text-left text-gray-400 text-base sm:text-lg">
             <p>
               © {new Date().getFullYear()}{" "}
-              <span className="text-blue-200"> Overland Solutions. </span> All rights
+              <span className="text-blue-200">Overland Solutions.</span> All rights
               reserved.
             </p>
           </div>
           {/* Social Icons */}
-          <div className="flex space-x-6">
+          <div className="flex justify-center sm:justify-end space-x-6">
             <a
               href="https://facebook.com"
               target="_blank"
               rel="noopener noreferrer"
               className="text-white hover:text-blue-200 transition-colors"
             >
-              <FaFacebook size={24} />
+              <FaFacebook size={20} className="sm:w-6 sm:h-6" />
             </a>
             <a
               href="https://twitter.com"
@@ -99,7 +97,7 @@ const Footer = () => {
               rel="noopener noreferrer"
               className="text-white hover:text-blue-200 transition-colors"
             >
-              <FaTwitter size={24} />
+              <FaTwitter size={20} className="sm:w-6 sm:h-6" />
             </a>
             <a
               href="https://instagram.com"
@@ -107,7 +105,7 @@ const Footer = () => {
               rel="noopener noreferrer"
               className="text-white hover:text-blue-200 transition-colors"
             >
-              <FaInstagram size={24} />
+              <FaInstagram size={20} className="sm:w-6 sm:h-6" />
             </a>
             <a
               href="https://linkedin.com"
@@ -115,11 +113,10 @@ const Footer = () => {
               rel="noopener noreferrer"
               className="text-white hover:text-blue-200 transition-colors"
             >
-              <FaLinkedin size={24} />
+              <FaLinkedin size={20} className="sm:w-6 sm:h-6" />
             </a>
           </div>
         </div>
-        <div></div>
       </div>
     </footer>
   );

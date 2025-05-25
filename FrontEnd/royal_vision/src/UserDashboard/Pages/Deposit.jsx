@@ -82,7 +82,7 @@ const Deposit = () => {
         paymentMethod: submittedData.paymentMethod,
         depositAddress: selectedPayment?.address,
         screenshot: screenshotUrl,
-        paymentMode: "active",
+        paymentMode: "pending",
       };
 
       const response = await fetch("http://localhost:8080/dashboard/deposit", {
@@ -113,170 +113,153 @@ const Deposit = () => {
   );
 
   return (
-    
-    <div className="max-w-2xl mx-auto p-8 bg-gradient-to-r from-black via-blue-950 to-blue-600 rounded-lg shadow-md text-white">
-      {!showPaymentDetails ? (
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-          {/* Plan Selection */}{" "}
-          <h2 className="text-3xl font-semibold text-center mb-6">
-            Deposit Funds
-          </h2>
-          <div>
-            <label className="block font-medium mb-2">
-              Select Investment Plan
-            </label>
-            <select
-              {...register("plan", { required: "Plan is required" })}
-              onChange={handlePlanChange}
-              className="w-full px-4 py-2 bg-transparent border border-gray-300 rounded-md"
-            >
-              <option value="" disabled>
-                Select plan
-              </option>
-              {plans.map((plan) => (
-                <option
-                  key={plan.name}
-                  value={plan.name}
-                  className="text-black"
-                >
-                  {plan.name}
-                </option>
-              ))}
-            </select>
-            {errors.plan && (
-              <p className="text-red-500 text-sm">{errors.plan.message}</p>
-            )}
-          </div>
-          {/* Minimum Investment Info */}
-          <p>
-            Minimum Investment: <strong>{selectedPlan.mininvest}</strong>
-          </p>
-          {/* Amount */}
-          <div>
-            <label className="block font-medium mb-2">Deposit Amount ($)</label>
-            <input
-              type="number"
-              {...register("amount", {
-                required: "Amount is required",
-                min: {
-                  value: parseInt(selectedPlan.mininvest.replace("$", "")),
-                  message: `Minimum is ${selectedPlan.mininvest}`,
-                },
-              })}
-              className="w-full px-4 py-2 bg-transparent border rounded-md text-white"
-              placeholder={`Min ${selectedPlan.mininvest}`}
-            />
-            {errors.amount && (
-              <p className="text-red-500 text-sm">{errors.amount.message}</p>
-            )}
-          </div>
-          {/* Payment Method */}
-          <div>
-            <label className="block font-medium mb-2">Payment Method</label>
-            <select
-              {...register("paymentMethod", {
-                required: "Payment method is required",
-              })}
-              className="w-full px-4 py-2 bg-transparent border rounded-md"
-            >
-              <option value="" disabled>
-                Select method
-              </option>
-              {paymentMethods.map((method) => (
-                <option
-                  key={method.name}
-                  value={method.name}
-                  className="text-black"
-                >
-                  {method.name}
-                </option>
-              ))}
-            </select>
-            {errors.paymentMethod && (
-              <p className="text-red-500 text-sm">
-                {errors.paymentMethod.message}
-              </p>
-            )}
-          </div>
-          {/* Submit */}
-          <button
-            type="submit"
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-md"
-          >
-            Submit Deposit
-          </button>
-        </form>
-      ) : (
-        // Payment Confirmation Form
-        <form
-          onSubmit={handleSecondFormSubmit}
-          className="flex flex-col items-center space-y-4  rounded-lg"
-        >
-          <h2 className="text-xl font-semibold text-white mb-4">
-            Deposit USDT
-          </h2>
-
-          {/* QR Code */}
-          {/* <div className="bg-white p-2 rounded">
-            <img
-              src="https://overlandresources.s3.eu-north-1.amazonaws.com/qr+code.png"
-              alt="QR Code"
-              className="w-48 h-48 object-contain"
-            />
-          </div> */}
-
-          {/* Network */}
-          <div className="w-full">
-            <label className="text-gray-400 text-sm">Network</label>
-            <div className="flex items-center justify-between border border-gray-600 bg-transparent px-3 py-2 rounded mt-1 text-white">
-              <span>{submittedData.paymentMethod}</span>
-            </div>
-          </div>
-
-          {/* Deposit Address */}
-          <div className="w-full">
-            <label className="text-gray-400 text-sm">Deposit Address</label>
-            <div className="relative">
-              <input
-                type="text"
-                readOnly
-                value={selectedPayment?.address || ""}
-                className="w-full bg-transparent border border-gray-600 rounded px-3 py-2 text-white pr-10"
-              />
-              <button
-                type="button"
-                onClick={() => {
-                  navigator.clipboard.writeText(selectedPayment?.address || "");
-                  toast.success("Address copied to clipboard");
-                }}
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-white hover:text-blue-400"
-                title="Copy"
+    <div className="w-full px-4 sm:px-6 md:px-8 py-4 sm:py-6 md:py-8">
+      <div className="max-w-2xl mx-auto bg-gradient-to-r from-black via-blue-950 to-blue-600 rounded-lg shadow-md text-white p-4 sm:p-6 md:p-8">
+        {!showPaymentDetails ? (
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 sm:space-y-6">
+            <h2 className="text-2xl sm:text-3xl font-semibold text-center mb-4 sm:mb-6">
+              Deposit Funds
+            </h2>
+            <div>
+              <label className="block font-medium mb-2 text-sm sm:text-base">
+                Select Investment Plan
+              </label>
+              <select
+                {...register("plan", { required: "Plan is required" })}
+                onChange={handlePlanChange}
+                className="w-full px-3 sm:px-4 py-2 bg-transparent border border-gray-300 rounded-md text-sm sm:text-base"
               >
-                <FaRegCopy />
-              </button>
+                <option value="" disabled>
+                  Select plan
+                </option>
+                {plans.map((plan) => (
+                  <option
+                    key={plan.name}
+                    value={plan.name}
+                    className="text-black"
+                  >
+                    {plan.name}
+                  </option>
+                ))}
+              </select>
+              {errors.plan && (
+                <p className="text-red-500 text-xs sm:text-sm mt-1">{errors.plan.message}</p>
+              )}
             </div>
-          </div>
-
-          {/* Upload Screenshot */}
-          <div className="w-full">
-            <label className="text-gray-400 text-sm">Upload Screenshot</label>
-            <input
-              type="file"
-              accept="image/*"
-              onChange={(e) => setScreenshot(e.target.files[0])}
-              className="w-full text-white mt-1"
-              required
-            />
-          </div>
-
-          <button
-            type="submit"
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-md"
+            <p className="text-sm sm:text-base">
+              Minimum Investment: <strong>{selectedPlan.mininvest}</strong>
+            </p>
+            <div>
+              <label className="block font-medium mb-2 text-sm sm:text-base">Deposit Amount ($)</label>
+              <input
+                type="number"
+                {...register("amount", {
+                  required: "Amount is required",
+                  min: {
+                    value: parseInt(selectedPlan.mininvest.replace("$", "")),
+                    message: `Minimum is ${selectedPlan.mininvest}`,
+                  },
+                })}
+                className="w-full px-3 sm:px-4 py-2 bg-transparent border rounded-md text-white text-sm sm:text-base"
+                placeholder={`Min ${selectedPlan.mininvest}`}
+              />
+              {errors.amount && (
+                <p className="text-red-500 text-xs sm:text-sm mt-1">{errors.amount.message}</p>
+              )}
+            </div>
+            <div>
+              <label className="block font-medium mb-2 text-sm sm:text-base">Payment Method</label>
+              <select
+                {...register("paymentMethod", {
+                  required: "Payment method is required",
+                })}
+                className="w-full px-3 sm:px-4 py-2 bg-transparent border rounded-md text-sm sm:text-base"
+              >
+                <option value="" disabled>
+                  Select method
+                </option>
+                {paymentMethods.map((method) => (
+                  <option
+                    key={method.name}
+                    value={method.name}
+                    className="text-black"
+                  >
+                    {method.name}
+                  </option>
+                ))}
+              </select>
+              {errors.paymentMethod && (
+                <p className="text-red-500 text-xs sm:text-sm mt-1">
+                  {errors.paymentMethod.message}
+                </p>
+              )}
+            </div>
+            <button
+              type="submit"
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-md text-sm sm:text-base transition-colors duration-200"
+            >
+              Submit Deposit
+            </button>
+          </form>
+        ) : (
+          <form
+            onSubmit={handleSecondFormSubmit}
+            className="flex flex-col items-center space-y-4 sm:space-y-6 rounded-lg"
           >
-            Save and Share Address
-          </button>
-        </form>
-      )}
+            <h2 className="text-lg sm:text-xl font-semibold text-white mb-4">
+              Deposit USDT
+            </h2>
+
+            <div className="w-full">
+              <label className="text-gray-400 text-xs sm:text-sm">Network</label>
+              <div className="flex items-center justify-between border border-gray-600 bg-transparent px-3 py-2 rounded mt-1 text-white text-sm sm:text-base">
+                <span>{submittedData.paymentMethod}</span>
+              </div>
+            </div>
+
+            <div className="w-full">
+              <label className="text-gray-400 text-xs sm:text-sm">Deposit Address</label>
+              <div className="relative">
+                <input
+                  type="text"
+                  readOnly
+                  value={selectedPayment?.address || ""}
+                  className="w-full bg-transparent border border-gray-600 rounded px-3 py-2 text-white pr-10 text-sm sm:text-base"
+                />
+                <button
+                  type="button"
+                  onClick={() => {
+                    navigator.clipboard.writeText(selectedPayment?.address || "");
+                    toast.success("Address copied to clipboard");
+                  }}
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-white hover:text-blue-400 transition-colors duration-200"
+                  title="Copy"
+                >
+                  <FaRegCopy />
+                </button>
+              </div>
+            </div>
+
+            <div className="w-full">
+              <label className="text-gray-400 text-xs sm:text-sm">Upload Screenshot</label>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) => setScreenshot(e.target.files[0])}
+                className="w-full text-white mt-1 text-sm sm:text-base"
+                required
+              />
+            </div>
+
+            <button
+              type="submit"
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-md text-sm sm:text-base transition-colors duration-200"
+            >
+              Save and Share Address
+            </button>
+          </form>
+        )}
+      </div>
     </div>
   );
 };
