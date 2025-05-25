@@ -5,17 +5,17 @@ const OverviewMission = () => {
     {
       Title: "Overview",
       paragraph:
-        "Overland Solutions is a modern investment firm offering diverse, high-potential opportunities across a range of markets....",
+        " Unlock Your Financial Freedom with Overland Solution! We ignite your investment journey, fueling your growth with expert guidance and proven strategies. Start with a single step, and we'll empower you to soar. Join our community of savvy investors and transform your financial future today!",
     },
     {
       Title: "Mission",
       paragraph:
-        "Empowering financial success through innovative solutions, advanced analytics, and personalized strategies.",
+        "Empowering financial success through innovative solutions, advanced analytics, and personalized strategies..",
     },
     {
       Title: "Vision",
       paragraph:
-        "Empowering inclusive financial access for all, from beginners to experts, through smart investing and sustainable ecosystems.",
+        " To attain global leadership as the premier investment partner, distinguished by exceptional performance, unwavering integrity, and unrelenting commitment to client success.",
     },
   ];
   return (

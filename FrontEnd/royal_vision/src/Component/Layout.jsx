@@ -12,11 +12,19 @@ const Layout = () => {
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [isSplashVisible, setIsSplashVisible] = useState(true);
 
+  // Function to get the current page name
+  const getCurrentPage = (pathname) => {
+    if (pathname.includes('Deposit')) {
+      return 'Deposit';
+    }
+    return pathname.slice(1);
+  };
+
   useEffect(() => {
     setIsSplashVisible(true);
     const timer = setTimeout(() => {
       setIsSplashVisible(false);
-    }, 1350); // Show splash screen for 2.5 seconds
+    }, 1350);
     return () => clearTimeout(timer);
   }, [location]);
 
@@ -77,7 +85,7 @@ const Layout = () => {
 
         <Header />
         {!isHomePage && (
-          <TemplateImage currentPage={location.pathname.slice(1)} />
+          <TemplateImage currentPage={getCurrentPage(location.pathname)} />
         )}
         <div className={`font-poppins bg-gradient-to-r from-black via-blue-950 to-black ${location.pathname !== "/" && location.pathname !== "/faqs" && location.pathname !== "/contact" && "p-8 text-white"}`}>
           <Outlet />

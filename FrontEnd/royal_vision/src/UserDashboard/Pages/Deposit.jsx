@@ -42,9 +42,10 @@ const Deposit = () => {
       const plan = plans.find(p => p.name.toLowerCase() === id.toLowerCase());
       if (plan) {
         setSelectedPlan(plan);
+        reset({ plan: plan.name });
       }
     }
-  }, [id]);
+  }, [id, reset]);
 
   const onSubmit = (data) => {
     console.log("Deposit Submitted:", data);

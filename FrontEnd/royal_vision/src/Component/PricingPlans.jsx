@@ -27,7 +27,7 @@ const plans = [
   },
   {
     name: "Amazon",
-    text: "Amazon shares investment means buying Amazon stock to benefit from its growth. Investors gain through rising share prices, making it a popular long-term investment due to Amazon’s strong global presence.",
+    text: "Amazon shares investment means buying Amazon stock to benefit from its growth. Investors gain through rising share prices, making it a popular long-term investment due to Amazon's strong global presence.",
     mininvest: "$5000",
     accountType: "Monthly Profit 13% to 15% of earned profit",
     withdrawal: "Monthly",
@@ -215,7 +215,7 @@ const PricingPlans = ({ showAll = false }) => {
           </div>
 
           <div className="mt-8 text-center">
-            <Link to={token ?"/Deposit" :"/signin"} className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-full font-semibold text-lg transition">
+            <Link to={token ? `/Deposit/${selectedPlan.name}` : "/signin"} className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-full font-semibold text-lg transition">
               Deposit Now
             </Link>
           </div>

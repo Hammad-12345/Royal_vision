@@ -2,59 +2,32 @@ import Accordian from "../Component/Accordian";
 
 const faqs = [
   {
-    question: "What is Royal Vision Global Partner?",
-    answer:
-      "Royal Vision Global Partner is a trusted trading firm specializing in Forex, commodities, and digital assets with advanced investment and portfolio services.",
+    question: "What types of projects does Overland Solution offer?",
+    answer: "We offer investment opportunities in various projects, including e-commerce, forex trading, hospitality, natural resources, real estate, and construction.",
   },
   {
-    question: "What services do you offer?",
-    answer:
-      "We provide Forex trading, PAMM account management, crypto-based payment solutions, automated profit distribution, and real-time tracking systems.",
+    question: "How do I invest in Overland Solution projects?",
+    answer: "You can invest in any project that interests you by contacting us directly. Our team will guide you through the investment process.",
   },
   {
-    question: "What is a PAMM Account?",
-    answer:
-      "A PAMM account allows investors to allocate their funds to professional traders who manage the trading. Profits and losses are shared based on percentage allocations.",
+    question: "What kind of returns can I expect?",
+    answer: "Returns vary by project and are outlined in our company policy. We offer dividends and retainers as part of our investment structure.",
   },
   {
-    question: "Is my investment safe with Royal Vision Global Partner?",
-    answer:
-      "Yes, we use SSL encryption, two-factor authentication (2FA), and comply with KYC/AML regulations to ensure your investment is secure.",
+    question: "Who manages these projects?",
+    answer: "Each project is managed by an experienced CEO, and all CEOs report to the CEO of Overland Solution, ensuring accountability and oversight.",
   },
   {
-    question: "Do you accept cryptocurrency payments?",
-    answer:
-      "Yes, we accept various cryptocurrencies to facilitate fast and secure global transactions.",
+    question: "Is my investment secure?",
+    answer: "We strive to provide a secure investment environment, but like any investment, there are risks. We manage these risks through careful project selection and oversight.",
   },
   {
-    question: "How can I get started?",
-    answer:
-      "Contact our support team or register on our website. We will assist you in setting up your account and starting your investment journey.",
+    question: "How do I track my investment performance?",
+    answer: "You'll receive regular updates on your investment performance. You can also contact our team for specific inquiries.",
   },
   {
-    question: "Is there a minimum investment required?",
-    answer:
-      "Yes, minimum investment varies by account type. Please reach out to our team for specific details.",
-  },
-  {
-    question: "Is Percent Allocation Money Management safe?",
-    answer: "Yes, funds are managed professionally with live access.",
-  },
-  {
-    question: "How is the withdrawal process?",
-    answer: "You can withdraw your profits daily.",
-  },
-  {
-    question: "Do I need to know trading?",
-    answer: "No, you just need to invest, the expert handles everything.",
-  },
-  {
-    question: "How can I see the results?",
-    answer: "You can track every movement on the dashboard in realtime.",
-  },
-  {
-    question: "How can I withdraw my profits or funds?",
-    answer: "You need to inform the fund manager at least 90 days before your desired withdrawal date.",
+    question: "Can I invest online or physically?",
+    answer: "Both! We offer opportunities for online and physical investments, providing flexibility for our investors.",
   },
 ];
 

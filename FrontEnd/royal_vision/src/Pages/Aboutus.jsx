@@ -14,12 +14,10 @@ const Aboutus = () => {
             Company Overview
           </h2>
           <p>
-            Overland Solutions is a modern investment firm offering diverse,
-            high-potential opportunities across a range of markets. We focus on
-            innovative ventures and strategic partnerships that drive long-term
-            growth. Guided by core values of transparency, adaptability, and
-            partner empowerment, our mission is to help investors succeed in a
-            constantly evolving financial landscape.
+            Unlock Your Financial Freedom with Overland Solution! We ignite your investment journey, 
+            fueling your growth with expert guidance and proven strategies. Start with a single step, 
+            and we'll empower you to soar. Join our community of savvy investors and transform your 
+            financial future today!
           </p>
         </section>
 
@@ -40,8 +38,8 @@ const Aboutus = () => {
             Vision Statement
           </h2>
           <p>
-            Empowering inclusive financial access for all, from beginners to
-            experts, through smart investing and sustainable ecosystems.
+            To attain global leadership as the premier investment partner, distinguished by exceptional 
+            performance, unwavering integrity, and unrelenting commitment to client success.
           </p>
         </section>
 
@@ -51,11 +49,11 @@ const Aboutus = () => {
             What We Specialize In
           </h2>
           <ul className="list-disc px-5">
-            <li>Forex and Commodities Trading</li>
-            <li>PAMM Account Management</li>
-            <li>Automated Profit Distribution Systems</li>
-            <li>Secure, Crypto-Integrated Transactions</li>
-            <li>Real-Time Portfolio Tracking and Risk Management</li>
+            <li>Investment management</li>
+            <li>Portfolio management</li>
+            <li>Wealth creation</li>
+            <li>Financial planning</li>
+            <li>Business investments</li>
           </ul>
         </section>
 
@@ -63,10 +61,10 @@ const Aboutus = () => {
         <section className="space-y-2">
           <h2 className="text-2xl text-white font-semibold">Our Team</h2>
           <p>
-            Our leadership and team members are composed of financial experts,
-            trading technologists, and strategic advisors with years of
-            experience in the global markets. At Overland Solutions, every team
-            member is committed to your financial growth and success.
+            Our team comprises seasoned professionals with expertise in investment management, finance, 
+            and business development. We're supported by a dynamic think tank that collaborates with 
+            us to drive innovation and excellence. Together, we're dedicated to delivering exceptional 
+            results and empowering our clients to achieve their financial goals.
           </p>
         </section>
 

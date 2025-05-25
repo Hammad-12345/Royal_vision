@@ -12,8 +12,10 @@ import AirbnbHistory from "./Airbnbhistory";
 import Retrodrops from "./Retrodrops";
 import MineralWater from "./MineralWater";
 import AmazonHistory from "./Amazonhistory";
+import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
+  const navigate = useNavigate();
   const [expanded, setExpanded] = useState(null);
   const [cardData, setCardData] = useState([
     { title: "Total Invest", count: 0 },
@@ -311,7 +313,7 @@ console.log(inactivePlans)
                   <div className="bg-gradient-to-br from-[#0F1120] to-[#070c3e] p-4 rounded-lg">
                     <h4 className="text-gray-400 text-sm">Action</h4>
                     <button
-                      onClick={() => (window.location.href = "/deposit")}
+                      onClick={() => navigate(`/deposit/${plan.name}`)}
                       className="text-blue-400 hover:text-blue-300 font-semibold"
                     >
                       Start Investing →
@@ -324,7 +326,7 @@ console.log(inactivePlans)
         ))}
       </div>
     ),
-    [inactivePlans, AccordionItem]
+    [inactivePlans, AccordionItem, navigate]
   );
 
   const memoizedCharts = useMemo(

@@ -58,7 +58,6 @@ function App() {
             <Route path="policy" element={<Policy />} />
             <Route path="how-it-works" element={<HowitsWorks />} />
 
-            {/* Authentication Routes */}
 
             {token && (
               <>
