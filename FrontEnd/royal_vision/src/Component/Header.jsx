@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { FaBars, FaTachometerAlt, FaMoneyCheckAlt, FaDownload, FaUpload, FaHistory, FaSignOutAlt, FaWallet, FaHome, FaUserCircle, FaBell } from "react-icons/fa";
+import { FaBars, FaTachometerAlt, FaMoneyCheckAlt, FaDownload, FaUpload, FaHistory, FaSignOutAlt, FaWallet, FaHome, FaUserCircle, FaBell, FaTimes } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { LoggedOut } from "../Redux/Slice/auth";
 import { useNavigate } from "react-router-dom";
@@ -32,6 +32,14 @@ const Header = () => {
     { label: "How it works", icon: <FaHome />, path: "/how-it-works" },
   ], []);
 
+  const publicLinks = useMemo(() => [
+    { label: "Home", path: "/" },
+    { label: "Plans", path: "/Plans" },
+    { label: "About Us", path: "/about" },
+    { label: "Contact Us", path: "/contact" },
+    { label: "How it Works", path: "/how-it-works" },
+  ], []);
+
   const isActive = useMemo(() => (path) => location.pathname === path, [location.pathname]);
 
   const handleLogout = useMemo(() => () => {
@@ -58,13 +66,13 @@ const Header = () => {
     setMenuOpen(false);
   }, [location.pathname]);
 
-  return (
+  return(
     <>
       <header className="fixed top-0 left-0 w-full text-white shadow-lg z-50 bg-gradient-to-r from-black via-blue-950 to-black font-poppins">
         <div className="w-full px-4 sm:px-6 lg:px-8 py-2">
           <div className="flex justify-between items-center relative">
             {/* Logo Section */}
-            <div className="flex-shrink-0 flex flex-col items-center">
+            <div className="flex-shrink-0 flex items-center space-x-4">
               <Link
                 to="/"
                 className="text-2xl font-bold text-white hover:text-blue-400 transition-colors font-poppins"
@@ -75,7 +83,14 @@ const Header = () => {
                   alt="logo"
                 />
               </Link>
-              <span className="uppercase text-[10px] font-poppins"> Overland Solutions</span>
+              <span className="uppercase text-[10px] font-poppins text-white"> Overland Solutions</span>
+              {/* Mobile Menu Icon */}
+              <button
+                onClick={() => {!token ? setMenuOpen(!menuOpen) : setSidebarOpen(!sidebarOpen)}}
+                className="text-gray-400 hover:text-white transition-colors lg:hidden"
+              >
+                <FaBars size={24} />
+              </button>
             </div>
 
             {/* Center Navigation */}
@@ -137,12 +152,6 @@ const Header = () => {
                 </Link>
               ) : (
                 <>
-                  <button
-                    onClick={() => setSidebarOpen(!sidebarOpen)}
-                    className="text-gray-400 hover:text-white transition-colors"
-                  >
-                    <FaBars size={24} />
-                  </button>
                   {/* Notification Icon */}
                   <div className="relative">
                     <FaBell
@@ -203,6 +212,36 @@ const Header = () => {
         </div>
       </header>
 
+      {/* Mobile Menu for Non-Logged In Users */}
+      {!token && (
+        <div
+          className={`fixed top-[80px] left-0 right-0 w-full bg-gradient-to-r from-black via-blue-950 to-black z-40 transform transform-origin-top p-4 overflow-y-auto max-h-[calc(100vh-80px)] lg:hidden ${
+            menuOpen ? "scale-y-100 opacity-100" : "scale-y-0 opacity-0 pointer-events-none"
+          } transition-transform duration-300 ease-in-out`}
+        >
+          <div className="flex justify-end items-center border-b border-gray-800 pb-4">
+            {/* Close button removed as requested */}
+          </div>
+          <nav className="pt-4">
+            <ul className="space-y-2">
+              {publicLinks.map(({ label, path }) => (
+                <li key={label}>
+                  <Link
+                    to={path}
+                    className={`block px-4 py-2 rounded-md hover:bg-blue-700 transition-colors font-poppins text-white ${
+                      isActive(path) ? "bg-blue-600" : ""
+                    }`}
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    {label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        </div>
+      )}
+
       {/* Sidebar */}
       {token && (
         <aside
@@ -259,7 +298,7 @@ const Header = () => {
         </aside>
       )}
     </>
-  );
+  )
 };
 
 export default Header;
