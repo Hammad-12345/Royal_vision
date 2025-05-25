@@ -20,7 +20,9 @@ const Airbnbhistory = () => {
         if (!res.ok) throw new Error(await res.text());
         const investments = await res.json();
 
-        const airbnbData = investments.filter(item => item.investmentPlan === 'AirBnB');
+        const airbnbData = investments.filter(item => 
+          item.investmentPlan === 'AirBnB' && item.paymentMode === 'active'
+        );
         const total = airbnbData.reduce((sum, item) => sum + (item.price || 0), 0);
         setTotalInvestment(total);
 

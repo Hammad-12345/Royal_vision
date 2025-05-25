@@ -22,7 +22,9 @@ const Retrodropshistory = () => {
         if (!res.ok) throw new Error(await res.text());
         const investments = await res.json();
 
-        const retrodropsData = investments.filter(item => item.investmentPlan === 'Retrodrops');
+        const retrodropsData = investments.filter(item => 
+          item.investmentPlan === 'Retrodrops' && item.paymentMode === 'active'
+        );
         const total = retrodropsData.reduce((sum, item) => sum + (item.price || 0), 0);
         setTotalInvestment(total);
 

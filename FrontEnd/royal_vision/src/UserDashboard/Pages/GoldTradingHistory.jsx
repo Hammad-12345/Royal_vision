@@ -20,8 +20,10 @@ const GoldTradingHistory = () => {
         if (!res.ok) throw new Error(await res.text());
         const investments = await res.json();
 
-        const goldTradingData = investments.filter(item => item.investmentPlan === 'Gold Trading');
-        const total = goldTradingData.reduce((sum, item) => sum + (item.price || 0), 0);
+        const goldData = investments.filter(item => 
+          item.investmentPlan === 'Gold Trading' && item.paymentMode === 'active'
+        );
+        const total = goldData.reduce((sum, item) => sum + (item.price || 0), 0);
         setTotalInvestment(total);
 
       } catch (err) {

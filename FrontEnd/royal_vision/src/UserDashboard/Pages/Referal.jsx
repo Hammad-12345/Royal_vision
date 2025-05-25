@@ -5,10 +5,10 @@ const Referal = () => {
   const [copied, setCopied] = useState(false);
   const referralCode = "ROYAL123"; // This should come from your backend
   const referralStats = {
-    totalReferrals: 5,
-    successfulReferrals: 3,
-    pendingReferrals: 2,
-    rewardsEarned: 150
+    totalReferrals: 0,
+    successfulReferrals: 0,
+    pendingReferrals: 0,
+    rewardsEarned: 0
   };
 
   const handleCopyCode = () => {

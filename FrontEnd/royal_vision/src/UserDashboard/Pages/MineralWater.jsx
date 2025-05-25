@@ -20,7 +20,9 @@ const MineralWater = () => {
         if (!res.ok) throw new Error(await res.text());
         const investments = await res.json();
 
-        const mineralWaterData = investments.filter(item => item.investmentPlan === 'Mineral Water');
+        const mineralWaterData = investments.filter(item => 
+          item.investmentPlan === 'Mineral Water' && item.paymentMode === 'active'
+        );
         const total = mineralWaterData.reduce((sum, item) => sum + (item.price || 0), 0);
         setTotalInvestment(total);
 

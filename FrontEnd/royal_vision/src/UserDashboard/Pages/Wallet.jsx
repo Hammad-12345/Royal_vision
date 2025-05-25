@@ -5,11 +5,11 @@ import { FaWallet, FaExchangeAlt, FaHistory } from 'react-icons/fa';
 const Wallet = () => {
   // Dummy data
   const walletData = {
-    balance: 25000.50,
+    balance: 0,
     transactions: [
-      { id: 1, type: 'credit', amount: 5000, description: 'Payment Received', date: '2024-03-15' },
-      { id: 2, type: 'debit', amount: 1500, description: 'Service Payment', date: '2024-03-14' },
-      { id: 3, type: 'credit', amount: 3000, description: 'Refund', date: '2024-03-13' },
+      { id: 1, type: 'credit', amount: 0, description: 'Payment Received', date: '2024-03-15' },
+      { id: 2, type: 'debit', amount: 0, description: 'Service Payment', date: '2024-03-14' },
+      { id: 3, type: 'credit', amount: 0, description: 'Refund', date: '2024-03-13' },
     ]
   };
 

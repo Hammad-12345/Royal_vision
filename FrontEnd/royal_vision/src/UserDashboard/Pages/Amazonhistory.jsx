@@ -20,7 +20,9 @@ const Amazonhistory = () => {
         if (!res.ok) throw new Error(await res.text());
         const investments = await res.json();
 
-        const amazonData = investments.filter(item => item.investmentPlan === 'Amazon');
+        const amazonData = investments.filter(item => 
+          item.investmentPlan === 'Amazon' && item.paymentMode === 'active'
+        );
         const total = amazonData.reduce((sum, item) => sum + (item.price || 0), 0);
         setTotalInvestment(total);
 
