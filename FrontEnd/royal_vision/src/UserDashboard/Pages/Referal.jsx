@@ -1,18 +1,48 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FaShareAlt, FaCopy, FaUsers, FaGift } from 'react-icons/fa';
 
 const Referal = () => {
   const [copied, setCopied] = useState(false);
-  const referralCode = "ROYAL123"; // This should come from your backend
-  const referralStats = {
+  const [referralCode, setReferralCode] = useState('');
+  const [referralLink, setReferralLink] = useState('');
+  const [referralStats, setReferralStats] = useState({
     totalReferrals: 0,
     successfulReferrals: 0,
     pendingReferrals: 0,
     rewardsEarned: 0
-  };
+  });
+
+  useEffect(() => {
+    // Fetch user's referral code and stats
+    const fetchReferralData = async () => {
+      try {
+        const token = JSON.parse(localStorage.getItem('mytoken'));
+        const response = await fetch('http://localhost:8080/api/user/referral-data', {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        });
+        if (!response.ok) {
+          throw new Error('Failed to fetch referral data');
+        }
+        const data = await response.json();
+        console.log(data)
+        setReferralCode(data.referralCode);
+        setReferralStats(data.stats);
+        // Generate the full referral link
+        const baseUrl = window.location.origin;
+        setReferralLink(`${baseUrl}/signup?ref=${data.referralCode}`);
+      } catch (error) {
+        console.error('Error fetching referral data:', error);
+      }
+    };
+
+    fetchReferralData();
+  }, []);
 
   const handleCopyCode = () => {
-    navigator.clipboard.writeText(referralCode);
+    navigator.clipboard.writeText(referralLink);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
@@ -21,8 +51,8 @@ const Referal = () => {
     if (navigator.share) {
       navigator.share({
         title: 'Join Royal Vision',
-        text: `Use my referral code ${referralCode} to join Royal Vision!`,
-        url: window.location.origin
+        text: `Use my referral link to join Royal Vision!`,
+        url: referralLink
       });
     }
   };
@@ -35,10 +65,10 @@ const Referal = () => {
       </div>
 
       <div className="bg-gray-50 rounded-xl p-8 mb-12 text-center">
-        <h2 className="text-2xl font-semibold text-gray-800 mb-6">Your Referral Code</h2>
+        <h2 className="text-2xl font-semibold text-gray-800 mb-6">Your Referral Link</h2>
         <div className="flex items-center justify-center gap-4 mb-6">
-          <span className="text-2xl font-bold text-gray-700 px-6 py-3 bg-white rounded-lg border-2 border-dashed border-blue-500">
-            {referralCode}
+          <span className="text-lg font-bold text-gray-700 px-6 py-3 bg-white rounded-lg border-2 border-dashed border-blue-500 break-all">
+            {referralLink || 'Loading...'}
           </span>
           <button 
             className={`flex items-center gap-2 px-4 py-2 rounded-lg text-white transition-colors duration-300 ${
