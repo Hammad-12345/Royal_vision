@@ -23,13 +23,19 @@ import InvestmentPlans from "./UserDashboard/Pages/InvestmentPlans";
 import InvestmentHistory from "./UserDashboard/Pages/InvestmentHistory";
 import Wallet from "./UserDashboard/Pages/Wallet";
 import Account from "./UserDashboard/Pages/Account";
+import Referal from "./UserDashboard/Pages/Referal";
+import Withdrawhistory from "./UserDashboard/Pages/Withdrawhistory";
+import AdminDashboardLayout from "./AdminDashboard/AdminDashboardLayout";
+import AdminDashboard from "./AdminDashboard/Pages/Dashboard";
+import AdminUsers from "./AdminDashboard/Pages/Users";
+import AdminInvestments from "./AdminDashboard/Pages/Investments";
+import AdminProfits from "./AdminDashboard/Pages/Profits";
+import AdminWithdrawals from "./AdminDashboard/Pages/Withdrawals";
 // import GoldTradingHistory from "./UserDashboard/Pages/GoldTradingHistory";
 // import Airbnbhistory from "./UserDashboard/Pages/Airbnbhistory";
 // import Amazonhistory from "./UserDashboard/Pages/Amazonhistory";
 // import MineralWater from "./UserDashboard/Pages/MineralWater";
 // import Retrodrops from "./UserDashboard/Pages/Retrodrops";
-import Referal from "./UserDashboard/Pages/Referal";
-import Withdrawhistory from "./UserDashboard/Pages/Withdrawhistory";
 // import PlansDashboard from "./UserDashboard/Pages/PlansDashboard";
 function App() {
   const token = useSelector((state) => state.Token.DashboardRoutes);
@@ -58,7 +64,6 @@ function App() {
             <Route path="policy" element={<Policy />} />
             <Route path="how-it-works" element={<HowitsWorks />} />
 
-
             {token && (
               <>
                 {/* // <Route path="/" element={<UserDashboardLayout />}> */}
@@ -84,6 +89,16 @@ function App() {
               </>
             )}
           </Route>
+
+          {/* Admin Routes */}
+          <Route path="/admin" element={<AdminDashboardLayout />}>
+            <Route index element={<AdminDashboard />} />
+            <Route path="users" element={<AdminUsers />} />
+            <Route path="investments" element={<AdminInvestments />} />
+            <Route path="profits" element={<AdminProfits />} />
+            <Route path="withdrawals" element={<AdminWithdrawals />} />
+          </Route>
+
           {!token && (
             <Route path="/" element={<AuthLayout />}>
               <Route path="signin" element={<Login />} />
