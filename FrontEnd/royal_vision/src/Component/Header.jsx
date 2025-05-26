@@ -6,6 +6,53 @@ import { useDispatch } from "react-redux";
 import { LoggedOut } from "../Redux/Slice/auth";
 import { useNavigate } from "react-router-dom";
 
+// Add animation styles
+const styles = `
+  @keyframes slideDown {
+    from {
+      transform: translateY(-100%);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes slideIn {
+    from {
+      transform: translateX(100%);
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
+
+  .animate-slideDown {
+    animation: slideDown 0.3s ease-out;
+  }
+
+  .animate-slideIn {
+    animation: slideIn 0.3s ease-out;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.3);
+  }
+`;
+
 const Header = () => {
   const location = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -68,11 +115,13 @@ const Header = () => {
 
   return(
     <>
+      <style>{styles}</style>
       <header className="fixed top-0 left-0 w-full text-white shadow-lg z-50 bg-gradient-to-r from-black via-blue-950 to-black font-poppins">
         <div className="w-full px-4 sm:px-6 lg:px-8 py-2">
           <div className="flex justify-between items-center relative">
             {/* Logo Section */}
-            <div className="flex-shrink-0 flex items-center space-x-4">
+            <div className="flex-shrink-0 flex  items-center space-x-2 sm:space-x-4">
+              <div className="flex sm:flex-row flex-col items-center space-x-2">
               <Link
                 to="/"
                 className="text-2xl font-bold text-white hover:text-blue-400 transition-colors font-poppins"
@@ -83,13 +132,14 @@ const Header = () => {
                   alt="logo"
                 />
               </Link>
-              <span className="uppercase text-[10px] font-poppins text-white"> Overland Solutions</span>
+              <span className="uppercase text-[10px] sm:text-xs font-poppins text-white"> Overland Solutions</span>
               {/* Mobile Menu Icon */}
+              </div>
               <button
                 onClick={() => {!token ? setMenuOpen(!menuOpen) : setSidebarOpen(!sidebarOpen)}}
-                className={`text-gray-400 hover:text-white transition-colors ${!token ? 'lg:hidden' : ''}`}
+                className={`text-gray-400 hover:text-white transition-colors text-xl sm:text-2xl ${!token ? 'lg:hidden' : ''}`}
               >
-                <FaBars size={24} />
+                <FaBars />
               </button>
             </div>
 
@@ -142,7 +192,7 @@ const Header = () => {
             </div>
 
             {/* Header Right Section (Icons and User) */}
-            <div className="flex items-center space-x-6 relative">
+            <div className="flex items-center space-x-4 sm:space-x-6 relative">
               {!token ? (
                 <Link
                   to={"/signin"}
@@ -152,24 +202,6 @@ const Header = () => {
                 </Link>
               ) : (
                 <>
-                  {/* Notification Icon */}
-                  <div className="relative">
-                    <FaBell
-                      onClick={toggleNotificationPopover}
-                      className="text-xl text-gray-400 cursor-pointer hover:text-white transition-colors"
-                    />
-                    {showNotificationPopover && (
-                      <div className="absolute right-0 mt-2 w-64 bg-[#1b1f2a] text-white rounded shadow-lg z-20">
-                        <div className="px-4 py-2 border-b border-gray-700 font-semibold">
-                          Notifications
-                        </div>
-                        <ul className="max-h-60 overflow-auto">
-                          <li className="px-4 py-2 text-sm text-gray-400">No new notifications</li>
-                        </ul>
-                      </div>
-                    )}
-                  </div>
-
                   {/* User Icon */}
                   <div className="relative">
                     <div
@@ -193,6 +225,13 @@ const Header = () => {
                           <li className="flex items-center px-4 py-2 hover:bg-gray-700 cursor-pointer">
                             <FaUserCircle className="mr-2" />
                             <Link to="/account">Account</Link>
+                          </li>
+                          <li 
+                            className="flex items-center px-4 py-2 hover:bg-gray-700 cursor-pointer"
+                            onClick={toggleNotificationPopover}
+                          >
+                            <FaBell className="mr-2" />
+                            <span>Notifications</span>
                           </li>
                           <li
                             className="flex items-center px-4 py-2 hover:bg-gray-700 cursor-pointer"
@@ -296,6 +335,72 @@ const Header = () => {
             </div>
           </nav>
         </aside>
+      )}
+
+      {showNotificationPopover && (
+        <div className="fixed top-0 left-0 w-full h-screen bg-gradient-to-r from-black via-blue-950 to-black z-50 transform transition-all duration-300 ease-in-out font-poppins animate-slideDown
+          sm:top-[80px] sm:right-4 sm:w-96 sm:h-auto sm:rounded-xl sm:shadow-2xl sm:backdrop-blur-lg sm:bg-opacity-95 sm:animate-slideIn
+          flex flex-col">
+          <div className="flex justify-between items-center border-b border-gray-800 p-4 sticky top-0 bg-gradient-to-r from-black via-blue-950 to-black z-10 flex-shrink-0">
+            <h3 className="text-xl sm:text-lg font-semibold text-white flex items-center">
+              <FaBell className="mr-3 text-2xl sm:text-xl text-blue-400" />
+              Notifications
+            </h3>
+            <FaTimes 
+              className="text-white text-2xl sm:text-xl cursor-pointer hover:text-blue-400 transition-colors" 
+              onClick={toggleNotificationPopover}
+            />
+          </div>
+          <div className="p-4 overflow-y-auto custom-scrollbar flex-grow">
+            <div className="space-y-3">
+              {/* Example notification items - replace with actual notifications */}
+              <div className="bg-gray-800/50 hover:bg-gray-700/50 transition-all duration-200 rounded-lg p-4 cursor-pointer transform hover:scale-[1.02]">
+                <div className="flex items-start space-x-4">
+                  <div className="flex-shrink-0 w-14 h-14 sm:w-12 sm:h-12 rounded-full bg-blue-500/20 flex items-center justify-center">
+                    <FaMoneyCheckAlt className="text-2xl sm:text-xl text-blue-400" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-white font-medium text-lg sm:text-base truncate">New Investment</p>
+                    <p className="text-gray-400 text-base sm:text-sm mt-1.5 line-clamp-2">Your investment plan has been activated successfully.</p>
+                    <p className="text-gray-500 text-sm sm:text-xs mt-2.5">2 hours ago</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-gray-800/50 hover:bg-gray-700/50 transition-all duration-200 rounded-lg p-4 cursor-pointer transform hover:scale-[1.02]">
+                <div className="flex items-start space-x-4">
+                  <div className="flex-shrink-0 w-14 h-14 sm:w-12 sm:h-12 rounded-full bg-green-500/20 flex items-center justify-center">
+                    <FaDownload className="text-2xl sm:text-xl text-green-400" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-white font-medium text-lg sm:text-base truncate">Deposit Successful</p>
+                    <p className="text-gray-400 text-base sm:text-sm mt-1.5 line-clamp-2">Your deposit of $500 has been processed.</p>
+                    <p className="text-gray-500 text-sm sm:text-xs mt-2.5">5 hours ago</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-gray-800/50 hover:bg-gray-700/50 transition-all duration-200 rounded-lg p-4 cursor-pointer transform hover:scale-[1.02]">
+                <div className="flex items-start space-x-4">
+                  <div className="flex-shrink-0 w-14 h-14 sm:w-12 sm:h-12 rounded-full bg-purple-500/20 flex items-center justify-center">
+                    <FaWallet className="text-2xl sm:text-xl text-purple-400" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-white font-medium text-lg sm:text-base truncate">Wallet Update</p>
+                    <p className="text-gray-400 text-base sm:text-sm mt-1.5 line-clamp-2">Your wallet balance has been updated.</p>
+                    <p className="text-gray-500 text-sm sm:text-xs mt-2.5">1 day ago</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Empty state */}
+            <div className="text-center py-12 sm:py-10 text-gray-400">
+              <FaBell className="text-6xl sm:text-5xl mx-auto mb-4 text-gray-600" />
+              <p className="text-base sm:text-sm font-medium">No new notifications</p>
+            </div>
+          </div>
+        </div>
       )}
     </>
   )

@@ -8,47 +8,47 @@ const Investments = () => {
   const columns = useMemo(
     () => [
       {
-        accessorKey: 'userId.username',
-        header: 'User',
+        accessorKey: 'id',
+        header: 'ID',
         cell: (info) => info.getValue(),
       },
       {
-        accessorKey: 'planId.name',
-        header: 'Plan',
+        accessorKey: 'userId',
+        header: 'User ID',
         cell: (info) => info.getValue(),
       },
       {
-        accessorKey: 'amount',
+        accessorKey: 'userEmail',
+        header: 'Email',
+        cell: (info) => info.getValue(),
+      },
+      {
+        accessorKey: 'investmentPlan',
+        header: 'Investment Plan',
+        cell: (info) => info.getValue(),
+      },
+      {
+        accessorKey: 'price',
         header: 'Amount',
-        cell: (info) => `$${info.getValue()}`,
+        cell: (info) => `$${info.getValue().toLocaleString()}`,
       },
       {
-        accessorKey: 'status',
-        header: 'Status',
+        accessorKey: 'paymentMode',
+        header: 'Payment Mode',
         cell: (info) => (
           <span className={`px-2 py-1 rounded-full text-xs font-medium ${
             info.getValue() === 'active' ? 'bg-green-100 text-green-800' :
-            info.getValue() === 'completed' ? 'bg-blue-100 text-blue-800' :
-            'bg-red-100 text-red-800'
+            info.getValue() === 'pending' ? 'bg-yellow-100 text-yellow-800' :
+            'bg-gray-100 text-gray-800'
           }`}>
-            {info.getValue()}
+            {info.getValue().charAt(0).toUpperCase() + info.getValue().slice(1)}
           </span>
         ),
       },
       {
-        accessorKey: 'startDate',
-        header: 'Start Date',
+        accessorKey: 'createdAt',
+        header: 'Created At',
         cell: (info) => new Date(info.getValue()).toLocaleDateString(),
-      },
-      {
-        accessorKey: 'endDate',
-        header: 'End Date',
-        cell: (info) => new Date(info.getValue()).toLocaleDateString(),
-      },
-      {
-        accessorKey: 'totalProfit',
-        header: 'Total Profit',
-        cell: (info) => `$${info.getValue()}`,
       },
     ],
     []
@@ -59,7 +59,7 @@ const Investments = () => {
       try {
         const response = await fetch('http://localhost:8080/api/admin/investments');
         const data = await response.json();
-        setInvestments(data);
+        setInvestments(data.data);
         setLoading(false);
       } catch (error) {
         console.error('Error fetching investments:', error);
@@ -81,11 +81,13 @@ const Investments = () => {
   return (
     <div className="space-y-6">
       <h1 className="text-3xl font-poppins font-bold text-gray-800">Investments Management</h1>
-      <Table 
-        data={investments}
-        columns={columns}
-        pagination={true}
-      />
+      <div className="overflow-x-auto">
+        <Table 
+          data={investments} 
+          columns={columns} 
+          pagination={true}
+        />
+      </div>
     </div>
   );
 };

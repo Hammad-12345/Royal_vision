@@ -11,6 +11,10 @@ const profitSchema = new mongoose.Schema({
     ref: 'Investment',
     required: true
   },
+  investmentPlanId: {
+    type:String,
+    required: true
+  },
   amount: {
     type: Number,
     required: true

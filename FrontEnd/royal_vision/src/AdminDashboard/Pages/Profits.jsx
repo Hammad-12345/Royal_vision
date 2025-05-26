@@ -13,7 +13,8 @@ const Profits = () => {
         },
       });
       if (response.ok) {
-        fetchProfits();
+        // fetchProfits();
+        console.log(await response.json())
       }
     } catch (error) {
       console.error('Error processing daily profits:', error);

@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 const Dashboard = () => {
   const [stats, setStats] = useState({
     totalUsers: 0,
-    totalInvestments: 0,
+    activeInvestments: 0,
     totalProfits: 0,
     pendingWithdrawals: 0
   });
@@ -13,6 +13,7 @@ const Dashboard = () => {
       try {
         const response = await fetch('http://localhost:8080/api/admin/stats');
         const data = await response.json();
+        console.log(data)
         setStats(data);
       } catch (error) {
         console.error('Error fetching stats:', error);
@@ -33,7 +34,7 @@ const Dashboard = () => {
         </div>
         <div className="bg-white rounded-xl shadow-md p-6">
           <h3 className="text-lg font-poppins text-gray-600">Total Investments</h3>
-          <p className="text-3xl font-poppins font-bold text-gray-800 mt-2">${stats.totalInvestments}</p>
+          <p className="text-3xl font-poppins font-bold text-gray-800 mt-2">${stats.activeInvestments}</p>
         </div>
         <div className="bg-white rounded-xl shadow-md p-6">
           <h3 className="text-lg font-poppins text-gray-600">Total Profits Distributed</h3>

@@ -198,8 +198,10 @@ const Dashboard = () => {
     const fetchInvestments = async () => {
       try {
         const token = localStorage.getItem("mytoken");
+        
+        // Fetch investments
         const res = await fetch(
-          "https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/dashboard/fetchallinvestment",
+          "http://localhost:8080/dashboard/fetchallinvestment",
           {
             headers: {
               "Content-Type": "application/json",
@@ -212,13 +214,28 @@ const Dashboard = () => {
         const data = await res.json();
         console.log('Raw investment data:', data);
 
+        // Fetch profits
+        const profitRes = await fetch(
+          "http://localhost:8080/dashboard/fetchprofit",
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${JSON.parse(token)}`,
+            },
+          }
+        );
+
+        if (!profitRes.ok) throw new Error(await profitRes.text());
+        const profitData = await profitRes.json();
+        console.log('Profit data:', profitData);
+
         // Process data for charts
         const processedChartData = processChartData(data);
         setChartData(processedChartData);
 
         let totals = {
           "Total Invest": 0,
-          "Total Profit": 0,
+          "Total Profit": profitData.totalProfit || 0,
         };
 
         // Define all available investment plans
@@ -242,10 +259,6 @@ const Dashboard = () => {
           if (item.paymentMode === 'active') {
             const amount = Number(item.price) || 0;
             totals["Total Invest"] += amount;
-          }
-
-          if (item.profit) {
-            totals["Total Profit"] += Number(item.profit);
           }
 
           if (item.investmentPlan && planInvestments[item.investmentPlan] !== undefined) {

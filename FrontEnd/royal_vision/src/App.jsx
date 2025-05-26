@@ -31,6 +31,7 @@ import AdminUsers from "./AdminDashboard/Pages/Users";
 import AdminInvestments from "./AdminDashboard/Pages/Investments";
 import AdminProfits from "./AdminDashboard/Pages/Profits";
 import AdminWithdrawals from "./AdminDashboard/Pages/Withdrawals";
+import ScrollToTop from "./Component/ScrollToTop";
 // import GoldTradingHistory from "./UserDashboard/Pages/GoldTradingHistory";
 // import Airbnbhistory from "./UserDashboard/Pages/Airbnbhistory";
 // import Amazonhistory from "./UserDashboard/Pages/Amazonhistory";
@@ -53,6 +54,7 @@ function App() {
         pauseOnHover
       />
       <BrowserRouter>
+        <ScrollToTop />
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<Home />} />

@@ -1,8 +1,49 @@
 import React, { useState, useEffect } from 'react';
+import { createColumnHelper } from '@tanstack/react-table';
+import Table from '../../UserDashboard/Component/Table';
+import { FaUser } from 'react-icons/fa';
 
 const Users = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
+  const columnHelper = createColumnHelper();
+
+  const columns = [
+    columnHelper.accessor('Name', {
+      header: 'Name',
+      cell: info => info.getValue(),
+    }),
+    columnHelper.accessor('EmailAddress', {
+      header: 'Email',
+      cell: info => info.getValue(),
+    }),
+    columnHelper.accessor('DateOfBirth', {
+      header: 'Date of Birth',
+      cell: info => new Date(info.getValue()).toLocaleDateString(),
+    }),
+    columnHelper.accessor('ContactNumber', {
+      header: 'Contact',
+      cell: info => info.getValue(),
+    }),
+    columnHelper.accessor('_id', {
+      header: 'ID',
+      cell: info => info.getValue(),
+    }),
+    columnHelper.accessor('profileImage', {
+      header: 'Profile Image',
+      cell: info => info.getValue() ? (
+        <img 
+          src={info.getValue()} 
+          alt="Profile" 
+          className="w-10 h-10 rounded-full object-cover"
+        />
+      ) : (
+        <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center">
+          <FaUser className="w-6 h-6 text-gray-500" />
+        </div>
+      ),
+    }),
+  ];
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -20,45 +61,15 @@ const Users = () => {
     fetchUsers();
   }, []);
 
-  if (loading) {
-    return (
-      <div className="flex justify-center items-center min-h-[200px]">
-        <div className="text-lg text-gray-600">Loading...</div>
-      </div>
-    );
-  }
-
   return (
     <div className="space-y-6">
       <h1 className="text-3xl font-poppins font-bold text-gray-800">Users Management</h1>
-      <div className="bg-white rounded-xl shadow-md overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
-              <tr>
-                <th className="px-6 py-3 text-left text-xs font-poppins font-medium text-gray-500 uppercase tracking-wider">Username</th>
-                <th className="px-6 py-3 text-left text-xs font-poppins font-medium text-gray-500 uppercase tracking-wider">Email</th>
-                <th className="px-6 py-3 text-left text-xs font-poppins font-medium text-gray-500 uppercase tracking-wider">Wallet Balance</th>
-                <th className="px-6 py-3 text-left text-xs font-poppins font-medium text-gray-500 uppercase tracking-wider">Role</th>
-                <th className="px-6 py-3 text-left text-xs font-poppins font-medium text-gray-500 uppercase tracking-wider">Joined Date</th>
-              </tr>
-            </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-              {users.map((user) => (
-                <tr key={user._id} className="hover:bg-gray-50">
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-poppins text-gray-900">{user.username}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-poppins text-gray-900">{user.email}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-poppins text-gray-900">${user.walletBalance}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-poppins text-gray-900">{user.role}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-poppins text-gray-900">
-                    {new Date(user.createdAt).toLocaleDateString()}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
+      <Table 
+        columns={columns}
+        data={users}
+        loading={loading}
+        pagination={true}
+      />
     </div>
   );
 };
