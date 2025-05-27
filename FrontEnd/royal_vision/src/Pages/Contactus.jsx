@@ -77,25 +77,19 @@ const Contactus = () => {
     <div
       className=" py-8 px-4 sm:px-6 lg:px-8 bg-cover space-y-4"
       style={{
-        backgroundImage: `url(https://d3hwx9f38knfi9.cloudfront.net/Contactusbg.jpg)`,
-        backgroundColor: "rgba(31, 41, 55, 0.75)",
-        backgroundBlendMode: "multiply",
-        backgroundAttachment: "fixed",
-        // bac
+        backgroundImage: `url(https://d3hwx9f38knfi9.cloudfront.net/Auth.jpg)`,
+        backgroundColor: "hsl(215.86deg 49.32% 6.9% / 91%)",
+        backgroundBlendMode: "overlay",
+        backgroundAttachment:"fixed",
+        backgroundPosition:"50% 50%"
       }}
     >
       <div className=" flex lg:flex-row lg:justify-start justify-center gap-8">
         {/* Left side - Image */}
-        <div className="lg:w-1/2  lg:flex hidden items-center justify-center">
-          {/* <img 
-            src="/Contactusbg.jpg" 
-            alt="Contact Us" 
-            className="w-full h-auto rounded-lg shadow-lg object-cover"
-          /> */}
-        </div>
+        
 
         {/* Right side - Contact Form */}
-        <div className="lg:w-1/2 md:w-3/4 w-full font-poppins p-8 rounded-lg shadow-lg bg-gradient-to-r from-black via-blue-950 to-blue-600 relative">
+        <div className="lg:w-1/2 md:w-3/4 mx-auto w-full font-poppins p-8 rounded-lg shadow-lg bg-gradient-to-r from-black via-blue-950 to-blue-600 relative">
           <h2 className="text-3xl font-bold text-white text-center mb-8">
             Contact Us
           </h2>

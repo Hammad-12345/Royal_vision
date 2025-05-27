@@ -322,13 +322,17 @@ const Dashboard = () => {
           >
             <h2 className="text-base sm:text-lg mb-2">{card.title}</h2>
             <p className="text-2xl sm:text-3xl font-semibold">
-              <CountUp
+              {/* <CountUp
                 key={`${card.title}-${animationKey}`}
                 end={card.count}
                 duration={2}
                 prefix="$"
                 separator=","
-              />
+              /> */}
+              $
+              {
+                card.count
+              }
             </p>
           </div>
         ))}

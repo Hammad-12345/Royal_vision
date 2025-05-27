@@ -5,12 +5,12 @@ const TemplateImage = ({ currentPage }) => {
   return (
     <>
       <div
-        className="w-full h-[400px] bg-cover bg-center bg-no-repeat relative flex flex-col space-y-4 justify-center px-8 font-poppins"
-        style={{
-          backgroundImage: "url('https://d3hwx9f38knfi9.cloudfront.net/Banner4.jpg')",
-          backgroundColor: "hsl(215.86deg 49.32% 6.9% / 91%)",
-          backgroundBlendMode: "overlay",
-        }}
+        className="w-full h-[400px] bg-gradient-to-r from-black via-blue-950 to-black  bg-cover bg-center bg-no-repeat relative flex flex-col space-y-4 justify-center px-8 font-poppins"
+        // style={{
+        //   backgroundImage: "url('https://d3hwx9f38knfi9.cloudfront.net/Banner4.jpg')",
+        //   backgroundColor: "hsl(215.86deg 49.32% 6.9% / 91%)",
+        //   backgroundBlendMode: "overlay",
+        // }}
       >
         <div className="text-white capitalize text-4xl">{currentPage}</div>
         <div className="relative z-10 flex items-center space-x-2 text-lg">
@@ -26,7 +26,7 @@ const TemplateImage = ({ currentPage }) => {
             Home
           </Link>
           <span className="text-white">-</span>
-          <span className="text-white">{currentPage}</span>
+          <span className="text-white capitalize">{currentPage}</span>
         </div>
       </div>
     </>

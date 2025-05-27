@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { FaBars, FaTachometerAlt, FaMoneyCheckAlt, FaDownload, FaUpload, FaHistory, FaSignOutAlt, FaWallet, FaHome, FaUserCircle, FaBell, FaTimes } from "react-icons/fa";
+import { FaBars, FaTachometerAlt, FaMoneyCheckAlt, FaDownload, FaUpload, FaHistory, FaSignOutAlt, FaWallet, FaHome, FaUserCircle, FaBell, FaTimes, FaInfoCircle, FaEnvelope, FaCogs } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { LoggedOut } from "../Redux/Slice/auth";
 import { useNavigate } from "react-router-dom";
@@ -74,9 +74,9 @@ const Header = () => {
     { label: "Referal", icon: <FaWallet />, path: "/referal" },
     { label: "Deposit History", icon: <FaHistory />, path: "/investment-history" },
     { label: "Withdraw History", icon: <FaHistory />, path: "/withdrawhistory" },
-    { label: "About us", icon: <FaHome />, path: "/about" },
-    { label: "Contact us", icon: <FaHome />, path: "/contact" },
-    { label: "How it works", icon: <FaHome />, path: "/how-it-works" },
+    { label: "About us", icon: <FaInfoCircle />, path: "/about" },
+    { label: "Contact us", icon: <FaEnvelope />, path: "/contact" },
+    { label: "How it works", icon: <FaCogs />, path: "/how-it-works" },
   ], []);
 
   const publicLinks = useMemo(() => [
