@@ -34,8 +34,8 @@ const Table = ({ data, columns,pagination }) => {
   });
 
   return (
-    <div className="bg-gradient-to-br from-[#0F1120] to-[#1E2140] rounded-2xl p-6 shadow-lg text-white overflow-x-auto">
-      <table className="min-w-full border-separate border-spacing-y-2">
+    <div className="bg-gradient-to-br from-[#0F1120] to-[#1E2140] rounded-2xl p-6 shadow-lg text-white overflow-x-auto w-full">
+      <table className="border-separate border-spacing-y-2">
         <thead className="text-gray-300 text-sm uppercase">
           {table.getHeaderGroups().map(headerGroup => (
             <tr key={headerGroup.id}>

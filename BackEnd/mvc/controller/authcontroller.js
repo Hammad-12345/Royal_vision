@@ -55,7 +55,7 @@ console.log(ReferralCode)
               $set: {
                 userId: referrer.userId,
                 referralCode: ReferralCode,
-                referredTo: newUser._id,
+                referredTo: referrer.referredTo ? [...referrer.referredTo, EmailAddress] : [EmailAddress],
                 updatedAt: new Date()
               },
               $inc: {

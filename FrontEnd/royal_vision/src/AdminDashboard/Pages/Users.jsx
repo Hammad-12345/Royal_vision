@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { createColumnHelper } from '@tanstack/react-table';
 import Table from '../../UserDashboard/Component/Table';
 import { FaUser } from 'react-icons/fa';
-
 const Users = () => {
   const [users, setUsers] = useState([]);
   console.log(users)
@@ -63,9 +62,17 @@ const Users = () => {
     fetchUsers();
   }, []);
 
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-full">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+      </div>
+    );
+  }
+
   return (
-    <div className="space-y-6">
-      <h1 className="text-3xl font-poppins font-bold">Users Management</h1>
+    <div className="space-y-4">
+      <h1 className="text-2xl font-poppins font-bold">Users Management</h1>
       <Table 
         columns={columns}
         data={users}

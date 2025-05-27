@@ -20,8 +20,7 @@ const referralSchema = new mongoose.Schema({
     default: 0
   },
   referredTo: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
+    type:Array,
     default: null
   },
   createdAt: {

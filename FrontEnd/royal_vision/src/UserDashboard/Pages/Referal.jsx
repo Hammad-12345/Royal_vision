@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { FaShareAlt, FaCopy, FaUsers, FaGift } from 'react-icons/fa';
+import { FaShareAlt, FaCopy, FaUsers, FaGift, FaTimes } from 'react-icons/fa';
 
 const Referal = () => {
   const [copied, setCopied] = useState(false);
   const [referralCode, setReferralCode] = useState('');
   const [referralLink, setReferralLink] = useState('');
+  const [showDetails, setShowDetails] = useState(false);
   const [referralStats, setReferralStats] = useState({
     totalReferrals: 0,
     successfulReferrals: 0,
-    referredTo:null
+    referredTo: []
   });
 
   useEffect(() => {
@@ -105,10 +106,49 @@ const Referal = () => {
           <FaUsers className="text-3xl text-blue-500" />
           <div>
             <h3 className="text-sm text-gray-600 mb-1">Referred To</h3>
-            <p className="text-2xl font-bold text-gray-800">{referralStats.referredTo?referralStats.referredTo:"No one"}</p>
+            <p className="text-2xl font-bold text-gray-800">
+              {referralStats.referredTo?.length > 0 ? referralStats.referredTo.length : "No one"}
+            </p>
+            {referralStats.referredTo?.length > 0 && (
+              <button
+                onClick={() => setShowDetails(true)}
+                className="mt-2 text-sm text-blue-500 hover:text-blue-600"
+              >
+                View Details
+              </button>
+            )}
           </div>
         </div>
       </div>
+
+      {/* Referral Details Modal */}
+      {showDetails && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-6 max-w-2xl w-full mx-4">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-2xl font-semibold text-black">Referred Users</h2>
+              <button
+                onClick={() => setShowDetails(false)}
+                className="text-gray-500 hover:text-gray-700"
+              >
+                <FaTimes className="text-xl" />
+              </button>
+            </div>
+            <div className="max-h-96 overflow-y-auto">
+              {referralStats.referredTo.map((user, index) => (
+                <div key={index} className="border-b py-3 last:border-b-0 space-y-0">
+                  <p className="font-semibold text-black">Email:</p>
+                  <p className="text-sm text-gray-600">{user.email || 'No email provided'}</p>
+                  <p className="font-semibold text-black">
+                    Joined:
+                  </p>
+                  <p className='text-sm text-gray-600'>{new Date(user.createdAt).toLocaleDateString()}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
 
       <div className="text-center">
         <h2 className="text-2xl font-semibold mb-8">How it works</h2>

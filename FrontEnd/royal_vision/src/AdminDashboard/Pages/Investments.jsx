@@ -144,25 +144,25 @@ const Investments = () => {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center min-h-[400px] bg-gradient-to-br from-gray-50 to-white">
+      <div className="flex justify-center items-center h-full">
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
       </div>
     );
   }
 
   return (
-    <div className="space-y-6 p-6  min-h-screen">
-      <div className="flex items-center justify-between mb-8">
-        <h1 className="text-3xl font-poppins font-bold bg-clip-text text-white">
+    <div className="space-y-4">
+      <div className="flex items-center justify-between">
+        <h1 className="text-2xl font-poppins font-bold bg-clip-text text-white">
           Investments Management
         </h1>
-        <div className="bg-white p-3 rounded-lg shadow-sm">
-          <span className="text-sm font-medium text-gray-600">Total Investments: {investments.length}</span>
+        <div className="rounded-lg shadow-sm">
+          <span className="text-lg font-medium">Total Investments: {investments.length}</span>
         </div>
       </div>
       
-      <div className=" rounded-xl shadow-sm overflow-hidden">
-        <div className="overflow-x-auto">
+      <div className="overflow-x-auto rounded-lg shadow-sm">
+        <div className="min-w-full">
           <Table 
             data={investments} 
             columns={columns} 

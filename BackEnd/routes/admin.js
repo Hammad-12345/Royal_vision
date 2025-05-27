@@ -4,6 +4,7 @@ const User = require('../mvc/model/usermodel.js');
 const Investment = require('../mvc/model/depositmodel.js');
 const Profit = require('../mvc/model/Profit.js');
 const Withdrawal = require('../mvc/model/Withdrawal.js');
+const Referral = require('../mvc/model/referralModel.js');
 
 // Get dashboard stats
 router.get('/stats', async (req, res) => {
@@ -192,6 +193,7 @@ router.put('/withdrawals/:id', async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
+
 router.put('/updateinvestments', async (req, res) => {
   try {
     const { id, paymentMode } = req.body;
@@ -203,6 +205,28 @@ router.put('/updateinvestments', async (req, res) => {
     res.status(200).json(updatedInvestment);
   } catch (error) {
     res.status(500).json({ message: error.message });
+  }
+});
+
+// Get all referrals
+router.get('/referrals', async (req, res) => {
+  try {
+    const referrals = await Referral.find()
+      .populate('userId', 'Name EmailAddress')
+      .select('referralCode totalReferrals successfulReferrals referredTo')
+      .sort({ createdAt: -1 });
+
+    res.json({
+      success: true,
+      data: referrals,
+      total: referrals.length
+    });
+  } catch (error) {
+    console.error('Error in /referrals route:', error);
+    res.status(500).json({ 
+      success: false,
+      message: error.message 
+    });
   }
 });
 
