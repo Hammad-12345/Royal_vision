@@ -27,9 +27,11 @@ const schema = z.object({
     .min(1, "Email is required")
     .email("Invalid email format"),
   Password: z.string().min(6, "Password must be at least 6 characters"),
+  ReferralCode: z.string().optional(),
 });
 
-export default function Register() {
+export default function Register({ referralCode }) {
+  console.log(referralCode)
   const countries = Country.getAllCountries();
   const [phoneCode, setPhoneCode] = useState("+000");
   const navigate = useNavigate()
@@ -39,9 +41,13 @@ export default function Register() {
     register,
     handleSubmit,
     watch,
+    setValue,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(schema),
+    defaultValues: {
+      ReferralCode: referralCode || ''
+    }
   });
 
   const selectedCountry = watch("Country");
@@ -56,10 +62,14 @@ export default function Register() {
   }, [selectedCountry,countries]);
 
   const onSubmit = async (data) => {
-    const fullData = { ...data, CountryPhoneCode: phoneCode };
+    const fullData = { 
+      ...data, 
+      CountryPhoneCode: phoneCode,
+      ReferralCode: data.ReferralCode || undefined // Only include if it has a value
+    };
 
     try {
-      const response = await fetch("https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/auth/register", {
+      const response = await fetch("http://localhost:8080/auth/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -98,6 +108,9 @@ export default function Register() {
       <div className="space-y-2">
         <h2 className="text-2xl font-bold">Sign Up</h2>
         <p>Start your new journey! Please enter your details</p>
+        {referralCode && (
+          <p className="text-sm text-blue-400">You were referred by: {referralCode}</p>
+        )}
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -206,6 +219,12 @@ export default function Register() {
             <p className="text-red-500 text-sm">{errors.Password.message}</p>
           )}
         </div>
+
+        {/* Hidden Referral Code field */}
+        <input
+          type="hidden"
+          {...register("ReferralCode")}
+        />
 
         {/* Submit */}
         <button

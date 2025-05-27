@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation, Navigate, useParams } from "react-router-dom";
 import Layout from "./Component/Layout";
 import Home from "./Pages/Home";
 import News from "./Pages/News";
@@ -38,6 +38,14 @@ import ScrollToTop from "./Component/ScrollToTop";
 // import MineralWater from "./UserDashboard/Pages/MineralWater";
 // import Retrodrops from "./UserDashboard/Pages/Retrodrops";
 // import PlansDashboard from "./UserDashboard/Pages/PlansDashboard";
+
+// Add this component above the App component
+const SignupWithReferral = () => {
+  const { referralCode } = useParams();
+  console.log(referralCode)
+  return <Register referralCode={referralCode} />;
+};
+
 function App() {
   const token = useSelector((state) => state.Token.DashboardRoutes);
   return (
@@ -105,6 +113,8 @@ function App() {
             <Route path="/" element={<AuthLayout />}>
               <Route path="signin" element={<Login />} />
               <Route path="signup" element={<Register />} />
+              {/* Redirect /signup?ref=XXX to the signup page */}
+              <Route path="signup/ref/:referralCode" element={<SignupWithReferral />} />
             </Route>
           )}
         </Routes>

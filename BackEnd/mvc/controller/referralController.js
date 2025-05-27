@@ -27,8 +27,7 @@ const getReferralData = async (req, res) => {
       stats: {
         totalReferrals: referralData.totalReferrals,
         successfulReferrals: referralData.successfulReferrals,
-        pendingReferrals: referralData.pendingReferrals,
-        rewardsEarned: referralData.rewardsEarned
+        referredTo: referralData.referredTo
       }
     });
   } catch (error) {

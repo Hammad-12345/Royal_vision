@@ -8,8 +8,7 @@ const Referal = () => {
   const [referralStats, setReferralStats] = useState({
     totalReferrals: 0,
     successfulReferrals: 0,
-    pendingReferrals: 0,
-    rewardsEarned: 0
+    referredTo:null
   });
 
   useEffect(() => {
@@ -17,7 +16,7 @@ const Referal = () => {
     const fetchReferralData = async () => {
       try {
         const token = JSON.parse(localStorage.getItem('mytoken'));
-        const response = await fetch('https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/api/user/referral-data', {
+        const response = await fetch('http://localhost:8080/api/user/referral-data', {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json'
@@ -32,7 +31,7 @@ const Referal = () => {
         setReferralStats(data.stats);
         // Generate the full referral link
         const baseUrl = window.location.origin;
-        setReferralLink(`${baseUrl}/signup?ref=${data.referralCode}`);
+        setReferralLink(`${baseUrl}/signup/ref/${data.referralCode}`);
       } catch (error) {
         console.error('Error fetching referral data:', error);
       }
@@ -87,7 +86,7 @@ const Referal = () => {
         </button>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
         <div className="bg-white p-6 rounded-xl shadow-md flex items-center gap-4">
           <FaUsers className="text-3xl text-blue-500" />
           <div>
@@ -105,15 +104,8 @@ const Referal = () => {
         <div className="bg-white p-6 rounded-xl shadow-md flex items-center gap-4">
           <FaUsers className="text-3xl text-blue-500" />
           <div>
-            <h3 className="text-sm text-gray-600 mb-1">Pending Referrals</h3>
-            <p className="text-2xl font-bold text-gray-800">{referralStats.pendingReferrals}</p>
-          </div>
-        </div>
-        <div className="bg-white p-6 rounded-xl shadow-md flex items-center gap-4">
-          <FaGift className="text-3xl text-blue-500" />
-          <div>
-            <h3 className="text-sm text-gray-600 mb-1">Rewards Earned</h3>
-            <p className="text-2xl font-bold text-gray-800">${referralStats.rewardsEarned}</p>
+            <h3 className="text-sm text-gray-600 mb-1">Referred To</h3>
+            <p className="text-2xl font-bold text-gray-800">{referralStats.referredTo?referralStats.referredTo:"No one"}</p>
           </div>
         </div>
       </div>
