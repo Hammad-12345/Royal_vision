@@ -5,6 +5,7 @@ import { FaUser } from 'react-icons/fa';
 
 const Users = () => {
   const [users, setUsers] = useState([]);
+  console.log(users)
   const [loading, setLoading] = useState(true);
   const columnHelper = createColumnHelper();
 
@@ -51,6 +52,7 @@ const Users = () => {
         const response = await fetch('http://localhost:8080/api/admin/users');
         const data = await response.json();
         setUsers(data);
+        
         setLoading(false);
       } catch (error) {
         console.error('Error fetching users:', error);
@@ -63,7 +65,7 @@ const Users = () => {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-3xl font-poppins font-bold text-gray-800">Users Management</h1>
+      <h1 className="text-3xl font-poppins font-bold">Users Management</h1>
       <Table 
         columns={columns}
         data={users}

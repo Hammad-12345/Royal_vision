@@ -44,7 +44,8 @@ router.get('/investments', async (req, res) => {
   try {
     const investments = await Investment.find()
       .populate('userId', 'EmailAddress')
-      .select('price investmentPlan paymentMode createdAt');
+      .select('price investmentPlan paymentMode screenshot createdAt')
+      .sort({ createdAt: -1 });
 
     // Define investment plans with their details
     const investmentPlans = {
@@ -85,7 +86,8 @@ router.get('/investments', async (req, res) => {
         planDetails: planDetails,
         price: inv.price || 0,
         paymentMode: inv.paymentMode || 'pending',
-        createdAt: inv.createdAt || new Date()
+        createdAt: inv.createdAt || new Date(),
+        screenshot: inv.screenshot || 'N/A'
       };
     });
 
@@ -186,6 +188,19 @@ router.put('/withdrawals/:id', async (req, res) => {
       { new: true }
     );
     res.json(withdrawal);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+router.put('/updateinvestments', async (req, res) => {
+  try {
+    const { id, paymentMode } = req.body;
+    const updatedInvestment = await Investment.findByIdAndUpdate(
+      id,
+      { paymentMode },
+      { new: true }
+    );
+    res.status(200).json(updatedInvestment);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
