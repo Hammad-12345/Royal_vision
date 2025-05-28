@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Outlet, NavLink, useLocation } from 'react-router-dom';
-import { FaBars, FaSignOutAlt, FaTachometerAlt, FaUsers, FaMoneyBillWave, FaUserFriends } from 'react-icons/fa';
+import { FaBars, FaSignOutAlt, FaTachometerAlt, FaUsers, FaMoneyBillWave, FaUserFriends, FaChartLine } from 'react-icons/fa';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { LoggedOut } from '../Redux/Slice/auth';
@@ -34,6 +34,7 @@ const AdminDashboardLayout = () => {
     { label: "Dashboard", icon: <FaTachometerAlt />, path: "/admin" },
     { label: "Users", icon: <FaUsers />, path: "/admin/users" },
     { label: "Investments", icon: <FaMoneyBillWave />, path: "/admin/investments" },
+    { label: "Profit", icon: <FaChartLine />, path: "/admin/profits" },
     { label: "Referal Users", icon: <FaUserFriends />, path: "/admin/referal" },
   ];
 

@@ -1,10 +1,42 @@
 import React, { useState, useEffect } from 'react';
+import Table from '../../UserDashboard/Component/Table';
 
 const Profits = () => {
   const [profits, setProfits] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [lastDistributionDate, setLastDistributionDate] = useState(null);
+  const [isProcessing, setIsProcessing] = useState(false);
+
+  const columns = [
+    {
+      header: 'User',
+      accessorKey: 'userId',
+      cell: ({ row }) => row.original.userId
+    },
+    {
+      header: 'Investment Plan',
+      accessorKey: 'investmentPlanId',
+      cell: ({ row }) => row.original.investmentPlanId
+    },
+    {
+      header: 'Investment ID',
+      accessorKey: 'investmentId',
+      cell: ({ row }) => row.original.investmentId
+    },
+    {
+      header: 'Amount',
+      accessorKey: 'amount',
+      cell: ({ row }) => `$${row.original.amount}`
+    },
+    {
+      header: 'Date',
+      accessorKey: 'date',
+      cell: ({ row }) => new Date(row.original.date).toLocaleDateString()
+    }
+  ];
 
   const processDailyProfits = async () => {
+    setIsProcessing(true);
     try {
       const response = await fetch('http://localhost:8080/api/admin/process-profits', {
         method: 'POST',
@@ -13,11 +45,15 @@ const Profits = () => {
         },
       });
       if (response.ok) {
-        // fetchProfits();
-        console.log(await response.json())
+        fetchProfits();
+        console.log(await response.json());
+      } else {
+        console.error('Failed to process daily profits');
       }
     } catch (error) {
       console.error('Error processing daily profits:', error);
+    } finally {
+      setIsProcessing(false);
     }
   };
 
@@ -25,7 +61,9 @@ const Profits = () => {
     try {
       const response = await fetch('http://localhost:8080/api/admin/profits');
       const data = await response.json();
-      setProfits(data);
+      console.log(data);
+      setProfits(data.profits);
+      setLastDistributionDate(data.lastDistributionDate ? new Date(data.lastDistributionDate) : null);
       setLoading(false);
     } catch (error) {
       console.error('Error fetching profits:', error);
@@ -36,6 +74,16 @@ const Profits = () => {
   useEffect(() => {
     fetchProfits();
   }, []);
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const lastDistDate = lastDistributionDate ? new Date(lastDistributionDate) : null;
+  if (lastDistDate) {
+    lastDistDate.setHours(0, 0, 0, 0);
+  }
+
+  const isButtonDisabled = isProcessing || (lastDistDate && lastDistDate.getTime() === today.getTime());
 
   if (loading) {
     return (
@@ -48,41 +96,21 @@ const Profits = () => {
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-poppins font-bold text-gray-800">Profits Management</h1>
+        <h1 className="text-2xl font-poppins font-bold text-white">Profits Management</h1>
         <button 
-          className="px-6 py-2 bg-blue-600 text-white rounded-lg font-poppins hover:bg-blue-700 transition-colors"
+          className={`px-6 py-2 bg-blue-600 text-white rounded-lg font-poppins transition-colors ${isButtonDisabled ? 'opacity-50 cursor-not-allowed' : 'hover:bg-blue-700'}`}
           onClick={processDailyProfits}
+          disabled={isButtonDisabled}
         >
-          Process Daily Profits
+          {isProcessing ? 'Processing...' : 'Process Daily Profits'}
         </button>
       </div>
 
-      <div className="bg-white rounded-xl shadow-md overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
-              <tr>
-                <th className="px-6 py-3 text-left text-xs font-poppins font-medium text-gray-500 uppercase tracking-wider">User</th>
-                <th className="px-6 py-3 text-left text-xs font-poppins font-medium text-gray-500 uppercase tracking-wider">Investment</th>
-                <th className="px-6 py-3 text-left text-xs font-poppins font-medium text-gray-500 uppercase tracking-wider">Amount</th>
-                <th className="px-6 py-3 text-left text-xs font-poppins font-medium text-gray-500 uppercase tracking-wider">Date</th>
-              </tr>
-            </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-              {profits.map((profit) => (
-                <tr key={profit._id} className="hover:bg-gray-50">
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-poppins text-gray-900">{profit.userId.username}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-poppins text-gray-900">${profit.investmentId.amount}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-poppins text-gray-900">${profit.amount}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-poppins text-gray-900">
-                    {new Date(profit.date).toLocaleDateString()}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
+      <Table 
+        data={profits}
+        columns={columns}
+        pagination={true}
+      />
     </div>
   );
 };

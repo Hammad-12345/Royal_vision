@@ -5,20 +5,23 @@ import { FaChartLine, FaMoneyBillWave, FaCalendarAlt, FaWallet } from 'react-ico
 
 const Airbnbhistory = () => {
   const [totalInvestment, setTotalInvestment] = useState(0);
+  const [totalProfit, setTotalProfit] = useState(0);
+  const [todayProfit, setTodayProfit] = useState(0);
 
   useEffect(() => {
-    const fetchAirbnbInvestments = async () => {
+    const fetchAirbnbData = async () => {
       try {
         const token = localStorage.getItem('mytoken');
-        const res = await fetch('https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/dashboard/fetchallinvestment', {
+        // Fetch investments
+        const investmentRes = await fetch('http://localhost:8080/dashboard/fetchallinvestment', {
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${JSON.parse(token)}`,
           },
         });
 
-        if (!res.ok) throw new Error(await res.text());
-        const investments = await res.json();
+        if (!investmentRes.ok) throw new Error(await investmentRes.text());
+        const investments = await investmentRes.json();
 
         const airbnbData = investments.filter(item => 
           item.investmentPlan === 'AirBnB' && item.paymentMode === 'active'
@@ -26,13 +29,40 @@ const Airbnbhistory = () => {
         const total = airbnbData.reduce((sum, item) => sum + (item.price || 0), 0);
         setTotalInvestment(total);
 
+        // Fetch profits
+        const profitRes = await fetch('http://localhost:8080/dashboard/fetchprofit', {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${JSON.parse(token)}`,
+          },
+        });
+
+        if (!profitRes.ok) throw new Error(await profitRes.text());
+        const profits = await profitRes.json();
+
+        // Filter profits for AirBnB
+        const airbnbProfits = profits.profits.filter(item => 
+          item.investmentPlanId === 'AirBnB'
+        );
+
+        // Calculate total profit
+        const totalProfitAmount = airbnbProfits.reduce((sum, item) => sum + (item.amount || 0), 0);
+        setTotalProfit(totalProfitAmount);
+
+        // Calculate today's profit
+        const today = new Date().toISOString().split('T')[0];
+        const todayProfitAmount = airbnbProfits
+          .filter(item => item.date?.split('T')[0] === today)
+          .reduce((sum, item) => sum + (item.amount || 0), 0);
+        setTodayProfit(todayProfitAmount);
+
       } catch (err) {
         console.error(err);
-        toast.error('Failed to load Airbnb investments');
+        toast.error('Failed to load AirBnB data');
       }
     };
 
-    fetchAirbnbInvestments();
+    fetchAirbnbData();
   }, []);
 
   const MetricCard = ({ icon: Icon, title, value, color }) => (
@@ -62,21 +92,21 @@ const Airbnbhistory = () => {
         <MetricCard
           icon={FaMoneyBillWave}
           title="Total Profit"
-          value={<span className="text-green-400">$0</span>}
+          value={<CountUp end={totalProfit.toFixed(2)} duration={2} prefix="$" separator="," className="text-green-400" />}
           color="text-green-400"
         />
         
         <MetricCard
           icon={FaCalendarAlt}
           title="Today's Profit"
-          value={<span className="text-green-400">$0</span>}
+          value={<CountUp end={todayProfit.toFixed(2)} duration={2} prefix="$" separator="," className="text-green-400" />}
           color="text-green-400"
         />
         
         <MetricCard
           icon={FaWallet}
           title="Total Withdrawal"
-          value={<span className="text-blue-400">$0</span>}
+          value={<span className="text-blue-400">0$</span>}
           color="text-blue-400"
         />
       </div>
