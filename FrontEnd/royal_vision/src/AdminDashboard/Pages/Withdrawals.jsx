@@ -6,7 +6,7 @@ const Withdrawals = () => {
 
   const fetchWithdrawals = async () => {
     try {
-      const response = await fetch('http://localhost:8080/api/admin/withdrawals');
+      const response = await fetch('https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/api/admin/withdrawals');
       const data = await response.json();
       setWithdrawals(data);
       setLoading(false);
@@ -18,7 +18,7 @@ const Withdrawals = () => {
 
   const updateWithdrawalStatus = async (id, status) => {
     try {
-      const response = await fetch(`http://localhost:8080/api/admin/withdrawals/${id}`, {
+      const response = await fetch(`https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/api/admin/withdrawals/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

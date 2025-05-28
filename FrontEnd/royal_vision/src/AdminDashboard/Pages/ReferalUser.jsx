@@ -54,7 +54,7 @@ const ReferalUser = () => {
     const fetchReferrals = async () => {
       try {
         const response = await fetch(
-          "http://localhost:8080/api/admin/referrals"
+          "https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/api/admin/referrals"
         );
         const data = await response.json();
         console.log(data);

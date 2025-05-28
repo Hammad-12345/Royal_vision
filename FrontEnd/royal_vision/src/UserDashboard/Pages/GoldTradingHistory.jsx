@@ -13,7 +13,7 @@ const GoldTradingHistory = () => {
       try {
         const token = localStorage.getItem('mytoken');
         // Fetch investments
-        const investmentRes = await fetch('http://localhost:8080/dashboard/fetchallinvestment', {
+        const investmentRes = await fetch('https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/dashboard/fetchallinvestment', {
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${JSON.parse(token)}`,
@@ -30,7 +30,7 @@ const GoldTradingHistory = () => {
         setTotalInvestment(total);
 
         // Fetch profits
-        const profitRes = await fetch('http://localhost:8080/dashboard/fetchprofit', {
+        const profitRes = await fetch('https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/dashboard/fetchprofit', {
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${JSON.parse(token)}`,
@@ -51,11 +51,13 @@ const GoldTradingHistory = () => {
         setTotalProfit(totalProfitAmount);
         console.log(totalProfitAmount)
         // Calculate today's profit
+        console.log("goldProfits:::"+ goldProfits)
         const today = new Date().toISOString().split('T')[0];
         const todayProfitAmount = goldProfits
           .filter(item => item.date?.split('T')[0] === today)
           .reduce((sum, item) => sum + (item.amount || 0), 0);
         setTodayProfit(todayProfitAmount);
+
 
       } catch (err) {
         console.error(err);

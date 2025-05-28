@@ -69,7 +69,7 @@ export default function Register({ referralCode }) {
     };
 
     try {
-      const response = await fetch("http://localhost:8080/auth/register", {
+      const response = await fetch("https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/auth/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
