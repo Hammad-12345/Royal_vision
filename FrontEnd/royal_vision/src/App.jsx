@@ -1,4 +1,11 @@
-import { BrowserRouter, Routes, Route, useLocation, Navigate, useParams } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  useLocation,
+  Navigate,
+  useParams,
+} from "react-router-dom";
 import Layout from "./Component/Layout";
 import Home from "./Pages/Home";
 import News from "./Pages/News";
@@ -43,12 +50,14 @@ import ReferalUser from "./AdminDashboard/Pages/ReferalUser";
 // Add this component above the App component
 const SignupWithReferral = () => {
   const { referralCode } = useParams();
-  console.log(referralCode)
+  console.log(referralCode);
   return <Register referralCode={referralCode} />;
 };
 
 function App() {
   const token = useSelector((state) => state.Token.DashboardRoutes);
+  const userdetail = useSelector((state) => state.Token.userDetail);
+  console.log(userdetail);
   return (
     <>
       <ToastContainer
@@ -75,7 +84,7 @@ function App() {
             <Route path="policy" element={<Policy />} />
             <Route path="how-it-works" element={<HowitsWorks />} />
 
-            {token && (
+            {token && userdetail?.Role === "user" && (
               <>
                 {/* // <Route path="/" element={<UserDashboardLayout />}> */}
                 <Route path="dashboard" element={<Dashboard />} />
@@ -102,21 +111,28 @@ function App() {
           </Route>
 
           {/* Admin Routes */}
-          <Route path="/admin" element={<AdminDashboardLayout />}>
-            <Route index element={<AdminDashboard />} />
-            <Route path="users" element={<AdminUsers />} />
-            <Route path="investments" element={<AdminInvestments />} />
-            <Route path="profits" element={<AdminProfits />} />
-            <Route path="withdrawals" element={<AdminWithdrawals />} />
-            <Route path="referal" element={<ReferalUser />} />
-          </Route>
+          {token && userdetail?.Role === "admin" && (
+            <>
+              <Route path="/admin" element={<AdminDashboardLayout />}>
+                <Route index element={<AdminDashboard />} />
+                <Route path="users" element={<AdminUsers />} />
+                <Route path="investments" element={<AdminInvestments />} />
+                <Route path="profits" element={<AdminProfits />} />
+                <Route path="withdrawals" element={<AdminWithdrawals />} />
+                <Route path="referal" element={<ReferalUser />} />
+              </Route>
+            </>
+          )}
 
           {!token && (
             <Route path="/" element={<AuthLayout />}>
               <Route path="signin" element={<Login />} />
               <Route path="signup" element={<Register />} />
               {/* Redirect /signup?ref=XXX to the signup page */}
-              <Route path="signup/ref/:referralCode" element={<SignupWithReferral />} />
+              <Route
+                path="signup/ref/:referralCode"
+                element={<SignupWithReferral />}
+              />
             </Route>
           )}
         </Routes>

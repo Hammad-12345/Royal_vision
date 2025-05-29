@@ -118,9 +118,17 @@ const Login = () => {
             token: result.newtoken,
             user: result.user,
           })
-        );
+        ); 
+        if(result.user.Role==='user')
+        {
+          navigate("/");
+        }
+        else 
+        {
+          navigate("/admin")
+        }
       
-        navigate("/");
+        
       } else {
         toast.error(result.message || "OTP verification failed");
       }

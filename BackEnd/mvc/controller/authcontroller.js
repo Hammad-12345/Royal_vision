@@ -185,7 +185,7 @@ const login = async (req, res) => {
     });
 
     const mailOptions = {
-      from: `"Overland Solutions <overlandssolutions@gmail.com>"`,
+      from: `"Overland Solutions"`,
       to: email,
       subject: "Your OTP Code for Login",
       html: `<div style="max-width: 600px; margin: auto; font-family: 'Poppins', sans-serif; border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden;">
@@ -202,12 +202,9 @@ const login = async (req, res) => {
       Please use the following One-Time Password (OTP) to verify your login:
     </p>
     <div style="display: flex; align-items: center; justify-content: center; gap: 10px; margin: 20px auto;">
-      <div style="font-size: 24px; font-weight: bold; background-color: #f4f4f4; text-align: center; padding: 15px; border-radius: 6px; color: #2c3e50; min-width: 120px;">
+      <div style="font-size: 24px; font-weight: bold; background-color: #f4f4f4; text-align: center; padding: 15px; border-radius: 6px; color: #2c3e50;width: 100%;">
         ${otp}
       </div>
-      <a href="#" style="background-color: blue; color: white; text-decoration: none; padding: 10px 20px; border-radius: 6px; font-size: 14px; display: inline-block;">
-        Copy OTP
-      </a>
     </div>
     <p style="margin-top: 30px; font-size: 16px; color: #333;">
       If you did not attempt to log in, please ignore this message or contact support immediately.
@@ -270,7 +267,8 @@ const Otp = async (req, res) => {
         email: user.EmailAddress,
         name: user.Name,
       },
-      process.env.JWT_SECRET_KEY
+      process.env.JWT_SECRET_KEY,
+
     );
     res
       .status(200)
