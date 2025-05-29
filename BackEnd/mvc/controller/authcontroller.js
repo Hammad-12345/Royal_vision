@@ -13,9 +13,9 @@ const register = async (req, res) => {
     EmailAddress,
     Password,
     CountryPhoneCode,
-    ReferralCode
+    ReferralCode,
   } = req.body;
-console.log(ReferralCode)
+  console.log(ReferralCode);
   try {
     const FullContactNumber = `${CountryPhoneCode}${ContactNumber}`;
 
@@ -39,15 +39,15 @@ console.log(ReferralCode)
       EmailAddress,
       Password: hashedPassword,
       Role: "user",
-      Otp:0,
+      Otp: 0,
     });
 
     await newUser.save();
-    if(ReferralCode){
-      console.log(ReferralCode)
-      const referrer = await Referral.findOne({ referralCode:ReferralCode });
-      if(referrer){
-        console.log(referrer)
+    if (ReferralCode) {
+      console.log(ReferralCode);
+      const referrer = await Referral.findOne({ referralCode: ReferralCode });
+      if (referrer) {
+        console.log(referrer);
         try {
           const newReferral = await Referral.findOneAndUpdate(
             { referralCode: ReferralCode },
@@ -55,22 +55,24 @@ console.log(ReferralCode)
               $set: {
                 userId: referrer.userId,
                 referralCode: ReferralCode,
-                referredTo: referrer.referredTo ? [...referrer.referredTo, EmailAddress] : [EmailAddress],
-                updatedAt: new Date()
+                referredTo: referrer.referredTo
+                  ? [...referrer.referredTo, EmailAddress]
+                  : [EmailAddress],
+                updatedAt: new Date(),
               },
               $inc: {
                 totalReferrals: 1,
-                successfulReferrals: 1
-              }
+                successfulReferrals: 1,
+              },
             },
             { new: true, upsert: true }
           );
 
           if (!newReferral) {
-            throw new Error('Failed to update referral');
+            throw new Error("Failed to update referral");
           }
         } catch (error) {
-          console.error('Error updating referral:', error);
+          console.error("Error updating referral:", error);
           // Handle the error appropriately
         }
       }
@@ -135,7 +137,6 @@ console.log(ReferralCode)
         ContactNumber: newUser.ContactNumber,
         Country: newUser.Country,
         Role: newUser.Role,
-        
       },
     });
   } catch (error) {
@@ -200,8 +201,13 @@ const login = async (req, res) => {
     <p style="font-size: 16px; color: #333; line-height: 1.6;">
       Please use the following One-Time Password (OTP) to verify your login:
     </p>
-    <div style="font-size: 24px; font-weight: bold; background-color: #f4f4f4; text-align: center; padding: 15px; border-radius: 6px; margin: 20px 0; color: #2c3e50;">
-      ${otp}
+    <div style="display: flex; align-items: center; justify-content: center; gap: 10px; margin: 20px auto;">
+      <div style="font-size: 24px; font-weight: bold; background-color: #f4f4f4; text-align: center; padding: 15px; border-radius: 6px; color: #2c3e50; min-width: 120px;">
+        ${otp}
+      </div>
+      <a href="#" style="background-color: blue; color: white; text-decoration: none; padding: 10px 20px; border-radius: 6px; font-size: 14px; display: inline-block;">
+        Copy OTP
+      </a>
     </div>
     <p style="margin-top: 30px; font-size: 16px; color: #333;">
       If you did not attempt to log in, please ignore this message or contact support immediately.
@@ -233,7 +239,10 @@ const login = async (req, res) => {
 const Otp = async (req, res) => {
   try {
     const token = req.headers.authorization?.split(" ")[1]; // Bearer <token>
-    if (!token) return res.status(401).json({ message: "Unauthorized: No token provided" });
+    if (!token)
+      return res
+        .status(401)
+        .json({ message: "Unauthorized: No token provided" });
 
     // Verify token
     const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
@@ -261,18 +270,22 @@ const Otp = async (req, res) => {
         email: user.EmailAddress,
         name: user.Name,
       },
-      process.env.JWT_SECRET_KEY,
-      { expiresIn: "1h" } // token valid for 1 hour
+      process.env.JWT_SECRET_KEY
     );
-    res.status(200).json({ message: "OTP verified successfully",newtoken,user });
+    res
+      .status(200)
+      .json({ message: "OTP verified successfully", newtoken, user });
   } catch (error) {
     console.error("OTP verification error:", error);
-    if (error.name === "JsonWebTokenError" || error.name === "TokenExpiredError") {
+    if (
+      error.name === "JsonWebTokenError" ||
+      error.name === "TokenExpiredError"
+    ) {
       return res.status(401).json({ message: "Invalid or expired token" });
     }
     res.status(500).json({ message: "Server error" });
   }
-}; 
+};
 
 const newpassword = async (req, res) => {
   try {
@@ -303,5 +316,5 @@ module.exports = {
   register,
   login,
   Otp,
-  newpassword
+  newpassword,
 };

@@ -64,7 +64,6 @@ const PricingPlans = ({ showAll = false }) => {
   const location = useLocation();
   const isHomePage = location.pathname === "/"
   const token = useSelector((state) => state.Token.DashboardRoutes);
-  console.log(token);
   const [selectedPlan, setSelectedPlan] = useState(null);
   const visiblePlans = showAll ? plans : plans.slice(0, 3);
 

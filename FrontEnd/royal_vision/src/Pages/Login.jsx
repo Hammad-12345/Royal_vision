@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { FaEnvelope, FaLock } from "react-icons/fa";
 import { toast } from "react-toastify";
@@ -8,10 +8,12 @@ import { useNavigate } from "react-router-dom";
 const Login = () => {
   const dispatch = useDispatch()
   const [step, setStep] = useState(1);
+  const otpRefs = useRef([]);
   const {
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
   } = useForm();
   const [token, settoken] = useState("");
   const navigate = useNavigate()
@@ -44,12 +46,52 @@ const Login = () => {
     }
   };
 
-  const onOTPSubmit = async (data) => {
-    const otp = [data.otp1, data.otp2, data.otp3, data.otp4, data.otp5].join(
-      ""
-    );
-    console.log("OTP entered:", otp);
+  const handleOTPChange = (e, index) => {
+    const value = e.target.value;
+    
+    // Handle single digit input
+    if (value.length === 1) {
+      setValue(`otp${index + 1}`, value);
+      if (index < 4) {
+        otpRefs.current[index + 1].focus();
+      }
+    }
+  };
 
+  const handleOTPPaste = (e) => {
+    e.preventDefault();
+    const pastedData = e.clipboardData.getData('text').slice(0, 5);
+    
+    if (/^\d+$/.test(pastedData)) {
+      // Split the pasted data into individual digits
+      const digits = pastedData.split('');
+      
+      // Set each digit in the corresponding input
+      digits.forEach((digit, index) => {
+        if (index < 5) {
+          setValue(`otp${index + 1}`, digit, { shouldValidate: true });
+          if (otpRefs.current[index]) {
+            otpRefs.current[index].value = digit;
+          }
+        }
+      });
+      
+      // Focus the next empty input or the last input
+      const nextEmptyIndex = digits.length < 5 ? digits.length : 4;
+      if (otpRefs.current[nextEmptyIndex]) {
+        otpRefs.current[nextEmptyIndex].focus();
+      }
+    }
+  };
+
+  const onOTPSubmit = async (data) => {
+    const otp = [data.otp1, data.otp2, data.otp3, data.otp4, data.otp5].join("");
+    
+    if (otp.length !== 5) {
+      toast.error("Please enter all 5 digits of the OTP");
+      return;
+    }
+    console.log(otp)
     try {
       const response = await fetch("https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/auth/otp", {
         method: "POST",
@@ -61,7 +103,6 @@ const Login = () => {
       });
 
       const result = await response.json();
-      console.log(result);
       
       if (response.ok) {
         toast.success(result.message);
@@ -69,11 +110,9 @@ const Login = () => {
         const mytoken = JSON.stringify(result.newtoken);
         const user = JSON.stringify(result.user);
       
-        // Save to localStorage
         localStorage.setItem("mytoken", mytoken);
         localStorage.setItem("user", user);
       
-        // Dispatch both token and user to Redux
         dispatch(
           LoggedIn({
             token: result.newtoken,
@@ -82,10 +121,7 @@ const Login = () => {
         );
       
         navigate("/");
-      }
-      
-        // redirect or store session, etc.
-      else {
+      } else {
         toast.error(result.message || "OTP verification failed");
       }
     } catch (error) {
@@ -221,8 +257,20 @@ const Login = () => {
               <input
                 key={i}
                 maxLength={1}
-                {...register(`otp${i}`, { required: true })}
+                type="text"
+                inputMode="numeric"
+                pattern="[0-9]*"
+                {...register(`otp${i}`, { 
+                  required: true,
+                  pattern: {
+                    value: /^[0-9]$/,
+                    message: "Only numbers are allowed"
+                  }
+                })}
                 className="w-full px-4 py-3 bg-transparent border border-gray-300 rounded-lg text-center"
+                ref={(el) => (otpRefs.current[i - 1] = el)}
+                onChange={(e) => handleOTPChange(e, i - 1)}
+                onPaste={handleOTPPaste}
               />
             ))}
           </div>

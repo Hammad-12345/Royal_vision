@@ -128,19 +128,13 @@ const Header = () => {
               >
                 <img
                   src="https://d3hwx9f38knfi9.cloudfront.net/logodesign.png"
-                  className="w-16 h-16"
+                  className="w-12 h-12 sm:w-16 sm:h-16"
                   alt="logo"
                 />
               </Link>
               <span className="uppercase text-[10px] sm:text-xs font-poppins text-white"> Overland Solutions</span>
-              {/* Mobile Menu Icon */}
+              {/* Mobile Menu Icon - MOVED TO RIGHT */}
               </div>
-              <button
-                onClick={() => {!token ? setMenuOpen(!menuOpen) : setSidebarOpen(!sidebarOpen)}}
-                className={`text-gray-400 hover:text-white transition-colors text-xl sm:text-2xl ${!token ? 'lg:hidden' : ''}`}
-              >
-                <FaBars />
-              </button>
             </div>
 
             {/* Center Navigation */}
@@ -194,15 +188,25 @@ const Header = () => {
             {/* Header Right Section (Icons and User) */}
             <div className="flex items-center space-x-4 sm:space-x-6 relative">
               {!token ? (
-                <Link
-                  to={"/signin"}
-                  className="bg-blue-600 font-semibold rounded-full text-white px-6 py-2 hover:bg-blue-500 transition-colors duration-300 font-poppins backdrop-blur-sm"
-                >
-                  Sign In
-                </Link>
+                <>
+                  <Link
+                    to={"/signin"}
+                    className="bg-blue-600 font-semibold rounded-full text-white px-6 py-2 hover:bg-blue-500 transition-colors duration-300 font-poppins backdrop-blur-sm"
+                  >
+                    Sign In
+                  </Link>
+                   {/* Mobile Menu Icon - Added for non-logged-in users */}
+                  <button
+                    onClick={() => setMenuOpen(!menuOpen)}
+                    className="text-gray-400 hover:text-white transition-colors text-xl sm:text-2xl lg:hidden"
+                  >
+                     <FaBars />
+                  </button>
+                </>
               ) : (
                 <>
-                  {/* User Icon */}
+                  {/* Hamburger menu icon for logged-in users - Added to header */}
+                  {/* User Icon and Name */}
                   <div className="relative">
                     <div
                       className="flex items-center space-x-3 cursor-pointer"
@@ -217,16 +221,18 @@ const Header = () => {
                       ) : (
                         <FaUserCircle className="text-2xl text-gray-400" />
                       )}
-                      <div className="text-sm font-poppins">{userDisplayName}</div>
+                      {/* User Display Name - MOVED TO POPOVER */}
                     </div>
                     {showUserPopover && (
                       <div className="absolute right-0 mt-2 w-48 bg-[#1b1f2a] text-white rounded shadow-lg z-20">
                         <ul>
+                          {/* User Name in Popover */}
+                          <div className="px-4 py-3 text-sm font-semibold border-b border-gray-700">Hello, {userDisplayName}</div>
                           <li className="flex items-center px-4 py-2 hover:bg-gray-700 cursor-pointer">
                             <FaUserCircle className="mr-2" />
                             <Link to="/account">Account</Link>
                           </li>
-                          <li 
+                          <li
                             className="flex items-center px-4 py-2 hover:bg-gray-700 cursor-pointer"
                             onClick={toggleNotificationPopover}
                           >
@@ -244,6 +250,12 @@ const Header = () => {
                       </div>
                     )}
                   </div>
+                  <button
+                    onClick={() => setSidebarOpen(!sidebarOpen)}
+                    className="text-gray-400 hover:text-white transition-colors text-xl sm:text-2xl"
+                  >
+                    <FaBars />
+                  </button>
                 </>
               )}
             </div>
@@ -297,7 +309,7 @@ const Header = () => {
               >
                 <img
                   src="https://d3hwx9f38knfi9.cloudfront.net/logodesign.png"
-                  className="w-16 h-16"
+                  className="w-12 h-12 sm:w-16 sm:h-16"
                   alt="logo"
                 />
               </Link>
