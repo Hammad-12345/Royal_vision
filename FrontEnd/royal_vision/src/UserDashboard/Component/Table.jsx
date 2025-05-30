@@ -40,7 +40,7 @@ const Table = ({ data, columns,pagination }) => {
           {table.getHeaderGroups().map(headerGroup => (
             <tr key={headerGroup.id}>
               {headerGroup.headers.map(header => (
-                <th key={header.id} className="px-4 py-2 text-left">
+                <th key={header.id} className="px-4 py-2 text-center">
                   {flexRender(header.column.columnDef.header, header.getContext())}
                 </th>
               ))}

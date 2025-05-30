@@ -10,38 +10,38 @@ const Profits = () => {
       header: 'User',
       accessorKey: 'userId._id',
       cell: ({ row }) => (
-        <span className="font-medium">{row.original.userId._id}</span>
+        <span className="font-medium text-white">{row.original.userId._id}</span>
       )
     },
     {
       header: 'User Email',
       accessorKey: 'userId.EmailAddress',
       cell: ({ row }) => (
-        <span className="font-medium">{row.original.userId.EmailAddress}</span>
+        <span className="text-blue-600 hover:text-blue-800 transition-colors">{row.original.userId.EmailAddress}</span>
       )
     },
     {
       header: 'Investment ID',
       accessorKey: 'investmentId._id',
       cell: ({ row }) => (
-        <span className="font-medium">{row.original.investmentId._id}</span>
+        <span className="font-medium text-white">{row.original.investmentId._id}</span>
       )
     },
     {
-      header: 'Investment Plan',
+      header: 'Plan',
       accessorKey: 'investmentPlanId',
       cell: ({ row }) => (
-        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-sm font-medium bg-purple-100 text-purple-800">
+        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-sm font-medium bg-purple-100 text-purple-900">
           {row.original.investmentPlanId}
         </span>
       )
     },
     {
-      header: 'Investment Price',
+      header: 'Invest Price',
       accessorKey: 'investmentId.price',
       cell: ({ row }) => (
-        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-sm font-medium bg-purple-100 text-purple-800">
-          {row.original.investmentId.price}
+        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-sm font-medium bg-purple-900 text-purple-200">
+          ${row.original.investmentId.price}
         </span>
       )
     },
@@ -49,7 +49,7 @@ const Profits = () => {
       header: 'Profit Amount',
       accessorKey: 'amount',
       cell: ({ row }) => (
-        <span className="font-semibold text-emerald-600">
+        <span className="font-semibold text-emerald-400">
           ${row.original.amount}
         </span>
       )
@@ -58,7 +58,7 @@ const Profits = () => {
       header: 'Date',
       accessorKey: 'date',
       cell: ({ row }) => (
-        <span className="text-gray-600">
+        <span className="text-gray-400">
           {new Date(row.original.date).toLocaleDateString()}
         </span>
       )
@@ -85,7 +85,7 @@ const Profits = () => {
   if (loading) {
     return (
       <div className="flex justify-center items-center min-h-[200px]">
-        <div className="text-lg text-gray-600">Loading...</div>
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
       </div>
     );
   }
@@ -93,7 +93,7 @@ const Profits = () => {
   return (
     <div className="space-y-6">
       <h1 className="text-2xl font-poppins font-bold text-white">Profits Detail</h1>
-      <div className="overflow-x-auto rounded-lg shadow-sm">
+      <div className="bg-gradient-to-br from-[#0F1120] to-[#1E2140] rounded-xl shadow-md overflow-hidden">
         <div className="min-w-full">
           <Table 
             data={profits}

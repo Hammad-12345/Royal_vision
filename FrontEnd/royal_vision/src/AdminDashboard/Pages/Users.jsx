@@ -13,26 +13,40 @@ const Users = () => {
   const columns = [
     columnHelper.accessor('Name', {
       header: 'Name',
-      cell: info => info.getValue(),
+      cell: info => (
+        <span className="font-medium text-white">{info.getValue()}</span>
+      ),
     }),
     columnHelper.accessor('EmailAddress', {
       header: 'Email',
-      cell: info => info.getValue(),
+      cell: info => (
+        <span className="text-blue-600 hover:text-blue-800 transition-colors">
+          {info.getValue()}
+        </span>
+      ),
     }),
     columnHelper.accessor('DateOfBirth', {
-      header: 'Date of Birth',
-      cell: info => new Date(info.getValue()).toLocaleDateString(),
+      header: 'DOB',
+      cell: info => (
+        <span className="text-gray-400">
+          {new Date(info.getValue()).toLocaleDateString()}
+        </span>
+      ),
     }),
     columnHelper.accessor('ContactNumber', {
       header: 'Contact',
-      cell: info => info.getValue(),
+      cell: info => (
+        <span className="font-medium text-white">{info.getValue()}</span>
+      ),
     }),
     columnHelper.accessor('_id', {
       header: 'ID',
-      cell: info => info.getValue(),
+      cell: info => (
+        <span className="font-medium text-white">{info.getValue()}</span>
+      ),
     }),
     columnHelper.accessor('profileImage', {
-      header: 'Profile Image',
+      header: 'Image',
       cell: info => info.getValue() ? (
         <img 
           src={info.getValue()} 
@@ -40,7 +54,7 @@ const Users = () => {
           className="w-10 h-10 rounded-full object-cover"
         />
       ) : (
-        <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center">
+        <div className="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center">
           <FaUser className="w-6 h-6 text-gray-500" />
         </div>
       ),
@@ -96,8 +110,6 @@ const Users = () => {
     }
   };
   useEffect(() => {
-    
-
     fetchUsers();
   }, []);
 
@@ -111,13 +123,17 @@ const Users = () => {
 
   return (
     <div className="space-y-4">
-      <h1 className="text-2xl font-poppins font-bold">Users Management</h1>
-      <Table 
-        columns={columns}
-        data={users}
-        loading={loading}
-        pagination={true}
-      />
+      <h1 className="text-2xl font-poppins font-bold text-white">Users Management</h1>
+      <div className="bg-gradient-to-br from-[#0F1120] to-[#1E2140] rounded-xl shadow-md overflow-hidden">
+        <div className="min-w-full">
+          <Table 
+            columns={columns}
+            data={users}
+            loading={loading}
+            pagination={true}
+          />
+        </div>
+      </div>
     </div>
   );
 };

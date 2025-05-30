@@ -89,7 +89,7 @@ const Investments = () => {
       },
       {
         accessorKey: 'investmentPlan',
-        header: 'Investment Plan',
+        header: 'Plan',
         cell: (info) => (
           <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-sm font-medium bg-purple-100 text-purple-800">
             {info.getValue()}
@@ -107,7 +107,7 @@ const Investments = () => {
       },
       {
         accessorKey: 'paymentMode',
-        header: 'Payment Mode',
+        header: 'Status',
         cell: (info) => (
           <div className="flex items-center space-x-3">
             <span className={`px-3 py-1 rounded-full text-sm font-medium ${
@@ -132,7 +132,7 @@ const Investments = () => {
       },
       {
         accessorKey: 'createdAt',
-        header: 'Created At',
+        header: 'Date',
         cell: (info) => (
           <span className="text-gray-600">
             {new Date(info.getValue()).toLocaleDateString(undefined, {
