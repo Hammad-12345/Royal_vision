@@ -232,13 +232,23 @@ router.get('/referrals', async (req, res) => {
 
 router.get('/profits', async (req, res) => {
   try {
-    const profits = await Profit.find().sort({ date: -1 });
-    const lastProfitEntry = await Profit.findOne().sort({ date: -1 });
-    const lastDistributionDate = lastProfitEntry ? lastProfitEntry.date : null;
+    const profits = await Profit.find()
+      .populate('userId', 'EmailAddress')
+      .populate('investmentId', 'price')
+      .sort({ date: -1 });
+
+      console.log(profits)
+    // Format the response to include user email and investment amount
+    const formattedProfits = profits.map(profit => ({
+      ...profit.toObject(),
+      userEmail: profit.userId ? profit.userId.EmailAddress : 'N/A',
+      investmentAmount: profit.investmentId ? profit.investmentId.price : 'N/A'
+    }));
 
     res.json({
-      profits,
-      lastDistributionDate
+      success: true,
+      profits: formattedProfits,
+      // lastDistributionDate
     });
   } catch (error) {
     console.error('Error in /profits route:', error);

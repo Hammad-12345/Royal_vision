@@ -183,36 +183,63 @@ const ProfitManagement = () => {
     {
       header: "Invest ID",
       accessorKey: "id",
+      cell: (info) => (
+        <span className="font-medium">{info.getValue()}</span>
+      ),
     },
     {
       header: "User",
       accessorKey: "userId",
+      cell: (info) => (
+        <span className="font-medium">{info.getValue()}</span>
+      ),
     },
     {
       header: "User Email",
       accessorKey: "userEmail",
+      cell: (info) => (
+        <span className="text-blue-600 hover:text-blue-800 transition-colors">
+          {info.getValue()}
+        </span>
+      ),
     },
     {
       header: "Plan",
       accessorKey: "investmentPlan",
+      cell: (info) => (
+        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-sm font-medium bg-purple-100 text-purple-800">
+          {info.getValue()}
+        </span>
+      ),
     },
     {
       header: "Investment Amount",
       accessorKey: "price",
-      cell: ({ row }) => `$${row.original.price}`,
+      cell: (info) => (
+        <span className="font-semibold text-emerald-600">
+          ${info.getValue().toLocaleString()}
+        </span>
+      ),
     },
     {
       header: "Profit Range",
       accessorKey: "investmentPlan",
-      cell: ({ row }) => getProfitRange(row.original.investmentPlan),
+      cell: (info) => (
+        <span className="text-gray-600">
+          {getProfitRange(info.getValue())}
+        </span>
+      ),
     },
     {
       header: "Action",
-      cell: ({ row }) => (
+      cell: (info) => (
         <button
-          onClick={() => handleProfitClick(row.original)}
-          className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-full"
+          onClick={() => handleProfitClick(info.row.original)}
+          className="inline-flex items-center px-3 py-1 text-sm font-medium text-blue-600 hover:text-blue-800 hover:bg-blue-50 rounded-lg transition-all duration-200"
         >
+          <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+          </svg>
           Add Profit
         </button>
       ),
