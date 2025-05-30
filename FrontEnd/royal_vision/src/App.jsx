@@ -40,6 +40,7 @@ import AdminProfits from "./AdminDashboard/Pages/Profits";
 import AdminWithdrawals from "./AdminDashboard/Pages/Withdrawals";
 import ScrollToTop from "./Component/ScrollToTop";
 import ReferalUser from "./AdminDashboard/Pages/ReferalUser";
+import ProfitManagement from "./AdminDashboard/Pages/ProfitManagement";
 // import GoldTradingHistory from "./UserDashboard/Pages/GoldTradingHistory";
 // import Airbnbhistory from "./UserDashboard/Pages/Airbnbhistory";
 // import Amazonhistory from "./UserDashboard/Pages/Amazonhistory";
@@ -120,6 +121,7 @@ function App() {
                 <Route path="profits" element={<AdminProfits />} />
                 <Route path="withdrawals" element={<AdminWithdrawals />} />
                 <Route path="referal" element={<ReferalUser />} />
+                <Route path="profit-management" element={<ProfitManagement />} />
               </Route>
             </>
           )}

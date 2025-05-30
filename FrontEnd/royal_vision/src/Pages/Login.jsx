@@ -58,6 +58,14 @@ const Login = () => {
     }
   };
 
+  const handleKeyDown = (e, index) => {
+    if (e.key === 'Backspace' && !e.target.value && index > 0) {
+      // If current input is empty and backspace is pressed, move to previous input
+      otpRefs.current[index - 1].focus();
+      setValue(`otp${index}`, '');
+    }
+  };
+
   const handleOTPPaste = (e) => {
     e.preventDefault();
     const pastedData = e.clipboardData.getData('text').slice(0, 5);
@@ -278,6 +286,7 @@ const Login = () => {
                 className="w-full px-4 py-3 bg-transparent border border-gray-300 rounded-lg text-center"
                 ref={(el) => (otpRefs.current[i - 1] = el)}
                 onChange={(e) => handleOTPChange(e, i - 1)}
+                onKeyDown={(e) => handleKeyDown(e, i - 1)}
                 onPaste={handleOTPPaste}
               />
             ))}

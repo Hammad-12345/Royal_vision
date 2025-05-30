@@ -33,7 +33,7 @@ router.get('/stats', async (req, res) => {
 // Get all users
 router.get('/users', async (req, res) => {
   try {
-    const users = await User.find({ Role: 'user' });
+    const users = await User.find({ Role: 'user' }).sort({ createdAt: -1 });;
     res.json(users);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -232,7 +232,7 @@ router.get('/referrals', async (req, res) => {
 
 router.get('/profits', async (req, res) => {
   try {
-    const profits = await Profit.find();
+    const profits = await Profit.find().sort({ date: -1 });
     const lastProfitEntry = await Profit.findOne().sort({ date: -1 });
     const lastDistributionDate = lastProfitEntry ? lastProfitEntry.date : null;
 
@@ -244,6 +244,94 @@ router.get('/profits', async (req, res) => {
     console.error('Error in /profits route:', error);
     res.status(500).json({ 
       success: false,
+      message: error.message 
+    });
+  }
+});
+
+// Add profit to investment
+router.post('/add-profit', async (req, res) => {
+  try {
+    const { investmentId, userId, investmentPlanId, amount } = req.body;
+
+    // Create new profit record
+    const profit = await Profit.create({
+      userId,
+      investmentId,
+      investmentPlanId,
+      amount,
+      date: new Date()
+    });
+
+    // Update user's wallet balance
+    await User.findByIdAndUpdate(userId, {
+      $inc: { walletBalance: amount }
+    });
+
+    res.json({ success: true, profit });
+  } catch (error) {
+    console.error('Error adding profit:', error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// Delete user
+router.delete('/deleteuser/:id', async (req, res) => {
+  try {
+    const userId = req.params.id;
+    
+    // Check if user exists
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ 
+        success: false, 
+        message: 'User not found' 
+      });
+    }
+
+    // Delete the user
+    await User.findByIdAndDelete(userId);
+
+    res.json({ 
+      success: true, 
+      message: 'User deleted successfully' 
+    });
+  } catch (error) {
+    console.error('Error deleting user:', error);
+    res.status(500).json({ 
+      success: false, 
+      message: error.message 
+    });
+  }
+});
+
+router.delete('/deleteinvest/:id', async (req, res) => {
+  try {
+    const investmentId = req.params.id;
+    
+    // Check if investment exists
+    const investment = await Investment.findById({_id:investmentId});
+    if (!investment) {
+      return res.status(404).json({ 
+        success: false, 
+        message: 'Investment not found' 
+      });
+    }
+
+    // Delete the investment
+    await Investment.findByIdAndDelete({_id:investmentId});
+
+    // Delete associated profits
+    await Profit.deleteMany({ investmentId: investmentId });
+
+    res.json({ 
+      success: true, 
+      message: 'Investment and associated profits deleted successfully' 
+    });
+  } catch (error) {
+    console.error('Error deleting investment:', error);
+    res.status(500).json({ 
+      success: false, 
       message: error.message 
     });
   }

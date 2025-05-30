@@ -34,7 +34,8 @@ const AdminDashboardLayout = () => {
     { label: "Dashboard", icon: <FaTachometerAlt />, path: "/admin" },
     { label: "Users", icon: <FaUsers />, path: "/admin/users" },
     { label: "Investments", icon: <FaMoneyBillWave />, path: "/admin/investments" },
-    { label: "Profit", icon: <FaChartLine />, path: "/admin/profits" },
+    { label: "Profit Detail", icon: <FaChartLine />, path: "/admin/profits" },
+    { label: "Profit Management", icon: <FaChartLine />, path: "/admin/profit-management" },
     { label: "Referal Users", icon: <FaUserFriends />, path: "/admin/referal" },
   ];
 

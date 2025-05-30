@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import Table from '../../UserDashboard/Component/Table';
-
+import { toast } from 'react-toastify';
 const Investments = () => {
   const [investments, setInvestments] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -38,6 +38,27 @@ const Investments = () => {
       }
     } catch (error) {
       console.error('Error updating payment mode:', error);
+    }
+  };
+
+  const handleDelete = async (investmentId) => {
+    if (window.confirm('Are you sure you want to delete this investment?')) {
+      // alert(investmentId)
+      try {
+        const response = await fetch(`http://localhost:8080/api/admin/deleteinvest/${investmentId}`, {
+          method: 'DELETE',
+        });
+        const data=await response.json()
+        if (response.ok) {
+          toast.success(data.message);
+          fetchInvestments()
+          // Update the local state by removing the deleted investment
+        } else {
+          console.error('Failed to delete investment');
+        }
+      } catch (error) {
+        console.error('Error deleting investment:', error);
+      }
     }
   };
 
@@ -97,7 +118,7 @@ const Investments = () => {
             }`}>
               {info.getValue().charAt(0).toUpperCase() + info.getValue().slice(1)}
             </span>
-            <button
+            {/* <button
               onClick={() => handleEdit(info.row.original)}
               className="inline-flex items-center px-3 py-1 text-sm font-medium text-blue-600 hover:text-blue-800 hover:bg-blue-50 rounded-lg transition-all duration-200"
             >
@@ -105,7 +126,7 @@ const Investments = () => {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
               </svg>
               Edit
-            </button>
+            </button> */}
           </div>
         ),
       },
@@ -122,12 +143,38 @@ const Investments = () => {
           </span>
         ),
       },
+      {
+        id: 'actions',
+        header: 'Actions',
+        cell: (info) => (
+          <div className="flex items-center">
+            <button
+              onClick={() => handleEdit(info.row.original)}
+              className="inline-flex items-center px-3 py-1 text-sm font-medium text-blue-600 hover:text-blue-800 hover:bg-blue-50 rounded-lg transition-all duration-200"
+            >
+              <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+              </svg>
+              Edit
+            </button>
+            <button
+              onClick={() => handleDelete(info.row.original.id)}
+              className="inline-flex items-center px-3 py-1 text-sm font-medium text-red-600 hover:text-red-800 hover:bg-red-50 rounded-lg transition-all duration-200"
+            >
+              <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+              </svg>
+              Delete
+            </button>
+          </div>
+        ),
+      },
     ],
     []
   );
   const fetchInvestments = async () => {
     try {
-      const response = await fetch('https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/api/admin/investments');
+      const response = await fetch('http://localhost:8080/api/admin/investments');
       const data = await response.json();
       console.log(data)
       setInvestments(data.data);
