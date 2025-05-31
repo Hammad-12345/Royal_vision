@@ -67,7 +67,7 @@ const Profits = () => {
 
   const fetchProfits = async () => {
     try {
-      const response = await fetch('http://localhost:8080/api/admin/profits');
+      const response = await fetch('https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/api/admin/profits');
       const data = await response.json();
       console.log(data)
       setProfits(data.profits);

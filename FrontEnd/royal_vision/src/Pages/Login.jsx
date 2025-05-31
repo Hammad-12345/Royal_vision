@@ -20,7 +20,7 @@ const Login = () => {
   // ✅ LOGIN with fetch
   const onLoginSubmit = async (data) => {
     try {
-      const response = await fetch("http://localhost:8080/auth/login", {
+      const response = await fetch("https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
