@@ -24,13 +24,8 @@ const Dashboard = () => {
   const [animationKey, setAnimationKey] = useState(0);
   const [activePlans, setActivePlans] = useState([]);
   const [inactivePlans, setInactivePlans] = useState([]);
-  const [chartData, setChartData] = useState({
-    dailyProfit: null,
-    totalProfit: null,
-    totalInvestment: null,
-    profitWithdrawal: null
-  });
-
+  const [investments, setInvestments] = useState([]);
+  const [totalprofitcharts,settotalprofitchart]=useState([])
   const handleToggle = useMemo(
     () => (panel) => {
       setExpanded(expanded === panel ? null : panel);
@@ -71,129 +66,6 @@ const Dashboard = () => {
     };
   }, [expanded, handleToggle]);
 
-  // Function to process investment data for charts
-  const processChartData = (investments) => {
-    // Filter for active investments only
-    const activeInvestments = investments.filter(inv => inv.paymentMode === 'active');
-
-    // Get current date and last 7 days for daily profit
-    const today = new Date();
-    const last7Days = Array.from({ length: 7 }, (_, i) => {
-      const date = new Date(today);
-      date.setDate(date.getDate() - i);
-      return date.toISOString().split('T')[0];
-    }).reverse();
-
-    // Define the start and end dates for the 12-month period (May 25, 2025 to May 25, 2026)
-    const startDate = new Date('2025-05-25T00:00:00.000Z');
-    const endDate = new Date('2026-05-25T23:59:59.999Z');
-
-    // Get the 12 months starting from May 2025 for monthly data
-    const last12Months = Array.from({ length: 12 }, (_, i) => {
-      const date = new Date(startDate);
-      date.setMonth(startDate.getMonth() + i); // Start from May 2025 and add months
-      return date.toLocaleString('default', { month: 'short' });
-    });
-
-    // Initialize data structures
-    const dailyProfitData = {
-      labels: last7Days.map(date => date.split('-')[2]), // Just the day number
-      datasets: [{
-        label: "Daily Profit ($)",
-        data: Array(7).fill(0),
-        fill: true,
-        backgroundColor: "rgba(59, 130, 246, 0.1)",
-        borderColor: "#3B82F6",
-        pointBackgroundColor: "#3B82F6",
-        pointBorderColor: "#fff",
-        tension: 0.4,
-      }]
-    };
-
-    const totalProfitData = {
-      labels: last12Months,
-      datasets: [{
-        label: "Total Profit ($)",
-        data: Array(12).fill(0),
-        fill: false,
-        backgroundColor: "rgba(59, 130, 246, 0.1)",
-        borderColor: "#3B82F6",
-        pointBackgroundColor: "#3B82F6",
-        tension: 0.4,
-      }]
-    };
-
-    const totalInvestmentData = {
-      labels: last12Months,
-      datasets: [{
-        label: "Total Investment ($)",
-        data: Array(12).fill(0),
-        fill: true,
-        backgroundColor: "rgba(59, 130, 246, 0.1)",
-        borderColor: "#3B82F6",
-        pointBackgroundColor: "#3B82F6",
-        pointBorderColor: "#fff",
-        tension: 0.4,
-      }]
-    };
-
-    // Process active investments
-    activeInvestments.forEach(investment => {
-      const investDate = new Date(investment.createdAt);
-
-      // Check if the investment date falls within the 12-month period
-      if (investDate >= startDate && investDate <= endDate) {
-        // Find the correct month index within the last12Months array
-        const monthDiff = (investDate.getFullYear() - startDate.getFullYear()) * 12 + (investDate.getMonth() - startDate.getMonth());
-        const monthIndex = monthDiff; // Index from 0 (start) to 11 (end of period)
-
-        if (monthIndex >= 0 && monthIndex < 12) {
-           // Update total investment
-          totalInvestmentData.datasets[0].data[monthIndex] += Number(investment.price) || 0;
-
-          // Update total profit
-          if (investment.profit) {
-            totalProfitData.datasets[0].data[monthIndex] += Number(investment.profit) || 0;
-          }
-        }
-      }
-
-      // Update daily profit (still based on last 7 days from today)
-      const dayIndex = last7Days.findIndex(date => date === investDate.toISOString().split('T')[0]);
-      if (investment.profit && dayIndex >= 0) {
-        dailyProfitData.datasets[0].data[dayIndex] += Number(investment.profit) || 0;
-      }
-    });
-
-    // Calculate profit vs withdrawal for active investments only
-    const totalProfit = activeInvestments.reduce((sum, inv) => sum + (Number(inv.profit) || 0), 0);
-    const totalWithdrawal = activeInvestments.reduce((sum, inv) => sum + (Number(inv.withdrawal) || 0), 0);
-
-    const profitWithdrawalData = {
-      labels: ["Profit", "Withdrawal"],
-      datasets: [{
-        label: "Amount ($)",
-        data: [totalProfit, totalWithdrawal],
-        backgroundColor: [
-          "rgba(99, 102, 241, 0.8)",
-          "rgba(236, 72, 153, 0.8)",
-        ],
-        borderColor: [
-          "rgba(99, 102, 241, 1)",
-          "rgba(236, 72, 153, 1)",
-        ],
-        borderWidth: 2,
-      }]
-    };
-
-    return {
-      dailyProfit: dailyProfitData,
-      totalProfit: totalProfitData,
-      totalInvestment: totalInvestmentData,
-      profitWithdrawal: profitWithdrawalData
-    };
-  };
-
   useEffect(() => {
     const fetchInvestments = async () => {
       try {
@@ -213,6 +85,7 @@ const Dashboard = () => {
         if (!res.ok) throw new Error(await res.text());
         const data = await res.json();
         console.log('Raw investment data:', data);
+        setInvestments(data);
 
         // Fetch profits
         const profitRes = await fetch(
@@ -228,11 +101,7 @@ const Dashboard = () => {
         if (!profitRes.ok) throw new Error(await profitRes.text());
         const profitData = await profitRes.json();
         console.log('Profit data:', profitData);
-
-        // Process data for charts
-        const processedChartData = processChartData(data);
-        setChartData(processedChartData);
-
+        settotalprofitchart(profitData.profits)
         let totals = {
           "Total Invest": 0,
           "Total Profit": profitData.totalProfit || 0,
@@ -322,17 +191,7 @@ const Dashboard = () => {
           >
             <h2 className="text-base sm:text-lg mb-2">{card.title}</h2>
             <p className="text-2xl sm:text-3xl font-semibold">
-              {/* <CountUp
-                key={`${card.title}-${animationKey}`}
-                end={card.count}
-                duration={2}
-                prefix="$"
-                separator=","
-              /> */}
-              $
-              {
-                card.count
-              }
+              ${card.count}
             </p>
           </div>
         ))}
@@ -488,52 +347,14 @@ const Dashboard = () => {
       <>
         <h2 className="text-xl sm:text-2xl font-bold mb-4">Charts</h2>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          <DailyProfitChart data={chartData.dailyProfit} />
-          <ProfitWithdrawalChart data={chartData.profitWithdrawal} />
-          <Totalinvestchart data={chartData.totalInvestment} />
-          <Totalprofitchart data={chartData.totalProfit} />
+          <DailyProfitChart profit={totalprofitcharts} />
+          {/* <ProfitWithdrawalChart investments={investments} /> */}
+          <Totalinvestchart investments={investments} />
+          <Totalprofitchart profit={totalprofitcharts} />
         </div>
       </>
     ),
-    [chartData]
-  );
-
-  const memoizedInvestmentPlans = useMemo(
-    () => (
-      <div className="mt-8">
-        <h2 className="text-2xl font-bold mb-4">Plans Dashboard</h2>
-        <AccordionItem
-          panelId="panel1"
-          title="Gold Trading Investment Dashboard"
-          content={<GoldTradingHistory />}
-        />
-
-        <AccordionItem
-          panelId="panel2"
-          title="Airbnb Investment Dashboard"
-          content={<AirbnbHistory />}
-        />
-
-        <AccordionItem
-          panelId="panel3"
-          title="Retrodrops Investment Dashboard"
-          content={<Retrodrops />}
-        />
-
-        <AccordionItem
-          panelId="panel4"
-          title="Mineral Water Investment Dashboard"
-          content={<MineralWater />}
-        />
-
-        <AccordionItem
-          panelId="panel5"
-          title="Amazon Investment Dashboard"
-          content={<AmazonHistory />}
-        />
-      </div>
-    ),
-    [AccordionItem]
+    [investments]
   );
 
   return (
@@ -542,7 +363,6 @@ const Dashboard = () => {
       {memoizedActivePlans}
       {memoizedCharts}
       {memoizedInactivePlans}
-      {/* {memoizedInvestmentPlans} */}
       <OverallInvestmentHistory />
     </div>
   );
