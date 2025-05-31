@@ -66,7 +66,7 @@ const Referal = () => {
 
       <div className="bg-gray-50 rounded-xl p-8 mb-12 text-center">
         <h2 className="text-2xl font-semibold text-gray-800 mb-6">Your Referral Link</h2>
-        <div className="flex items-center justify-center gap-4 mb-6">
+        <div className="flex sm:flex-row flex-col items-center justify-center gap-4 mb-6">
           <span className="text-lg font-bold text-gray-700 px-6 py-3 bg-white rounded-lg border-2 border-dashed border-blue-500 break-all">
             {referralLink || 'Loading...'}
           </span>

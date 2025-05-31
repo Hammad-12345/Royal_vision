@@ -137,6 +137,7 @@ const Header = () => {
             {/* Menu Icon on Left */}
             {token ? (
               <>
+                            <div className="flex items-center">
               <button
                 onClick={() => setSidebarOpen(!sidebarOpen)}
                 className="text-gray-400 hover:text-white transition-colors text-xl sm:text-2xl mr-4"
@@ -144,7 +145,7 @@ const Header = () => {
                 <FaBars />
               </button>
               <div className="flex-shrink-0 flex  items-center space-x-2 sm:space-x-4">
-              <div className="flex sm:flex-row flex-col items-center space-x-2">
+              <div className="flex items-center space-x-2">
               <Link
                 to="/"
                 className="text-2xl font-bold text-white hover:text-blue-400 transition-colors font-poppins"
@@ -159,6 +160,7 @@ const Header = () => {
               {/* Mobile Menu Icon - MOVED TO RIGHT */}
               </div>
             </div>
+            </div>
             </>
             ) : (
               <>
@@ -170,7 +172,7 @@ const Header = () => {
                 <FaBars />
               </button>
               <div className="flex-shrink-0 flex  items-center space-x-2 sm:space-x-4">
-              <div className="flex sm:flex-row flex-col items-center space-x-2">
+              <div className="flex items-center space-x-2">
               <Link
                 to="/"
                 className="text-2xl font-bold text-white hover:text-blue-400 transition-colors font-poppins"
@@ -245,7 +247,7 @@ const Header = () => {
                 <>
                   <Link
                     to={"/signin"}
-                    className="bg-blue-600 font-semibold rounded-full text-white px-6 py-2 hover:bg-blue-500 transition-colors duration-300 font-poppins backdrop-blur-sm"
+                    className="bg-blue-600 font-semibold rounded-full text-white sm:px-6 px-4 py-2 hover:bg-blue-500 transition-colors duration-300 font-poppins backdrop-blur-sm"
                   >
                     Sign In
                   </Link>
@@ -306,7 +308,7 @@ const Header = () => {
       {/* Mobile Menu for Non-Logged In Users */}
       {!token && (
         <div
-          className={`fixed top-[80px] left-0 right-0 w-full bg-gradient-to-r from-black via-blue-950 to-black z-40 transform transform-origin-top p-4 overflow-y-auto max-h-[calc(100vh-80px)] lg:hidden ${
+          className={`fixed top-[63px] sm:top-[80px] left-0 right-0 w-full bg-gradient-to-r from-black via-blue-950 to-black z-40 transform transform-origin-top p-4 overflow-y-auto max-h-[calc(100vh-80px)] lg:hidden ${
             menuOpen ? "scale-y-100 opacity-100" : "scale-y-0 opacity-0 pointer-events-none"
           } transition-transform duration-300 ease-in-out`}
         >
@@ -341,14 +343,14 @@ const Header = () => {
             sidebarOpen ? "w-72" : "w-0 overflow-hidden"
           }`}
         > <div className="flex-shrink-0 flex  items-center space-x-2 sm:space-x-4 border-b border-gray-600  p-4">
-        <div className="flex sm:flex-row flex-col items-center space-x-2">
+        <div className="flex items-center space-x-2">
         <Link
           to="/"
           className="text-2xl font-bold text-white hover:text-blue-400 transition-colors font-poppins"
         >
           <img
             src="https://d3hwx9f38knfi9.cloudfront.net/logodesign.png"
-            className="w-12 h-12 sm:w-16 sm:h-16"
+            className="w-16 h-16"
             alt="logo"
           />
         </Link>
