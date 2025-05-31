@@ -354,7 +354,7 @@ const Dashboard = () => {
         </div>
       </>
     ),
-    [investments]
+    [investments,totalprofitcharts]
   );
 
   return (
