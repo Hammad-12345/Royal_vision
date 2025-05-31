@@ -123,7 +123,6 @@ const Users = () => {
 
   return (
     <div className="space-y-4">
-      <h1 className="text-2xl font-poppins font-bold text-white">Users Management</h1>
       <div className="bg-gradient-to-br from-[#0F1120] to-[#1E2140] rounded-xl shadow-md overflow-hidden">
         <div className="min-w-full">
           <Table 

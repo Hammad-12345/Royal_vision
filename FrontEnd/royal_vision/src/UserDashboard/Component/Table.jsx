@@ -61,7 +61,7 @@ const Table = ({ data, columns,pagination }) => {
                 className="bg-[#1E2140] hover:bg-[#2a2e52] transition rounded-lg"
               >
                 {row.getVisibleCells().map(cell => (
-                  <td key={cell.id} className="px-4 py-3">
+                  <td key={cell.id} className="px-4 py-3 text-center">
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </td>
                 ))}

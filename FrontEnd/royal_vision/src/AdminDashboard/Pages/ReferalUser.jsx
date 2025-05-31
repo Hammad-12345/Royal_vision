@@ -14,32 +14,46 @@ const ReferalUser = () => {
   const columns = [
     columnHelper.accessor("userId._id", {
       header: "Referral From (ID)",
-      cell: (info) => info.getValue(),
+      cell: (info) => (
+        <span className="font-medium text-white">{info.getValue()}</span>
+      ),
     }),
     columnHelper.accessor("userId.EmailAddress", {
       header: "Referral From (Email)",
-      cell: (info) => info.getValue(),
+      cell: (info) => (
+        <span className="text-blue-600 hover:text-blue-800 transition-colors">
+          {info.getValue()}
+        </span>
+      ),
     }),
     columnHelper.accessor("referralCode", {
       header: "Referral From (Code)",
-      cell: (info) => info.getValue(),
+      cell: (info) => (
+        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-sm font-medium bg-purple-100 text-purple-800">
+          {info.getValue()}
+        </span>
+      ),
     }),
     columnHelper.accessor("totalReferrals", {
       header: "Total Referrals",
-      cell: (info) => info.getValue(),
+      cell: (info) => (
+        <span className="font-semibold text-emerald-600">
+          {info.getValue()}
+        </span>
+      ),
     }),
     columnHelper.accessor("referredTo", {
       header: "Referred To",
       cell: (info) => (
         <div className="flex items-center gap-2">
-          <span>{info.getValue()?.length || 0}</span>
+          <span className="text-gray-400">{info.getValue()?.length || 0}</span>
           {info.getValue()?.length > 0 && (
             <button
               onClick={() => {
                 setSelectedReferral(info.row.original);
                 setShowModal(true);
               }}
-              className="text-blue-500 hover:text-blue-600 text-sm"
+              className="inline-flex items-center px-3 py-1 text-sm font-medium text-blue-600 hover:text-blue-800 hover:bg-blue-50 rounded-lg transition-all duration-200"
             >
               View Details
             </button>
@@ -47,7 +61,6 @@ const ReferalUser = () => {
         </div>
       ),
     }),
-    
   ];
 
   useEffect(() => {
@@ -79,10 +92,6 @@ const ReferalUser = () => {
 
   return (
     <div className="space-y-4">
-      <h1 className="text-2xl font-poppins font-bold text-white">
-        Referral Management
-      </h1>
-
       <div className="bg-gradient-to-br from-[#0F1120] to-[#1E2140] rounded-xl shadow-md overflow-hidden">
         <div>
           <Table data={referrals} columns={columns} pagination={true} />

@@ -84,7 +84,7 @@ const Profits = () => {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center min-h-[200px]">
+      <div className="flex justify-center items-center h-full">
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
       </div>
     );
@@ -92,7 +92,6 @@ const Profits = () => {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-poppins font-bold text-white">Profits Detail</h1>
       <div className="bg-gradient-to-br from-[#0F1120] to-[#1E2140] rounded-xl shadow-md overflow-hidden">
         <div className="min-w-full">
           <Table 

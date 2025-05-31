@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { FaBars, FaTachometerAlt, FaMoneyCheckAlt, FaDownload, FaUpload, FaHistory, FaSignOutAlt, FaWallet, FaHome, FaUserCircle, FaBell, FaTimes, FaInfoCircle, FaEnvelope, FaCogs } from "react-icons/fa";
@@ -63,6 +63,7 @@ const Header = () => {
   const user = useSelector((state) => state.Token.userDetail);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const sidebarRef = useRef(null);
 
   const sidebarLinks = useMemo(() => [
     { label: "Home", icon: <FaHome />, path: "/" },
@@ -113,14 +114,36 @@ const Header = () => {
     setMenuOpen(false);
   }, [location.pathname]);
 
+  // Add effect to close sidebar when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (sidebarOpen && sidebarRef.current && !sidebarRef.current.contains(event.target)) {
+        setSidebarOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [sidebarOpen]);
+
   return(
     <>
       <style>{styles}</style>
-      <header className="fixed top-0 left-0 w-full text-white shadow-lg z-50 bg-gradient-to-r from-black via-blue-950 to-black font-poppins">
+      <header className="fixed top-0 left-0 w-full text-white shadow-lg z-20 bg-gradient-to-r from-black via-blue-950 to-black font-poppins">
         <div className="w-full px-4 sm:px-6 lg:px-8 py-2">
           <div className="flex justify-between items-center relative">
-            {/* Logo Section */}
-            <div className="flex-shrink-0 flex  items-center space-x-2 sm:space-x-4">
+            {/* Menu Icon on Left */}
+            {token ? (
+              <>
+              <button
+                onClick={() => setSidebarOpen(!sidebarOpen)}
+                className="text-gray-400 hover:text-white transition-colors text-xl sm:text-2xl mr-4"
+              >
+                <FaBars />
+              </button>
+              <div className="flex-shrink-0 flex  items-center space-x-2 sm:space-x-4">
               <div className="flex sm:flex-row flex-col items-center space-x-2">
               <Link
                 to="/"
@@ -136,6 +159,37 @@ const Header = () => {
               {/* Mobile Menu Icon - MOVED TO RIGHT */}
               </div>
             </div>
+            </>
+            ) : (
+              <>
+              <div className="flex items-center">
+              <button
+                onClick={() => setMenuOpen(!menuOpen)}
+                className="text-gray-400 hover:text-white transition-colors text-xl sm:text-2xl mr-4 lg:hidden"
+              >
+                <FaBars />
+              </button>
+              <div className="flex-shrink-0 flex  items-center space-x-2 sm:space-x-4">
+              <div className="flex sm:flex-row flex-col items-center space-x-2">
+              <Link
+                to="/"
+                className="text-2xl font-bold text-white hover:text-blue-400 transition-colors font-poppins"
+              >
+                <img
+                  src="https://d3hwx9f38knfi9.cloudfront.net/logodesign.png"
+                  className="w-12 h-12 sm:w-16 sm:h-16"
+                  alt="logo"
+                />
+              </Link>
+              <span className="uppercase text-[10px] sm:text-xs font-poppins text-white"> Overland Solutions</span>
+              {/* Mobile Menu Icon - MOVED TO RIGHT */}
+              </div>
+            </div>
+            </div>
+              </>
+            )}
+
+            {/* Logo Section */}
 
             {/* Center Navigation */}
             <div className="hidden lg:flex justify-center flex-1">
@@ -195,17 +249,9 @@ const Header = () => {
                   >
                     Sign In
                   </Link>
-                   {/* Mobile Menu Icon - Added for non-logged-in users */}
-                  <button
-                    onClick={() => setMenuOpen(!menuOpen)}
-                    className="text-gray-400 hover:text-white transition-colors text-xl sm:text-2xl lg:hidden"
-                  >
-                     <FaBars />
-                  </button>
                 </>
               ) : (
                 <>
-                  {/* Hamburger menu icon for logged-in users - Added to header */}
                   {/* User Icon and Name */}
                   <div className="relative">
                     <div
@@ -232,13 +278,13 @@ const Header = () => {
                             <FaUserCircle className="mr-2" />
                             <Link to="/account">Account</Link>
                           </li>
-                          <li
+                          {/* <li
                             className="flex items-center px-4 py-2 hover:bg-gray-700 cursor-pointer"
                             onClick={toggleNotificationPopover}
                           >
                             <FaBell className="mr-2" />
                             <span>Notifications</span>
-                          </li>
+                          </li> */}
                           <li
                             className="flex items-center px-4 py-2 hover:bg-gray-700 cursor-pointer"
                             onClick={handleLogout}
@@ -250,12 +296,6 @@ const Header = () => {
                       </div>
                     )}
                   </div>
-                  <button
-                    onClick={() => setSidebarOpen(!sidebarOpen)}
-                    className="text-gray-400 hover:text-white transition-colors text-xl sm:text-2xl"
-                  >
-                    <FaBars />
-                  </button>
                 </>
               )}
             </div>
@@ -296,28 +336,26 @@ const Header = () => {
       {/* Sidebar */}
       {token && (
         <aside
-          className={`fixed top-0 left-0 h-full z-40 flex flex-col border-r border-gray-800 shadow-2xl transition-all duration-300 bg-gradient-to-r from-black via-blue-950 to-black ${
-            sidebarOpen ? "w-64" : "w-0 overflow-hidden"
+          ref={sidebarRef}
+          className={`fixed left-0 h-full z-40 flex flex-col border-r border-gray-800 shadow-2xl transition-all duration-300 bg-gradient-to-r from-black via-blue-950 to-black ${
+            sidebarOpen ? "w-72" : "w-0 overflow-hidden"
           }`}
+        > <div className="flex-shrink-0 flex  items-center space-x-2 sm:space-x-4 border-b border-gray-600  p-4">
+        <div className="flex sm:flex-row flex-col items-center space-x-2">
+        <Link
+          to="/"
+          className="text-2xl font-bold text-white hover:text-blue-400 transition-colors font-poppins"
         >
-          <div className="p-4 text-xl font-bold text-center border-b border-gray-800 flex justify-between items-center">
-            <div className="flex-shrink-0 flex space-x-4 items-center">
-              <Link
-                to="/"
-                className="text-2xl font-bold text-white hover:text-blue-400 transition-colors font-poppins"
-                onClick={() => setSidebarOpen(false)}
-              >
-                <img
-                  src="https://d3hwx9f38knfi9.cloudfront.net/logodesign.png"
-                  className="w-12 h-12 sm:w-16 sm:h-16"
-                  alt="logo"
-                />
-              </Link>
-              <span className="uppercase text-xs font-poppins">
-                Overland Solutions
-              </span>
-            </div>
-          </div>
+          <img
+            src="https://d3hwx9f38knfi9.cloudfront.net/logodesign.png"
+            className="w-12 h-12 sm:w-16 sm:h-16"
+            alt="logo"
+          />
+        </Link>
+        <span className="uppercase text-[10px] sm:text-xs font-poppins text-white"> Overland Solutions</span>
+        {/* Mobile Menu Icon - MOVED TO RIGHT */}
+        </div>
+      </div>
 
           <nav className="p-4 space-y-2 flex-1 overflow-auto flex flex-col justify-between font-poppins text-white">
             <div className="space-y-1">

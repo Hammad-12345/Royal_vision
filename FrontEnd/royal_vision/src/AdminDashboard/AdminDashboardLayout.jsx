@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Outlet, NavLink, useLocation } from 'react-router-dom';
-import { FaBars, FaSignOutAlt, FaTachometerAlt, FaUsers, FaMoneyBillWave, FaUserFriends, FaChartLine } from 'react-icons/fa';
+import { FaChevronRight, FaChevronLeft, FaSignOutAlt, FaTachometerAlt, FaUsers, FaMoneyBillWave, FaUserFriends, FaChartLine } from 'react-icons/fa';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { LoggedOut } from '../Redux/Slice/auth';
@@ -8,19 +8,45 @@ import { LoggedOut } from '../Redux/Slice/auth';
 const AdminDashboardLayout = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [isSidebarOpen, setIsSidebarOpen] = useState(window.innerWidth >= 768);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(window.innerWidth >= 1024);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
   const location = useLocation();
+  const sidebarRef = useRef(null);
 
   useEffect(() => {
     const handleResize = () => {
-      setIsSidebarOpen(window.innerWidth >= 768);
+      const mobile = window.innerWidth < 1024;
+      setIsMobile(mobile);
+      if (mobile) {
+        setIsSidebarOpen(false);
+      } else {
+        setIsSidebarOpen(true);
+      }
+    };
+
+    const handleClickOutside = (event) => {
+      if (isMobile && 
+          isSidebarOpen && 
+          sidebarRef.current && 
+          !sidebarRef.current.contains(event.target) &&
+          !event.target.closest('button')) {
+        setIsSidebarOpen(false);
+      }
     };
 
     window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
+    document.addEventListener('mousedown', handleClickOutside);
+    
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isSidebarOpen, isMobile]);
 
-  const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
   const isActive = (path) => location.pathname === path;
 
   const handleLogout = () => {
@@ -31,9 +57,9 @@ const AdminDashboardLayout = () => {
   };
 
   const sidebarLinks = [
-    { label: "Dashboard", icon: <FaTachometerAlt />, path: "/admin" },
-    { label: "Users", icon: <FaUsers />, path: "/admin/users" },
-    { label: "Investments", icon: <FaMoneyBillWave />, path: "/admin/investments" },
+    { label: "Dashboard", icon: <FaTachometerAlt/>, path: "/admin" },
+    { label: "Users Management", icon: <FaUsers />, path: "/admin/users" },
+    { label: "Invest Management", icon: <FaMoneyBillWave />, path: "/admin/investments" },
     { label: "Profit Detail", icon: <FaChartLine />, path: "/admin/profits" },
     { label: "Profit Management", icon: <FaChartLine />, path: "/admin/profit-management" },
     { label: "Referal Users", icon: <FaUserFriends />, path: "/admin/referal" },
@@ -42,24 +68,28 @@ const AdminDashboardLayout = () => {
   return (
     <div className="flex h-screen font-poppins bg-gradient-to-r from-black via-blue-950 to-black text-white overflow-hidden">
       {/* Overlay for mobile */}
-      {isSidebarOpen && (
+      {isMobile && isSidebarOpen && (
         <div 
-          className="fixed inset-0 bg-black bg-opacity-50 z-10 md:hidden"
-          onClick={toggleSidebar}
+          className="fixed inset-0 bg-black bg-opacity-50 z-10 transition-opacity duration-300"
+          onClick={() => setIsSidebarOpen(false)}
         />
       )}
 
       {/* Sidebar */}
       <aside
-        className={`fixed top-0 left-0 h-full z-20 flex flex-col border-r border-gray-800 shadow-2xl transition-all duration-300 bg-gradient-to-b from-black via-blue-950 to-black bg-opacity-95 ${
-          isSidebarOpen ? "w-64 translate-x-0" : "-translate-x-full"
-        } md:translate-x-0`}
+        ref={sidebarRef}
+        className={`fixed top-0 left-0 h-full z-20 flex flex-col border-r border-gray-800 shadow-2xl transition-all duration-300 ease-in-out bg-gradient-to-b from-black via-blue-950 to-black bg-opacity-95 ${
+          isSidebarOpen ? "w-64 translate-x-0" : " -translate-x-full md:w-20 md:translate-x-0"
+        }`}
       >
         <div className="p-4 text-xl font-bold text-center border-b border-gray-800 flex justify-between items-center">
-          <div className="flex-shrink-0 flex space-x-4 items-center">
-            <span className="text-2xl font-bold text-white hover:text-blue-400 transition-colors font-poppins">
-              Admin Panel
-            </span>
+          <div className="w-full flex items-center flex-col justify-center">
+            <img
+              src="https://d3hwx9f38knfi9.cloudfront.net/logodesign.png"
+              className={`${isSidebarOpen ? 'w-12 h-12 sm:w-16 sm:h-16' : 'w-12 h-12'}`}
+              alt="logo"
+            />
+            {isSidebarOpen && <span className="uppercase text-[10px] sm:text-xs font-poppins text-white"> Overland Solutions</span>}
           </div>
         </div>
 
@@ -70,14 +100,14 @@ const AdminDashboardLayout = () => {
                 key={label}
                 to={path}
                 className={({ isActive }) =>
-                  `flex items-center space-x-2 p-2 rounded cursor-pointer hover:bg-blue-500 transition-colors duration-300 ${
+                  `flex items-center space-x-2 p-2 ${!isSidebarOpen && 'justify-center'} rounded cursor-pointer hover:bg-blue-500 transition-colors duration-300 ${
                     isActive ? "bg-blue-600" : ""
                   }`
                 }
                 end={path === "/admin"}
-                onClick={() => window.innerWidth < 768 && toggleSidebar()}
+                onClick={() => isMobile && setIsSidebarOpen(false)}
               >
-                {icon} <span>{label}</span>
+                {icon} <span className={!isSidebarOpen && 'hidden'}>{label}</span>
               </NavLink>
             ))}
           </div>
@@ -86,9 +116,9 @@ const AdminDashboardLayout = () => {
         <div className="p-4 border-t border-gray-800">
           <button
             onClick={handleLogout}
-            className="w-full p-2 flex items-center space-x-2 hover:bg-blue-500 transition-colors duration-300 rounded cursor-pointer"
+            className={`w-full p-2 flex items-center ${!isSidebarOpen && 'justify-center'} space-x-2 hover:bg-blue-500 transition-colors duration-300 rounded cursor-pointer`}
           >
-            <FaSignOutAlt /> <span>Logout</span>
+            <FaSignOutAlt /> <span className={!isSidebarOpen && 'hidden'}>Logout</span>
           </button>
         </div>
       </aside>
@@ -96,20 +126,20 @@ const AdminDashboardLayout = () => {
       {/* Main Content */}
       <div
         className={`flex-1 transition-all duration-300 ease-in-out ${
-          isSidebarOpen ? "md:ml-64" : "ml-0"
+          isSidebarOpen ? "md:ml-64" : "md:ml-20"
         } flex flex-col h-full overflow-hidden`}
       >
         {/* Header */}
         <header className="flex justify-between border-b border-gray-800 items-center shadow px-4 md:px-6 py-4 sticky top-0 z-10 bg-gradient-to-r from-black via-blue-950 to-black bg-opacity-95">
           <div className="flex items-center space-x-4">
-            {/* <button
+            <button
               onClick={toggleSidebar}
               className="text-gray-400 text-xl hover:text-white transition-colors"
             >
-              <FaBars />
-            </button> */}
+              {isSidebarOpen ? <FaChevronLeft /> : <FaChevronRight />}
+            </button>
             <span className="text-xl md:text-2xl font-semibold text-white truncate">
-              {location.pathname.split('/').pop().charAt(0).toUpperCase() + location.pathname.split('/').pop().slice(1) || "Dashboard"}
+              {sidebarLinks.find(link => link.path === location.pathname)?.label || "Dashboard"}
             </span>
           </div>
         </header>

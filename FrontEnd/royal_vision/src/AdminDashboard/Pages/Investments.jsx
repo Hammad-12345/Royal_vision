@@ -199,14 +199,6 @@ const Investments = () => {
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-poppins font-bold bg-clip-text text-white">
-          Investments Management
-        </h1>
-        <div className="rounded-lg shadow-sm">
-          <span className="text-lg font-medium">Total Investments: {investments.length}</span>
-        </div>
-      </div>
       
       <div className="overflow-x-auto rounded-lg shadow-sm">
         <div className="min-w-full">
@@ -216,6 +208,7 @@ const Investments = () => {
             pagination={true}
           />
         </div>
+        
       </div>
 
       {/* Enhanced Modal */}

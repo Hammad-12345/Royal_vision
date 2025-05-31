@@ -10,10 +10,36 @@ const Referral = require('../mvc/model/referralModel.js');
 router.get('/stats', async (req, res) => {
   try {
     const totalUsers = await User.countDocuments({ Role: 'user' });
+    
+    // Get total investments amount and count
     const totalInvestments = await Investment.aggregate([
-      { $match: { paymentMode: 'active' } },
-      { $group: { _id: null, total: { $sum: '$price' } } }
+      { $group: { 
+        _id: null, 
+        totalAmount: { $sum: '$price' },
+        totalCount: { $sum: 1 }
+      }}
     ]);
+
+    // Get active investments count and amount
+    const activeInvestments = await Investment.aggregate([
+      { $match: { paymentMode: 'active' } },
+      { $group: { 
+        _id: null, 
+        totalAmount: { $sum: '$price' },
+        totalCount: { $sum: 1 }
+      }}
+    ]);
+
+    // Get non-active investments count and amount
+    const nonActiveInvestments = await Investment.aggregate([
+      { $match: { paymentMode: { $ne: 'active' } } },
+      { $group: { 
+        _id: null, 
+        totalAmount: { $sum: '$price' },
+        totalCount: { $sum: 1 }
+      }}
+    ]);
+
     const totalProfits = await Profit.aggregate([
       { $group: { _id: null, total: { $sum: '$amount' } } }
     ]);
@@ -21,7 +47,18 @@ router.get('/stats', async (req, res) => {
 
     res.json({
       totalUsers,
-      activeInvestments: totalInvestments[0]?.total || 0,
+      totalInvestments: {
+        amount: totalInvestments[0]?.totalAmount || 0,
+        count: totalInvestments[0]?.totalCount || 0
+      },
+      activeInvestments: {
+        amount: activeInvestments[0]?.totalAmount || 0,
+        count: activeInvestments[0]?.totalCount || 0
+      },
+      nonActiveInvestments: {
+        amount: nonActiveInvestments[0]?.totalAmount || 0,
+        count: nonActiveInvestments[0]?.totalCount || 0
+      },
       totalProfits: totalProfits[0]?.total || 0,
       pendingWithdrawals
     });
@@ -299,12 +336,21 @@ router.delete('/deleteuser/:id', async (req, res) => {
       });
     }
 
-    // Delete the user
-    await User.findByIdAndDelete(userId);
+    // Delete all related data
+    await Promise.all([
+      // Delete user's investments
+      Investment.deleteMany({ userId: userId }),
+      // Delete user's profits
+      Profit.deleteMany({ userId: userId }),
+      // Delete user's referrals
+      Referral.deleteMany({ userId: userId }),
+      // Delete the user
+      User.findByIdAndDelete({_id:userId})
+    ]);
 
     res.json({ 
       success: true, 
-      message: 'User deleted successfully' 
+      message: 'User and all related data deleted successfully' 
     });
   } catch (error) {
     console.error('Error deleting user:', error);

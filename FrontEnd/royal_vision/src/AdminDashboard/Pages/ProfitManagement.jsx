@@ -9,7 +9,7 @@ const ProfitManagement = () => {
   const [profitPercentage, setProfitPercentage] = useState("");
   const [adminInterestPercentage, setAdminInterestPercentage] = useState("");
   const [interestError, setInterestError] = useState("");
-
+  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     fetchActiveInvestments();
   }, []);
@@ -32,9 +32,11 @@ const ProfitManagement = () => {
       setActiveInvestments(
         data.data.filter((inv) => inv.paymentMode === "active")
       );
+      setIsLoading(false)
     } catch (error) {
       toast.error("Failed to load investments");
       console.error(error);
+      setIsLoading(false);
     }
   };
 
@@ -213,7 +215,7 @@ const ProfitManagement = () => {
       ),
     },
     {
-      header: "Investment Amount",
+      header: "Amount",
       accessorKey: "price",
       cell: (info) => (
         <span className="font-semibold text-emerald-600">
@@ -222,7 +224,7 @@ const ProfitManagement = () => {
       ),
     },
     {
-      header: "Profit Range",
+      header: "Range",
       accessorKey: "investmentPlan",
       cell: (info) => (
         <span className="text-gray-600">
@@ -245,11 +247,16 @@ const ProfitManagement = () => {
       ),
     },
   ];
-
+  
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-full">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+      </div>
+    );
+  }
   return (
     <div>
-      <h2 className="text-2xl font-bold mb-6">Profit Management</h2>
-
       <Table data={activeInvestments} columns={columns} pagination={true} />
 
       {/* Profit Modal */}

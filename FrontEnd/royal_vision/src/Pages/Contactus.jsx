@@ -2,6 +2,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { toast } from "react-toastify";
 
 const schema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -67,10 +68,27 @@ const Contactus = () => {
       zipCode: "Zip code 9292"
     },
   ];
-  const onSubmit = (data) => {
-    console.log(data);
-    // Here you can add your API call to send the form data
-    reset();
+  const onSubmit = async (data) => {
+    try {
+      const response = await fetch("http://localhost:8080/contact/send", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to send message");
+      }
+
+      const result = await response.json();
+      toast.success("Message sent successfully!");
+      reset();
+    } catch (error) {
+      console.error("Error sending message:", error);
+      toast.error("Failed to send message. Please try again.");
+    }
   };
 
   return (

@@ -27,7 +27,7 @@ const Banner = () => {
         className="absolute inset-0 w-full h-full object-cover"
       >
         <source
-          src="https://d3hwx9f38knfi9.cloudfront.net/changes.mp4"
+          src="https://overlandresources.s3.eu-north-1.amazonaws.com/new+compress+again+.mp4"
           type="video/mp4"
         />
       </video>
