@@ -14,7 +14,7 @@ const referralSchema = new mongoose.Schema({
     InvestId: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
-        ref: 'Investment'
+        ref: 'Deposit'
     },
     InvestPlan: {
         type: String,

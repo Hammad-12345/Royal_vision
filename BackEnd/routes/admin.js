@@ -568,4 +568,49 @@ router.post('/sendreferalearning', async (req, res) => {
   }
 });
 
+router.get('/fetchreferalearning', async (req, res) => {
+  try {
+    const referralEarnings = await ReferralEarningHistory.find()
+      .populate('ReferedFrom', 'Name EmailAddress')
+      .populate('ReferedTo', 'Name EmailAddress')
+      .populate('InvestId', 'price investmentPlan')
+      .sort({ createdAt: -1 });
+
+    // Format the response
+    console.log(referralEarnings)
+    // const formattedEarnings = referralEarnings.map(earning => ({
+    //   id: earning._id,
+    //   referrer: {
+    //     id: earning.ReferedFrom._id,
+    //     name: earning.ReferedFrom.Name,
+    //     email: earning.ReferedFrom.EmailAddress
+    //   },
+    //   referredUser: {
+    //     id: earning.ReferedTo._id,
+    //     name: earning.ReferedTo.Name,
+    //     email: earning.ReferedTo.EmailAddress
+    //   },
+    //   investment: {
+    //     id: earning.InvestId._id,
+    //     amount: earning.InvestId.price,
+    //     plan: earning.InvestId.investmentPlan
+    //   },
+    //   earning: earning.Earning,
+    //   date: earning.createdAt
+    // }));
+
+    res.json({
+      success: true,
+      data: referralEarnings,
+      total: referralEarnings.length
+    });
+  } catch (error) {
+    console.error('Error fetching referral earnings:', error);
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
+  }
+});
+
 module.exports = router; 

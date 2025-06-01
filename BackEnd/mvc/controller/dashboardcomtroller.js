@@ -3,6 +3,7 @@ const Users = require("../model/usermodel");
 const bcrypt = require("bcrypt");
 const Profit = require("../model/Profit");
 const Notification = require("../model/notificationModel");
+const ReferalEarningHistory = require("../model/ReferalEarningHistory");
 
 const createDeposit = async (req, res) => {
   const { investmentPlan, price, paymentMethod, depositAddress, screenshot, paymentMode } = req.body;
@@ -120,4 +121,10 @@ const updateProfile = async (req, res) => {
   }
 };
 
-module.exports = { createDeposit, fetchallinvestment, fetchUserProfits, updateProfile };
+
+module.exports = { 
+  createDeposit, 
+  fetchallinvestment, 
+  fetchUserProfits, 
+  updateProfile, 
+};

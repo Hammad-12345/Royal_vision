@@ -262,7 +262,7 @@ const sendreferalearning=async(investmentamount)=>
                 <h2 className='font-bold'>Referred User</h2>
                 <span>{selectedreferral[0].referrer.email}</span>
               </div>
-              <div>
+              <div className='px-2'>
                 <h2 className='font-bold'>Referrer User</h2>
                 <span>{selectedreferral[0].referredUser.email}</span>
               </div>

@@ -1,7 +1,7 @@
 const Referral = require("../model/referralModel");
 const User = require("../model/usermodel");
 const crypto = require("crypto");
-
+const ReferralEarningHistory = require('../model/ReferalEarningHistory');
 // Generate a unique referral code
 const generateReferralCode = () => {
   return crypto.randomBytes(4).toString("hex").toUpperCase();
@@ -86,7 +86,32 @@ const processReferral = async (req, res) => {
   }
 };
 
+
+const fetchReferralEarningHistory = async (req, res) => {
+  const userId = req.userId;
+
+  try {
+    // Find all referral earnings where the user is the referrer
+    const referralEarnings = await ReferralEarningHistory.find({ ReferedFrom: userId })
+      .sort({ createdAt: -1 })
+      .populate('ReferedTo', 'Name EmailAddress')
+      .populate('InvestId', 'investmentPlan price');
+
+    // Calculate total earnings
+    const totalEarnings = referralEarnings.reduce((sum, earning) => sum + (Number(earning.Earning) || 0), 0);
+
+    res.status(200).json({
+      referralEarnings,
+      totalEarnings
+    });
+  } catch (error) {
+    console.error("Error fetching referral earnings:", error);
+    res.status(500).json({ message: error.message });
+  }
+};
+
 module.exports = {
   getReferralData,
   processReferral,
+  fetchReferralEarningHistory
 };

@@ -1,6 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { FaShareAlt, FaCopy, FaUsers, FaGift, FaTimes } from 'react-icons/fa';
+import { FaShareAlt, FaCopy, FaUsers, FaGift, FaTimes, FaMoneyBillWave } from 'react-icons/fa';
+import Table from '../Component/Table';
+const formatTimestamp = (timestamp) => {
+  const date = new Date(timestamp);
+  const now = new Date();
+  const diffInSeconds = Math.floor((now - date) / 1000);
 
+  if (diffInSeconds < 60) return "just now";
+  if (diffInSeconds < 3600)
+    return `${Math.floor(diffInSeconds / 60)} minutes ago`;
+  if (diffInSeconds < 86400)
+    return `${Math.floor(diffInSeconds / 3600)} hours ago`;
+  return date.toLocaleDateString();
+};
 const Referal = () => {
   const [copied, setCopied] = useState(false);
   const [referralCode, setReferralCode] = useState('');
@@ -11,6 +23,8 @@ const Referal = () => {
     successfulReferrals: 0,
     referredTo: []
   });
+  const [earningsHistory, setEarningsHistory] = useState([]);
+  const [totalEarnings, setTotalEarnings] = useState(0);
 
   useEffect(() => {
     // Fetch user's referral code and stats
@@ -38,7 +52,30 @@ const Referal = () => {
       }
     };
 
+    // Fetch referral earnings history
+    const fetchEarningsHistory = async () => {
+      try {
+        const token = JSON.parse(localStorage.getItem('mytoken'));
+        const response = await fetch('http://localhost:8080/api/user/fetchreferalhistoryuser', {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        });
+        if (!response.ok) {
+          throw new Error('Failed to fetch earnings history');
+        }
+        const data = await response.json();
+        console.log(data)
+        setEarningsHistory(data.referralEarnings || []);
+        setTotalEarnings(data.totalEarnings || 0);
+      } catch (error) {
+        console.error('Error fetching earnings history:', error);
+      }
+    };
+
     fetchReferralData();
+    fetchEarningsHistory();
   }, []);
 
   const handleCopyCode = () => {
@@ -57,6 +94,32 @@ const Referal = () => {
     }
   };
 
+  const earningsColumns = [
+    {
+      header: 'Referred User',
+      accessorFn: (row) => row.ReferedTo?.EmailAddress || 'N/A',
+    },
+    {
+      header: 'Investment Plan',
+      accessorKey: 'InvestPlan',
+    },
+    {
+      header: 'Amount',
+      accessorFn: (row) => `$${row.InvestAmount.toFixed(2)}`,
+    },
+    {
+      header: 'Earning',
+      accessorFn: (row) => `$${row.Earning.toFixed(2)}`,
+      cell: ({ getValue }) => (
+        <span className="text-green-400">{getValue()}</span>
+      ),
+    },
+    {
+      header: 'Date',
+      accessorFn: (row) => formatTimestamp(row.createdAt),
+    },
+  ];
+
   return (
     <div>
       <div className="text-center mb-12">
@@ -64,10 +127,10 @@ const Referal = () => {
         <p className="text-xl">Invite your friends and earn rewards!</p>
       </div>
 
-      <div className="bg-gray-50 rounded-xl p-8 mb-12 text-center">
-        <h2 className="text-2xl font-semibold text-gray-800 mb-6">Your Referral Link</h2>
+      <div className="bg-gradient-to-br from-[#0F1120] to-[#1E2140] rounded-xl p-8 mb-12 text-center">
+        <h2 className="text-2xl font-semibold text-white mb-6">Your Referral Link</h2>
         <div className="flex sm:flex-row flex-col items-center justify-center gap-4 mb-6">
-          <span className="text-lg font-bold text-gray-700 px-6 py-3 bg-white rounded-lg border-2 border-dashed border-blue-500 break-all">
+          <span className="text-lg font-bold text-white px-6 py-3 bg-gray-800 rounded-lg border-2 border-dashed border-blue-500 break-all">
             {referralLink || 'Loading...'}
           </span>
           <button 
@@ -87,26 +150,26 @@ const Referal = () => {
         </button>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-        <div className="bg-white p-6 rounded-xl shadow-md flex items-center gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+        <div className="bg-gradient-to-br from-[#0F1120] to-[#1E2140] p-6 rounded-xl shadow-md flex items-center gap-4">
           <FaUsers className="text-3xl text-blue-500" />
           <div>
-            <h3 className="text-sm text-gray-600 mb-1">Total Referrals</h3>
-            <p className="text-2xl font-bold text-gray-800">{referralStats.totalReferrals}</p>
+            <h3 className="text-sm text-gray-300 mb-1">Total Referrals</h3>
+            <p className="text-2xl font-bold text-white">{referralStats.totalReferrals}</p>
           </div>
         </div>
-        <div className="bg-white p-6 rounded-xl shadow-md flex items-center gap-4">
+        <div className="bg-gradient-to-br from-[#0F1120] to-[#1E2140] p-6 rounded-xl shadow-md flex items-center gap-4">
           <FaGift className="text-3xl text-blue-500" />
           <div>
-            <h3 className="text-sm text-gray-600 mb-1">Successful Referrals</h3>
-            <p className="text-2xl font-bold text-gray-800">{referralStats.successfulReferrals}</p>
+            <h3 className="text-sm text-gray-300 mb-1">Successful Referrals</h3>
+            <p className="text-2xl font-bold text-white">{referralStats.successfulReferrals}</p>
           </div>
         </div>
-        <div className="bg-white p-6 rounded-xl shadow-md flex items-center gap-4">
+        <div className="bg-gradient-to-br from-[#0F1120] to-[#1E2140] p-6 rounded-xl shadow-md flex items-center gap-4">
           <FaUsers className="text-3xl text-blue-500" />
           <div>
-            <h3 className="text-sm text-gray-600 mb-1">Referred To</h3>
-            <p className="text-2xl font-bold text-gray-800">
+            <h3 className="text-sm text-gray-300 mb-1">Referred To</h3>
+            <p className="text-2xl font-bold text-white">
               {referralStats.referredTo?.length > 0 ? referralStats.referredTo.length : "No one"}
             </p>
             {referralStats.referredTo?.length > 0 && (
@@ -119,7 +182,35 @@ const Referal = () => {
             )}
           </div>
         </div>
+        <div className="bg-gradient-to-br from-[#0F1120] to-[#1E2140] p-6 rounded-xl shadow-md flex items-center gap-4">
+          <FaMoneyBillWave className="text-3xl text-blue-500" />
+          <div>
+            <h3 className="text-sm text-gray-300 mb-1">Total Earnings</h3>
+            <p className="text-2xl font-bold text-white">${totalEarnings.toFixed(2)}</p>
+          </div>
+        </div> 
+      
       </div>
+
+      {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+        <div className="bg-gradient-to-br from-[#0F1120] to-[#1E2140] p-6 rounded-xl shadow-md flex items-center gap-4">
+          <FaUsers className="text-3xl text-blue-500" />
+          <div>
+            <h3 className="text-sm text-gray-300 mb-1">Referred To</h3>
+            <p className="text-2xl font-bold text-white">
+              {referralStats.referredTo?.length > 0 ? referralStats.referredTo.length : "No one"}
+            </p>
+            {referralStats.referredTo?.length > 0 && (
+              <button
+                onClick={() => setShowDetails(true)}
+                className="mt-2 text-sm text-blue-500 hover:text-blue-600"
+              >
+                View Details
+              </button>
+            )}
+          </div>
+        </div>
+      </div> */}
 
       {/* Referral Details Modal */}
       {showDetails && (
@@ -150,29 +241,43 @@ const Referal = () => {
         </div>
       )}
 
+      {/* Earnings History Section */}
+      <div className="rounded-xl shadow-md p-2 mb-12">
+        <h2 className="text-2xl font-semibold text-white mb-6 font-poppins">Earnings History</h2>
+        {earningsHistory.length > 0 ? (
+          <Table 
+            data={earningsHistory} 
+            columns={earningsColumns}
+            pagination={true}
+          />
+        ) : (
+          <p className="text-gray-300 text-center py-4">No earnings history available yet.</p>
+        )}
+      </div>
+
       <div className="text-center">
-        <h2 className="text-2xl font-semibold mb-8">How it works</h2>
+        <h2 className="text-2xl font-semibold mb-8 text-white">How it works</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="bg-white p-6 rounded-xl shadow-md">
+          <div className="bg-gradient-to-br from-[#0F1120] to-[#1E2140] p-6 rounded-xl shadow-md">
             <div className="w-10 h-10 bg-blue-500 text-white rounded-full flex items-center justify-center text-lg font-bold mx-auto mb-4">
               1
             </div>
-            <h3 className="text-lg font-semibold text-gray-800 mb-2">Share your code</h3>
-            <p className="text-gray-600">Share your unique referral code with friends and family</p>
+            <h3 className="text-lg font-semibold text-white mb-2">Share your code</h3>
+            <p className="text-gray-300">Share your unique referral code with friends and family</p>
           </div>
-          <div className="bg-white p-6 rounded-xl shadow-md">
+          <div className="bg-gradient-to-br from-[#0F1120] to-[#1E2140] p-6 rounded-xl shadow-md">
             <div className="w-10 h-10 bg-blue-500 text-white rounded-full flex items-center justify-center text-lg font-bold mx-auto mb-4">
               2
             </div>
-            <h3 className="text-lg font-semibold text-gray-800 mb-2">They sign up</h3>
-            <p className="text-gray-600">Your friends sign up using your referral code</p>
+            <h3 className="text-lg font-semibold text-white mb-2">They sign up</h3>
+            <p className="text-gray-300">Your friends sign up using your referral code</p>
           </div>
-          <div className="bg-white p-6 rounded-xl shadow-md">
+          <div className="bg-gradient-to-br from-[#0F1120] to-[#1E2140] p-6 rounded-xl shadow-md">
             <div className="w-10 h-10 bg-blue-500 text-white rounded-full flex items-center justify-center text-lg font-bold mx-auto mb-4">
               3
             </div>
-            <h3 className="text-lg font-semibold text-gray-800 mb-2">You both earn</h3>
-            <p className="text-gray-600">You and your friend both receive rewards!</p>
+            <h3 className="text-lg font-semibold text-white mb-2">You both earn</h3>
+            <p className="text-gray-300">You and your friend both receive rewards!</p>
           </div>
         </div>
       </div>

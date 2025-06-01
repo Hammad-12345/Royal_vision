@@ -148,6 +148,7 @@ const AdminDashboardLayout = () => {
     },
     { label: "Referal Users", icon: <FaUserFriends />, path: "/admin/referal" },
     { label: "Referral Management", icon: <FaUserFriends />, path: "/admin/referral-management" },
+    { label: "Referral Earning History", icon: <FaUserFriends />, path: "/admin/referral-earning-history" },
   ];
 
   const fetchNotifications = async () => {

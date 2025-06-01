@@ -43,6 +43,7 @@ import ReferalUser from "./AdminDashboard/Pages/ReferalUser";
 import ProfitManagement from "./AdminDashboard/Pages/ProfitManagement";
 import Notifications from "./AdminDashboard/Pages/Notifications";
 import ReferralManagement from "./AdminDashboard/Pages/ReferralManagement";
+import ReferalEarningHistory from "./AdminDashboard/Pages/ReferalEarningHistory";
 // import GoldTradingHistory from "./UserDashboard/Pages/GoldTradingHistory";
 // import Airbnbhistory from "./UserDashboard/Pages/Airbnbhistory";
 // import Amazonhistory from "./UserDashboard/Pages/Amazonhistory";
@@ -126,6 +127,7 @@ function App() {
                 <Route path="withdrawals" element={<AdminWithdrawals />} />
                 <Route path="referal" element={<ReferalUser />} />
                 <Route path="referral-management" element={<ReferralManagement />} />
+                <Route path="referral-earning-history" element={<ReferalEarningHistory />} />
                 <Route path="profit-management" element={<ProfitManagement />} />
                 <Route path="notifications" element={<Notifications />} />
               </Route>
