@@ -117,6 +117,11 @@ const AdminDashboardLayout = () => {
       location.pathname.startsWith(link.path) && link.path !== '/admin'
     );
     
+    // Special case for notifications page
+    if (location.pathname === '/admin/notifications') {
+      return 'Notifications';
+    }
+    
     return parentRoute?.label || "Dashboard";
   };
 

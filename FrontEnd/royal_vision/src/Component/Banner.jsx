@@ -46,7 +46,7 @@ const Banner = () => {
 
       <div className="absolute w-full top-1/3 text-white text-3xl sm:text-5xl font-semibold py-6 font-poppins lg:w-3/4 px-4">
         <div>
-        Overland Solutions — Bridging Innovation Across Commerce, Lifestyle &
+        Overland Solutions Group — Bridging Innovation Across Commerce, Lifestyle &
         Emerging Markets
         </div>
         <div className="mt-6">

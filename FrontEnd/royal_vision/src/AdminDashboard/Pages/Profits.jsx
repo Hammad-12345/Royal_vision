@@ -1,6 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import Table from '../../UserDashboard/Component/Table';
 
+const formatTimestamp = (timestamp) => {
+    const date = new Date(timestamp);
+    const now = new Date();
+    const diffInSeconds = Math.floor((now - date) / 1000);
+
+    if (diffInSeconds < 60) return "just now";
+    if (diffInSeconds < 3600)
+      return `${Math.floor(diffInSeconds / 60)} minutes ago`;
+    if (diffInSeconds < 86400)
+      return `${Math.floor(diffInSeconds / 3600)} hours ago`;
+    return date.toLocaleDateString();
+};
+
 const Profits = () => {
   const [profits, setProfits] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -59,7 +72,7 @@ const Profits = () => {
       accessorKey: 'date',
       cell: ({ row }) => (
         <span className="text-gray-400">
-          {new Date(row.original.date).toLocaleDateString()}
+          {formatTimestamp(row.original.date)}
         </span>
       )
     }

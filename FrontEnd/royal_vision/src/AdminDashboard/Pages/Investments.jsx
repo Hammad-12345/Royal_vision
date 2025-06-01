@@ -3,6 +3,19 @@ import Table from '../../UserDashboard/Component/Table';
 import { toast } from 'react-toastify';
 import { useParams } from 'react-router-dom';
 
+const formatTimestamp = (timestamp) => {
+    const date = new Date(timestamp);
+    const now = new Date();
+    const diffInSeconds = Math.floor((now - date) / 1000);
+
+    if (diffInSeconds < 60) return "just now";
+    if (diffInSeconds < 3600)
+      return `${Math.floor(diffInSeconds / 60)} minutes ago`;
+    if (diffInSeconds < 86400)
+      return `${Math.floor(diffInSeconds / 3600)} hours ago`;
+    return date.toLocaleDateString();
+};
+
 // Add styles for highlighted row
 const styles = `
   .highlight-row {
@@ -179,13 +192,7 @@ const Investments = () => {
         accessorKey: 'createdAt',
         header: 'Date',
         cell: (info) => (
-          <span className="text-gray-600">
-            {new Date(info.getValue()).toLocaleDateString(undefined, {
-              year: 'numeric',
-              month: 'short',
-              day: 'numeric'
-            })}
-          </span>
+          <span className="text-gray-600 text-sm">{formatTimestamp(info.getValue())}</span>
         ),
       },
       {

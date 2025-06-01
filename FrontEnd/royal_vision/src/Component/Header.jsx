@@ -226,7 +226,7 @@ const Header = () => {
                   alt="logo"
                 />
               </Link>
-              <span className="uppercase text-[10px] sm:text-xs font-poppins text-white"> Overland Solutions</span>
+              <span className="uppercase text-[10px] sm:text-xs font-poppins text-white"> Overland Solutions Group</span>
               {/* Mobile Menu Icon - MOVED TO RIGHT */}
               </div>
             </div>
@@ -253,7 +253,7 @@ const Header = () => {
                   alt="logo"
                 />
               </Link>
-              <span className="uppercase text-[10px] sm:text-xs font-poppins text-white"> Overland Solutions</span>
+              <span className="uppercase text-[10px] sm:text-xs font-poppins text-white"> Overland Solutions Group</span>
               {/* Mobile Menu Icon - MOVED TO RIGHT */}
               </div>
             </div>
@@ -424,7 +424,7 @@ const Header = () => {
             alt="logo"
           />
         </Link>
-        <span className="uppercase text-[10px] sm:text-xs font-poppins text-white"> Overland Solutions</span>
+        <span className="uppercase text-[10px] sm:text-xs font-poppins text-white"> Overland Solutions Group</span>
         {/* Mobile Menu Icon - MOVED TO RIGHT */}
         </div>
       </div>

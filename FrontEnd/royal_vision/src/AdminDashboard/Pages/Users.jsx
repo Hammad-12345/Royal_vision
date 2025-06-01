@@ -4,6 +4,19 @@ import Table from '../../UserDashboard/Component/Table';
 import { FaUser, FaTrash } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 
+const formatTimestamp = (timestamp) => {
+    const date = new Date(timestamp);
+    const now = new Date();
+    const diffInSeconds = Math.floor((now - date) / 1000);
+
+    if (diffInSeconds < 60) return "just now";
+    if (diffInSeconds < 3600)
+      return `${Math.floor(diffInSeconds / 60)} minutes ago`;
+    if (diffInSeconds < 86400)
+      return `${Math.floor(diffInSeconds / 3600)} hours ago`;
+    return date.toLocaleDateString();
+};
+
 const Users = () => {
   const [users, setUsers] = useState([]);
   console.log(users)
@@ -28,8 +41,16 @@ const Users = () => {
     columnHelper.accessor('DateOfBirth', {
       header: 'DOB',
       cell: info => (
-        <span className="text-gray-400">
-          {new Date(info.getValue()).toLocaleDateString()}
+        <span className="text-gray-400 text-sm">
+          {info.getValue()}
+        </span>
+      ),
+    }),
+    columnHelper.accessor('createdAt', {
+      header: 'Date',
+      cell: info => (
+        <span className="text-gray-400 text-sm">
+          {formatTimestamp(info.getValue())}
         </span>
       ),
     }),
@@ -101,6 +122,7 @@ const Users = () => {
     try {
       const response = await fetch('https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/api/admin/users');
       const data = await response.json();
+      console.log(data)
       setUsers(data);
       
       setLoading(false);
