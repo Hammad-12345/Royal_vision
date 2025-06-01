@@ -1,12 +1,57 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import Table from '../../UserDashboard/Component/Table';
 import { toast } from 'react-toastify';
+import { useParams } from 'react-router-dom';
+
+// Add styles for highlighted row
+const styles = `
+  .highlight-row {
+    animation: highlight 2s ease-out;
+  }
+
+  @keyframes highlight {
+    0% {
+      background-color: rgba(59, 130, 246, 0.2);
+    }
+    100% {
+      background-color: transparent;
+    }
+  }
+`;
+
+// Inject styles into document head
+const styleSheet = document.createElement("style");
+styleSheet.innerText = styles;
+document.head.appendChild(styleSheet);
+
 const Investments = () => {
   const [investments, setInvestments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedInvestment, setSelectedInvestment] = useState(null);
   console.log(selectedInvestment)
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const {id} = useParams()
+
+  // Add ref for table scrolling
+  const tableRef = React.useRef(null);
+
+  // Function to scroll to specific investment
+  const scrollToInvestment = (investmentId) => {
+    if (tableRef.current) {
+      const element = document.getElementById(`investment-${investmentId}`);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        // Find the closest tr element and add the highlight class
+        const row = element.closest('tr');
+        if (row) {
+          row.classList.add('highlight-row');
+          setTimeout(() => {
+            row.classList.remove('highlight-row');
+          }, 2000);
+        }
+      }
+    }
+  };
 
   const handleEdit = (investment) => {
     setSelectedInvestment(investment);
@@ -185,9 +230,18 @@ const Investments = () => {
     }
   };
   useEffect(() => {
-
     fetchInvestments();
   }, []);
+
+  // Add effect to handle ID parameter
+  useEffect(() => {
+    if (id && investments.length > 0 && !loading) {
+      const investment = investments.find(inv => inv.id === parseInt(id));
+      if (investment) {
+        scrollToInvestment(investment.id);
+      }
+    }
+  }, [id, investments, loading]);
 
   if (loading) {
     return (
@@ -200,7 +254,7 @@ const Investments = () => {
   return (
     <div className="space-y-4">
       
-      <div className="overflow-x-auto rounded-lg shadow-sm">
+      <div className="overflow-x-auto rounded-lg shadow-sm" ref={tableRef}>
         <div className="min-w-full">
           <Table 
             data={investments} 

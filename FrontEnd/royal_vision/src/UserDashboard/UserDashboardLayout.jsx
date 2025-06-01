@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import {
   FaTachometerAlt,
@@ -13,18 +13,15 @@ import {
   FaChevronUp,
   FaBars,
   FaWallet,
+  FaTimes,
+  FaChartLine,
 } from "react-icons/fa";
 import { AnimatePresence, motion } from "framer-motion";
 import { LoggedOut } from "../Redux/Slice/auth";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-// Spinner Component
-// const Spinner = () => (
-//   <div className="h-full w-full flex items-center justify-center">
-//     <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-blue-500 border-solid"></div>
-//   </div>
-// );
+import { toast } from 'react-toastify';
 
 const sidebarLinks = [
   { label: "Dashboard", icon: <FaTachometerAlt />, path: "/dashboard" },
@@ -79,24 +76,20 @@ const UserDashboardLayout = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const user = useSelector((state) => state.Token.userDetail);
-  // const [loading, setLoading] = useState(false);
   const location = useLocation();
+  const [showNotificationPopover, setShowNotificationPopover] = useState(false);
+  const [notifications, setNotifications] = useState([]);
+  const [unreadCount, setUnreadCount] = useState(0);
 
   const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
 
   const isActive = (path) => location.pathname === path;
   const [showUserPopover, setShowUserPopover] = useState(false);
-  const [showNotificationPopover, setShowNotificationPopover] = useState(false);
 
   const toggleUserPopover = () => {
     setShowUserPopover(!showUserPopover);
     setShowNotificationPopover(false); // Close the other popover
-  };
-
-  const toggleNotificationPopover = () => {
-    setShowNotificationPopover(!showNotificationPopover);
-    setShowUserPopover(false); // Close the other popover
   };
 
   const handleLogout = () => {
@@ -105,12 +98,73 @@ const UserDashboardLayout = () => {
     dispatch(LoggedOut());
     navigate("/");
   };
-  // // Show spinner on route change
-  // useEffect(() => {
-  //   setLoading(true);
-  //   const timer = setTimeout(() => setLoading(false), 500); // Simulate loading delay
-  //   return () => clearTimeout(timer);
-  // }, [location.pathname]);
+
+  const fetchNotifications = async () => {
+    try {
+      const token = localStorage.getItem('mytoken');
+      const response = await fetch('https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/dashboard/notifications', {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${JSON.parse(token)}`,
+        },
+      });
+      if (!response.ok) throw new Error('Failed to fetch notifications');
+      const data = await response.json();
+      setNotifications(data);
+      setUnreadCount(data.filter(n => !n.isRead).length);
+    } catch (error) {
+      console.error('Error fetching notifications:', error);
+    }
+  };
+
+  const markAsRead = async (notificationId) => {
+    try {
+      const token = localStorage.getItem('mytoken');
+      const response = await fetch(`https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/dashboard/notifications/${notificationId}/read`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${JSON.parse(token)}`,
+        },
+      });
+      if (!response.ok) throw new Error('Failed to mark notification as read');
+      fetchNotifications(); // Refresh notifications
+    } catch (error) {
+      console.error('Error marking notification as read:', error);
+    }
+  };
+
+  useEffect(() => {
+    if (showNotificationPopover) {
+      fetchNotifications();
+    }
+  }, [showNotificationPopover]);
+
+  const getNotificationIcon = (type) => {
+    switch (type) {
+      case 'investment':
+        return <FaMoneyCheckAlt className="text-2xl sm:text-xl text-blue-400" />;
+      case 'profit':
+        return <FaChartLine className="text-2xl sm:text-xl text-green-400" />;
+      case 'withdrawal':
+        return <FaWallet className="text-2xl sm:text-xl text-yellow-400" />;
+      default:
+        return <FaBell className="text-2xl sm:text-xl text-gray-400" />;
+    }
+  };
+
+  const formatTimeAgo = (date) => {
+    const now = new Date();
+    const diff = now - new Date(date);
+    const minutes = Math.floor(diff / 60000);
+    const hours = Math.floor(minutes / 60);
+    const days = Math.floor(hours / 24);
+
+    if (days > 0) return `${days} day${days > 1 ? 's' : ''} ago`;
+    if (hours > 0) return `${hours} hour${hours > 1 ? 's' : ''} ago`;
+    if (minutes > 0) return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
+    return 'Just now';
+  };
 
   // Get dynamic title
   const headerTitle = routeTitles[location.pathname] || "Dashboard";
@@ -224,30 +278,19 @@ const UserDashboardLayout = () => {
           </div>
 
           <div className="flex items-center space-x-6 relative">
-            {/* Notification Icon */}
+            {/* Notification Bell */}
             <div className="relative">
-              <FaBell
-                onClick={toggleNotificationPopover}
-                className="text-xl text-gray-400 cursor-pointer"
-              />
-              {showNotificationPopover && (
-                <div className="absolute right-0 mt-2 w-64 bg-[#1b1f2a] text-white rounded shadow-lg z-20">
-                  <div className="px-4 py-2 border-b border-gray-700 font-semibold">
-                    Notifications
-                  </div>
-                  <ul className="max-h-60 overflow-auto">
-                    <li className="px-4 py-2 hover:bg-gray-700 cursor-pointer">
-                      You have a new message
-                    </li>
-                    <li className="px-4 py-2 hover:bg-gray-700 cursor-pointer">
-                      Your order was confirmed
-                    </li>
-                    <li className="px-4 py-2 hover:bg-gray-700 cursor-pointer">
-                      System update at 10 PM
-                    </li>
-                  </ul>
-                </div>
-              )}
+              <button
+                onClick={() => setShowNotificationPopover(!showNotificationPopover)}
+                className="text-gray-400 hover:text-white transition-colors"
+              >
+                <FaBell className="text-xl" />
+                {unreadCount > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
+                    {unreadCount}
+                  </span>
+                )}
+              </button>
             </div>
 
             {/* User Icon */}
@@ -287,6 +330,55 @@ const UserDashboardLayout = () => {
             </div>
           </div>
         </header>
+
+        {/* Notification Popover */}
+        {showNotificationPopover && (
+          <div className="fixed top-[80px] right-4 w-96 bg-gradient-to-r from-black via-blue-950 to-black rounded-xl shadow-2xl backdrop-blur-lg bg-opacity-95 z-50 animate-slideIn">
+            <div className="flex justify-between items-center border-b border-gray-800 p-4">
+              <h3 className="text-lg font-semibold text-white flex items-center">
+                <FaBell className="mr-3 text-xl text-blue-400" />
+                Notifications
+                {unreadCount > 0 && (
+                  <span className="ml-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full">
+                    {unreadCount}
+                  </span>
+                )}
+              </h3>
+              <FaTimes 
+                className="text-white text-xl cursor-pointer hover:text-blue-400 transition-colors" 
+                onClick={() => setShowNotificationPopover(false)}
+              />
+            </div>
+            <div className="p-4 overflow-y-auto max-h-[60vh] custom-scrollbar">
+              <div className="space-y-3">
+                {notifications.length > 0 ? (
+                  notifications.map((notification) => (
+                    <div 
+                      key={notification._id}
+                      className={`bg-gray-800/50 hover:bg-gray-700/50 transition-all duration-200 rounded-lg p-4 cursor-pointer transform hover:scale-[1.02] ${!notification.isRead ? 'border-l-4 border-blue-500' : ''}`}
+                      onClick={() => markAsRead(notification._id)}
+                    >
+                      <div className="flex items-start space-x-4">
+                        <div className="flex-shrink-0 w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center">
+                          {getNotificationIcon(notification.type)}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-white font-medium text-base truncate">{notification.title}</p>
+                          <p className="text-gray-400 text-sm mt-1.5 line-clamp-2">{notification.message}</p>
+                          <p className="text-gray-500 text-xs mt-2.5">{formatTimeAgo(notification.createdAt)}</p>
+                        </div>
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <div className="text-center text-gray-400 py-8">
+                    No notifications yet
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Content */}
         <main className="flex-1 p-6 overflow-auto">

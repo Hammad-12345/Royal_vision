@@ -1,10 +1,11 @@
 import React, { useState, useMemo, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { FaBars, FaTachometerAlt, FaMoneyCheckAlt, FaDownload, FaUpload, FaHistory, FaSignOutAlt, FaWallet, FaHome, FaUserCircle, FaBell, FaTimes, FaInfoCircle, FaEnvelope, FaCogs } from "react-icons/fa";
+import { FaBars, FaTachometerAlt, FaMoneyCheckAlt, FaDownload, FaUpload, FaHistory, FaSignOutAlt, FaWallet, FaHome, FaUserCircle, FaBell, FaTimes, FaInfoCircle, FaEnvelope, FaCogs, FaChartLine } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { LoggedOut } from "../Redux/Slice/auth";
 import { useNavigate } from "react-router-dom";
+import { toast } from 'react-toastify';
 
 // Add animation styles
 const styles = `
@@ -59,6 +60,8 @@ const Header = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [showUserPopover, setShowUserPopover] = useState(false);
   const [showNotificationPopover, setShowNotificationPopover] = useState(false);
+  const [notifications, setNotifications] = useState([]);
+  const [unreadCount, setUnreadCount] = useState(0);
   const token = useSelector((state) => state.Token.DashboardRoutes);
   const user = useSelector((state) => state.Token.userDetail);
   const dispatch = useDispatch();
@@ -108,6 +111,73 @@ const Header = () => {
   }, []);
 
   const userDisplayName = useMemo(() => user?.Name?.split(" ")[1] || "User", [user?.Name]);
+
+  const fetchNotifications = async () => {
+    try {
+      const token = localStorage.getItem('mytoken');
+      const response = await fetch('https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/dashboard/notifications', {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${JSON.parse(token)}`,
+        },
+      });
+      if (!response.ok) throw new Error('Failed to fetch notifications');
+      const data = await response.json();
+      setNotifications(data);
+      setUnreadCount(data.filter(n => !n.isRead).length);
+    } catch (error) {
+      console.error('Error fetching notifications:', error);
+    }
+  };
+
+  const markAsRead = async (notificationId) => {
+    try {
+      const token = localStorage.getItem('mytoken');
+      const response = await fetch(`https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/dashboard/notifications/${notificationId}/read`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${JSON.parse(token)}`,
+        },
+      });
+      if (!response.ok) throw new Error('Failed to mark notification as read');
+      fetchNotifications(); // Refresh notifications
+    } catch (error) {
+      console.error('Error marking notification as read:', error);
+    }
+  };
+
+  useEffect(() => {
+    if (showNotificationPopover) {
+      fetchNotifications();
+    }
+  }, [showNotificationPopover]);
+
+  const getNotificationIcon = (type) => {
+    switch (type) {
+      case 'investment':
+        return <FaMoneyCheckAlt className="text-2xl sm:text-xl text-blue-400" />;
+      case 'profit':
+        return <FaChartLine className="text-2xl sm:text-xl text-green-400" />;
+      case 'withdrawal':
+        return <FaWallet className="text-2xl sm:text-xl text-yellow-400" />;
+      default:
+        return <FaBell className="text-2xl sm:text-xl text-gray-400" />;
+    }
+  };
+
+  const formatTimeAgo = (date) => {
+    const now = new Date();
+    const diff = now - new Date(date);
+    const minutes = Math.floor(diff / 60000);
+    const hours = Math.floor(minutes / 60);
+    const days = Math.floor(hours / 24);
+
+    if (days > 0) return `${days} day${days > 1 ? 's' : ''} ago`;
+    if (hours > 0) return `${hours} hour${hours > 1 ? 's' : ''} ago`;
+    if (minutes > 0) return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
+    return 'Just now';
+  };
 
   // Add effect to close mobile menu on navigation
   useEffect(() => {
@@ -397,6 +467,11 @@ const Header = () => {
             <h3 className="text-xl sm:text-lg font-semibold text-white flex items-center">
               <FaBell className="mr-3 text-2xl sm:text-xl text-blue-400" />
               Notifications
+              {unreadCount > 0 && (
+                <span className="ml-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full">
+                  {unreadCount}
+                </span>
+              )}
             </h3>
             <FaTimes 
               className="text-white text-2xl sm:text-xl cursor-pointer hover:text-blue-400 transition-colors" 
@@ -405,51 +480,30 @@ const Header = () => {
           </div>
           <div className="p-4 overflow-y-auto custom-scrollbar flex-grow">
             <div className="space-y-3">
-              {/* Example notification items - replace with actual notifications */}
-              <div className="bg-gray-800/50 hover:bg-gray-700/50 transition-all duration-200 rounded-lg p-4 cursor-pointer transform hover:scale-[1.02]">
-                <div className="flex items-start space-x-4">
-                  <div className="flex-shrink-0 w-14 h-14 sm:w-12 sm:h-12 rounded-full bg-blue-500/20 flex items-center justify-center">
-                    <FaMoneyCheckAlt className="text-2xl sm:text-xl text-blue-400" />
+              {notifications.length > 0 ? (
+                notifications.map((notification) => (
+                  <div 
+                    key={notification._id}
+                    className={`bg-gray-800/50 hover:bg-gray-700/50 transition-all duration-200 rounded-lg p-4 cursor-pointer transform hover:scale-[1.02] ${!notification.isRead ? 'border-l-4 border-blue-500' : ''}`}
+                    onClick={() => markAsRead(notification._id)}
+                  >
+                    <div className="flex items-start space-x-4">
+                      <div className="flex-shrink-0 w-14 h-14 sm:w-12 sm:h-12 rounded-full bg-blue-500/20 flex items-center justify-center">
+                        {getNotificationIcon(notification.type)}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-white font-medium text-lg sm:text-base truncate">{notification.title}</p>
+                        <p className="text-gray-400 text-base sm:text-sm mt-1.5 line-clamp-2">{notification.message}</p>
+                        <p className="text-gray-500 text-sm sm:text-xs mt-2.5">{formatTimeAgo(notification.createdAt)}</p>
+                      </div>
+                    </div>
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-white font-medium text-lg sm:text-base truncate">New Investment</p>
-                    <p className="text-gray-400 text-base sm:text-sm mt-1.5 line-clamp-2">Your investment plan has been activated successfully.</p>
-                    <p className="text-gray-500 text-sm sm:text-xs mt-2.5">2 hours ago</p>
-                  </div>
+                ))
+              ) : (
+                <div className="text-center text-gray-400 py-8">
+                  No notifications yet
                 </div>
-              </div>
-
-              <div className="bg-gray-800/50 hover:bg-gray-700/50 transition-all duration-200 rounded-lg p-4 cursor-pointer transform hover:scale-[1.02]">
-                <div className="flex items-start space-x-4">
-                  <div className="flex-shrink-0 w-14 h-14 sm:w-12 sm:h-12 rounded-full bg-green-500/20 flex items-center justify-center">
-                    <FaDownload className="text-2xl sm:text-xl text-green-400" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-white font-medium text-lg sm:text-base truncate">Deposit Successful</p>
-                    <p className="text-gray-400 text-base sm:text-sm mt-1.5 line-clamp-2">Your deposit of $500 has been processed.</p>
-                    <p className="text-gray-500 text-sm sm:text-xs mt-2.5">5 hours ago</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-gray-800/50 hover:bg-gray-700/50 transition-all duration-200 rounded-lg p-4 cursor-pointer transform hover:scale-[1.02]">
-                <div className="flex items-start space-x-4">
-                  <div className="flex-shrink-0 w-14 h-14 sm:w-12 sm:h-12 rounded-full bg-purple-500/20 flex items-center justify-center">
-                    <FaWallet className="text-2xl sm:text-xl text-purple-400" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-white font-medium text-lg sm:text-base truncate">Wallet Update</p>
-                    <p className="text-gray-400 text-base sm:text-sm mt-1.5 line-clamp-2">Your wallet balance has been updated.</p>
-                    <p className="text-gray-500 text-sm sm:text-xs mt-2.5">1 day ago</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Empty state */}
-            <div className="text-center py-12 sm:py-10 text-gray-400">
-              <FaBell className="text-6xl sm:text-5xl mx-auto mb-4 text-gray-600" />
-              <p className="text-base sm:text-sm font-medium">No new notifications</p>
+              )}
             </div>
           </div>
         </div>
