@@ -147,6 +147,7 @@ const AdminDashboardLayout = () => {
       path: "/admin/profit-management",
     },
     { label: "Referal Users", icon: <FaUserFriends />, path: "/admin/referal" },
+    { label: "Referral Management", icon: <FaUserFriends />, path: "/admin/referral-management" },
   ];
 
   const fetchNotifications = async () => {
@@ -162,7 +163,6 @@ const AdminDashboardLayout = () => {
       );
       if (!response.ok) throw new Error("Failed to fetch notifications");
       const data = await response.json();
-      console.log(data);
       setNotifications(data);
       setUnreadCount(data.filter((n) => !n.isRead).length);
     } catch (error) {

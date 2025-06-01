@@ -6,6 +6,7 @@ const Profit = require('../mvc/model/Profit.js');
 const Withdrawal = require('../mvc/model/Withdrawal.js');
 const Referral = require('../mvc/model/referralModel.js');
 const Notification = require('../mvc/model/notificationModel.js');
+const ReferralEarningHistory = require('../mvc/model/ReferalEarningHistory.js');
 
 // Get dashboard stats
 router.get('/stats', async (req, res) => {
@@ -442,6 +443,128 @@ router.put('/notifications/:id/read', async (req, res) => {
     res.json({message:"success"});
   } catch (error) {
     res.status(500).json({ message: error.message });
+  }
+});
+
+// Get investments of referred users
+router.get('/referred-investments', async (req, res) => {
+  try {
+    // Get all referrals with their referred users
+    const referrals = await Referral.find()
+      .populate('userId', 'Name EmailAddress')
+      .populate('referredTo', 'Name EmailAddress');
+
+    // Array to store all referred users' investments
+    const referredInvestments = [];
+
+    // For each referral, get the investments of referred users
+    for (const referral of referrals) {
+      if (referral.referredTo && referral.referredTo.length > 0) {
+        for (const referredUser of referral.referredTo) {
+          // First find the user by email to get their ID
+          const user = await User.findOne({ EmailAddress: referredUser });
+          // console.log(user)
+          if (user) {
+            // Get investments for the user using their ID
+            const investments = await Investment.find({ userId: user._id, paymentMode: 'active', referalPayment: false })
+              .select('price investmentPlan paymentMode createdAt')
+              .sort({ createdAt: -1 });
+              console.log(investments)
+            if (investments.length > 0) {
+              referredInvestments.push({
+                referrer: {
+                  id: referral.userId._id,
+                  name: referral.userId.Name,
+                  email: referral.userId.EmailAddress
+                },
+                referredUser: {
+                  id: user._id,
+                  name: user.Name,
+                  email: user.EmailAddress
+                },
+                investments: investments.map(inv => ({
+                  id: inv._id,
+                  amount: inv.price,
+                  plan: inv.investmentPlan,
+                  status: inv.paymentMode,
+                  date: inv.createdAt
+                }))
+              });
+            }
+          }
+        }
+      }
+    }
+    // console.log(referredInvestments)
+    res.json({
+      success: true,
+      data: referredInvestments,
+      total: referredInvestments.length
+    });
+  } catch (error) {
+    console.error('Error fetching referred investments:', error);
+    res.status(500).json({ 
+      success: false, 
+      message: error.message 
+    });
+  }
+});
+
+router.post('/sendreferalearning', async (req, res) => {
+  try {
+    const { ReferedFrom, ReferedTo, InvestId, InvestPlan, InvestAmount, Earning } = req.body;
+
+    // Update investment's referalPayment to true
+    const updatedInvestment = await Investment.findByIdAndUpdate(
+      InvestId,
+      { referalPayment: true },
+      { new: true }
+    );
+
+    if (!updatedInvestment) {
+      return res.status(404).json({
+        success: false,
+        message: 'Investment not found'
+      });
+    }
+
+    // Create new referral earning record
+    const referralEarning = await ReferralEarningHistory.create({
+      ReferedFrom,
+      ReferedTo,
+      InvestId,
+      InvestPlan,
+      InvestAmount,
+      Earning
+    });
+
+
+    // Update referrer's wallet balance
+    // await User.findByIdAndUpdate(ReferedFrom, {
+    //   $inc: { walletBalance: Earning }
+    // });
+
+    // Create notification for the referrer
+    // await Notification.create({
+    //   userId: ReferedFrom,
+    //   type: 'profit',
+    //   title: 'Referral Earning',
+    //   message: `You have received a referral earning of $${Earning.toFixed(2)} from your referral's investment in ${InvestPlan}.`,
+    //   relatedId: referralEarning._id,
+    //   onModel: 'ReferralEarningHistory'
+    // });
+
+    res.json({
+      success: true,
+      message: 'Referral earning processed successfully',
+      data: referralEarning
+    });
+  } catch (error) {
+    console.error('Error processing referral earning:', error);
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
   }
 });
 

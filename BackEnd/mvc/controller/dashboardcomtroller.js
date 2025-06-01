@@ -7,7 +7,9 @@ const Notification = require("../model/notificationModel");
 const createDeposit = async (req, res) => {
   const { investmentPlan, price, paymentMethod, depositAddress, screenshot, paymentMode } = req.body;
   const userId = req.userId;
-  console.log(req.body);
+  console.log("Received deposit request body:", req.body);
+  console.log("User ID:", userId);
+  console.log("hy")
 
   try {
     const deposit = await Deposit.create({
@@ -17,8 +19,11 @@ const createDeposit = async (req, res) => {
       paymentMethod,
       depositAddress,
       screenshot,
-      paymentMode
+      paymentMode,
+      referalPayment:false
     });
+
+    console.log("Deposit created successfully:", deposit);
 
     // Create notification for the user
     await Notification.create({
@@ -31,8 +36,11 @@ const createDeposit = async (req, res) => {
       onModel: 'Deposit'
     });
 
+    console.log("Notification created successfully for deposit:", deposit._id);
+
     res.status(201).json(deposit);
   } catch (error) {
+    console.error("Error creating deposit:", error);
     res.status(500).json({ message: error.message });
   }
 };
