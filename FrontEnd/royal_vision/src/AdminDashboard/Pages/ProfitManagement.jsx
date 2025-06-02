@@ -92,7 +92,7 @@ const ProfitManagement = () => {
           toast.error("Invalid investment plan");
           return;
       }
-      const response = await fetch("https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/api/admin/add-profit", {
+      const response = await fetch("http://localhost:8080/api/admin/add-profit", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

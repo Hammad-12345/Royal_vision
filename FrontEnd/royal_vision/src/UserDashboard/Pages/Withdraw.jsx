@@ -29,7 +29,7 @@ const Withdraw = () => {
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
 
-        {/* Name */}
+        {/* Name
         <div>
           <label className="block text-white font-medium mb-2">Full Name</label>
           <input
@@ -39,22 +39,8 @@ const Withdraw = () => {
             placeholder="Your full name"
           />
           {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>}
-        </div>
+        </div> */}
 
-        {/* Amount */}
-        <div>
-          <label className="block text-white font-medium mb-2">Withdrawal Amount ($)</label>
-          <input
-            type="number"
-            {...register("amount", {
-              required: "Amount is required",
-              min: { value: 10, message: "Minimum withdrawal is $10" },
-            })}
-            className="w-full px-4 py-2 border border-gray-300 bg-transparent rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Enter amount"
-          />
-          {errors.amount && <p className="text-red-500 text-sm mt-1">{errors.amount.message}</p>}
-        </div>
 
         {/* Payment Method */}
         <div>
@@ -89,6 +75,21 @@ const Withdraw = () => {
           {errors.accountDetails && (
             <p className="text-red-500 text-sm mt-1">{errors.accountDetails.message}</p>
           )}
+        </div>
+
+         {/* Amount */}
+         <div>
+          <label className="block text-white font-medium mb-2">Withdrawal Amount ($)</label>
+          <input
+            type="number"
+            {...register("amount", {
+              required: "Amount is required",
+              min: { value: 10, message: "Minimum withdrawal is $10" },
+            })}
+            className="w-full px-4 py-2 border border-gray-300 bg-transparent rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Enter amount"
+          />
+          {errors.amount && <p className="text-red-500 text-sm mt-1">{errors.amount.message}</p>}
         </div>
 
         {/* Submit Button */}

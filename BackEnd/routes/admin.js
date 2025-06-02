@@ -7,6 +7,7 @@ const Withdrawal = require('../mvc/model/Withdrawal.js');
 const Referral = require('../mvc/model/referralModel.js');
 const Notification = require('../mvc/model/notificationModel.js');
 const ReferralEarningHistory = require('../mvc/model/ReferalEarningHistory.js');
+const Wallet = require('../mvc/model/walletModel.js');
 
 // Get dashboard stats
 router.get('/stats', async (req, res) => {
@@ -316,34 +317,52 @@ router.post('/add-profit', async (req, res) => {
   try {
     const { investmentId, userId, investmentPlanId, amount } = req.body;
 
-    // Create new profit record
-    const profit = await Profit.create({
-      userId,
-      investmentId,
-      investmentPlanId,
-      amount,
-      date: new Date()
+    // First check if user exists
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found'
+      });
+    }
+
+    // Check if profit already exists for this investment
+    const existingProfit = await Profit.findOne({ investmentId });
+    
+    if (existingProfit) {
+      // Update existing profit by adding new amount
+      existingProfit.amount += amount;
+      await existingProfit.save();
+
+      return res.status(200).json({
+        success: true,
+        message: 'Profit updated successfully',
+        profit: existingProfit
+      });
+    }
+    else{
+      const profit = await Profit.create({
+        userId,
+        investmentId,
+        investmentPlanId,
+        amount,
+        date: new Date()
+      });
+    }
+
+
+    return res.status(201).json({
+      success: true,
+      message: 'Profit added successfully',
     });
 
-    // Update user's wallet balance
-    await User.findByIdAndUpdate(userId, {
-      $inc: { walletBalance: amount }
-    });
-
-    // Create notification for profit
-    await Notification.create({
-      userId,
-      type: 'profit',
-      title: 'New Profit Added',
-      message: `You have received a profit of $${amount.toFixed(2)} from your ${investmentPlanId} investment.`,
-      relatedId: profit._id,
-      onModel: 'Profit'
-    });
-
-    res.json({ success: true, profit });
   } catch (error) {
-    console.error('Error adding profit:', error);
-    res.status(500).json({ message: error.message });
+    console.error('Error in add-profit:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Error adding profit',
+      error: error.message
+    });
   }
 });
 
@@ -514,10 +533,13 @@ router.post('/sendreferalearning', async (req, res) => {
   try {
     const { ReferedFrom, ReferedTo, InvestId, InvestPlan, InvestAmount, Earning } = req.body;
 
-    // Update investment's referalPayment to true
+    // Update investment's referalPayment to true and subtract earning from price
     const updatedInvestment = await Investment.findByIdAndUpdate(
       InvestId,
-      { referalPayment: true },
+      { 
+        referalPayment: true,
+        price: InvestAmount - Earning 
+      },
       { new: true }
     );
 
@@ -537,22 +559,22 @@ router.post('/sendreferalearning', async (req, res) => {
       InvestAmount,
       Earning
     });
+    
+    // let wallet = await Wallet.findOne({ userId: ReferedFrom });
+    // if (!wallet) {
+    //   wallet = await Wallet.create({
+    //     userId: ReferedFrom,
+    //     walletBalance: Earning
+    //   });
+    // } else {
+    //   // Update wallet balance
+    //   wallet = await Wallet.findOneAndUpdate(
+    //     { userId: ReferedFrom },
+    //     { $inc: { walletBalance: Earning } },
+    //     { new: true }
+    //   );
+    // }
 
-
-    // Update referrer's wallet balance
-    // await User.findByIdAndUpdate(ReferedFrom, {
-    //   $inc: { walletBalance: Earning }
-    // });
-
-    // Create notification for the referrer
-    // await Notification.create({
-    //   userId: ReferedFrom,
-    //   type: 'profit',
-    //   title: 'Referral Earning',
-    //   message: `You have received a referral earning of $${Earning.toFixed(2)} from your referral's investment in ${InvestPlan}.`,
-    //   relatedId: referralEarning._id,
-    //   onModel: 'ReferralEarningHistory'
-    // });
 
     res.json({
       success: true,

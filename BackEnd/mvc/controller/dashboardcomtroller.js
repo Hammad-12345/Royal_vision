@@ -4,7 +4,7 @@ const bcrypt = require("bcrypt");
 const Profit = require("../model/Profit");
 const Notification = require("../model/notificationModel");
 const ReferalEarningHistory = require("../model/ReferalEarningHistory");
-
+const Wallet = require("../model/walletModel");
 const createDeposit = async (req, res) => {
   const { investmentPlan, price, paymentMethod, depositAddress, screenshot, paymentMode } = req.body;
   const userId = req.userId;
@@ -121,10 +121,20 @@ const updateProfile = async (req, res) => {
   }
 };
 
-
+const fetchwalletbalance = async (req, res) => {
+  const userId = req.userId;
+  try {
+    const wallet = await Wallet.findOne({ userId });
+    console.log(wallet);
+    res.status(200).json(wallet);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
 module.exports = { 
   createDeposit, 
   fetchallinvestment, 
   fetchUserProfits, 
-  updateProfile, 
+  updateProfile,
+  fetchwalletbalance 
 };
