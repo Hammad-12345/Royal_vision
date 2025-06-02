@@ -19,99 +19,98 @@ const MineralWater = () => {
     return remainingDays > 0 ? remainingDays : 0;
   };
 
-  const handleSendProfitToWallet = async (investmentId) => {
+  const handleSendProfitToWallet = async (investment,profit) => {
     try {
       const token = localStorage.getItem('mytoken');
-      const response = await fetch('https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/dashboard/sendprofittowallet', {
+      const response = await fetch('http://localhost:8080/dashboard/sendprofittowallet', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${JSON.parse(token)}`,
         },
-        body: JSON.stringify({ investmentId }),
+        body: JSON.stringify({ investment,profit }),
       });
 
       if (!response.ok) throw new Error(await response.text());
       const result = await response.json();
       toast.success('Profit successfully sent to wallet!');
+      fetchMineralWaterData();
     } catch (err) {
       console.error(err);
       toast.error('Failed to send profit to wallet');
     }
   };
+  const fetchMineralWaterData = async () => {
+    try {
+      const token = localStorage.getItem('mytoken');
+      // Fetch investments
+      const investmentRes = await fetch('http://localhost:8080/dashboard/fetchallinvestment', {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${JSON.parse(token)}`,
+        },
+      });
 
-  useEffect(() => {
-    const fetchMineralWaterData = async () => {
-      try {
-        const token = localStorage.getItem('mytoken');
-        // Fetch investments
-        const investmentRes = await fetch('https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/dashboard/fetchallinvestment', {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${JSON.parse(token)}`,
-          },
-        });
+      if (!investmentRes.ok) throw new Error(await investmentRes.text());
+      const investments = await investmentRes.json();
 
-        if (!investmentRes.ok) throw new Error(await investmentRes.text());
-        const investments = await investmentRes.json();
+      const mineralWaterData = investments.filter(item => 
+        item.investmentPlan === 'Mineral Water' && item.paymentMode === 'active'
+      );
+      setMineralWaterInvestments(mineralWaterData);
+      const total = mineralWaterData.reduce((sum, item) => sum + (item.price || 0), 0);
+      setTotalInvestment(total);
 
-        const mineralWaterData = investments.filter(item => 
-          item.investmentPlan === 'Mineral Water' && item.paymentMode === 'active'
-        );
-        setMineralWaterInvestments(mineralWaterData);
-        const total = mineralWaterData.reduce((sum, item) => sum + (item.price || 0), 0);
-        setTotalInvestment(total);
+      // Fetch profits
+      const profitRes = await fetch('http://localhost:8080/dashboard/fetchprofit', {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${JSON.parse(token)}`,
+        },
+      });
 
-        // Fetch profits
-        const profitRes = await fetch('https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/dashboard/fetchprofit', {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${JSON.parse(token)}`,
-          },
-        });
+      if (!profitRes.ok) throw new Error(await profitRes.text());
+      const profits = await profitRes.json();
 
-        if (!profitRes.ok) throw new Error(await profitRes.text());
-        const profits = await profitRes.json();
+      // Filter profits for MineralWater
+      const mineralWaterProfits = profits.profits.filter(item => 
+        item.investmentPlanId === 'Mineral Water'
+      );
 
-        // Filter profits for MineralWater
-        const mineralWaterProfits = profits.profits.filter(item => 
-          item.investmentPlanId === 'Mineral Water'
-        );
-
-        // Calculate profits per investment
-        const profitsPerInvestment = {};
-        mineralWaterProfits.forEach(profit => {
-          if (!profitsPerInvestment[profit.investmentId]) {
-            profitsPerInvestment[profit.investmentId] = {
-              total: 0,
-              today: 0
-            };
-          }
-          profitsPerInvestment[profit.investmentId].total += profit.amount || 0;
-          
-          const today = new Date().toISOString().split('T')[0];
-          if (profit.date?.split('T')[0] === today) {
-            profitsPerInvestment[profit.investmentId].today += profit.amount || 0;
-          }
-        });
-        setInvestmentProfits(profitsPerInvestment);
-
-        // Calculate total profit and today's profit
-        const totalProfitAmount = mineralWaterProfits.reduce((sum, item) => sum + (item.amount || 0), 0);
-        setTotalProfit(totalProfitAmount);
-
+      // Calculate profits per investment
+      const profitsPerInvestment = {};
+      mineralWaterProfits.forEach(profit => {
+        if (!profitsPerInvestment[profit.investmentId]) {
+          profitsPerInvestment[profit.investmentId] = {
+            total: 0,
+            today: 0
+          };
+        }
+        profitsPerInvestment[profit.investmentId].total += profit.amount || 0;
+        
         const today = new Date().toISOString().split('T')[0];
-        const todayProfitAmount = mineralWaterProfits
-          .filter(item => item.date?.split('T')[0] === today)
-          .reduce((sum, item) => sum + (item.amount || 0), 0);
-        setTodayProfit(todayProfitAmount);
+        if (profit.date?.split('T')[0] === today) {
+          profitsPerInvestment[profit.investmentId].today += profit.amount || 0;
+        }
+      });
+      setInvestmentProfits(profitsPerInvestment);
 
-      } catch (err) {
-        console.error(err);
-        toast.error('Failed to load Mineral Water data');
-      }
-    };
+      // Calculate total profit and today's profit
+      const totalProfitAmount = mineralWaterProfits.reduce((sum, item) => sum + (item.amount || 0), 0);
+      setTotalProfit(totalProfitAmount);
 
+      const today = new Date().toISOString().split('T')[0];
+      const todayProfitAmount = mineralWaterProfits
+        .filter(item => item.date?.split('T')[0] === today)
+        .reduce((sum, item) => sum + (item.amount || 0), 0);
+      setTodayProfit(todayProfitAmount);
+
+    } catch (err) {
+      console.error(err);
+      toast.error('Failed to load Mineral Water data');
+    }
+  };
+  useEffect(() => {
     fetchMineralWaterData();
   }, []);
 
@@ -227,7 +226,7 @@ const MineralWater = () => {
               </span>
             ) : (
               <button
-                onClick={() => handleSendProfitToWallet(investment._id)}
+                onClick={() => handleSendProfitToWallet(investment,profits.total)}
                 className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
               >
                 Send Profit to Wallet

@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 const paymentMethods = [
   { name: "Tron (TRC20)", address: "TRgtXC27Nm8td1DNySmK5Ynh1Gvp8CY8AP" },
   { name: "BNB Smart Chain (BEP20)", address: "0x01d5220ed693ddbea45918033eb7ac53c9008bb9" },
@@ -8,6 +9,8 @@ const paymentMethods = [
 ];
 
 const Withdraw = () => {
+  const navigate = useNavigate();
+  const [walletBalance, setWalletBalance] = useState(0);
   const {
     register,
     handleSubmit,
@@ -15,10 +18,54 @@ const Withdraw = () => {
     reset,
   } = useForm();
 
-  const onSubmit = (data) => {
-    console.log("Withdraw Request:", data);
-    alert(`Withdrawal request of $${data.amount} submitted via ${data.paymentMethod}`);
-    reset();
+  useEffect(() => {
+    const fetchWalletBalance = async () => {
+      try {
+        const token = localStorage.getItem("mytoken");
+        const response = await fetch("http://localhost:8080/dashboard/fetchwalletbalance", {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${JSON.parse(token)}`,
+          },
+        });
+        const data = await response.json();
+        setWalletBalance(data.wallet?.walletBalance || 0);
+      } catch (error) {
+        console.error("Error fetching wallet balance:", error);
+      }
+    };
+    fetchWalletBalance();
+  }, []);
+
+  const onSubmit = async (data) => {
+    if (data.amount > walletBalance) {
+      toast.error("Insufficient balance in wallet");
+      return;
+    }
+    try {
+      console.log("Withdraw Request:", data);
+      const token = localStorage.getItem("mytoken");
+      const response = await fetch("http://localhost:8080/dashboard/withdraw", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${JSON.parse(token)}`,
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const result = await response.json();
+      toast.success(`Withdrawal request of $${data.amount} submitted via ${data.paymentMethod}`);
+      reset();
+      navigate('/withdrawhistory');
+    } catch (error) {
+      console.error("Withdrawal error:", error);
+      toast.error("Failed to process withdrawal request. Please try again later.");
+    }
   };
 
   return (
@@ -26,6 +73,10 @@ const Withdraw = () => {
       <h2 className="text-3xl font-semibold text-center mb-6">
         Withdraw Funds
       </h2>
+
+      <div className="mb-6 p-4 bg-white/10 rounded-lg">
+        <p className="text-white text-lg">Available Balance: ${walletBalance.toFixed(2)}</p>
+      </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
 
@@ -84,7 +135,8 @@ const Withdraw = () => {
             type="number"
             {...register("amount", {
               required: "Amount is required",
-              min: { value: 10, message: "Minimum withdrawal is $10" },
+              min: { value: 50, message: "Minimum withdrawal is $50" },
+              max: { value: walletBalance, message: `Maximum withdrawal is $${walletBalance}` },
             })}
             className="w-full px-4 py-2 border border-gray-300 bg-transparent rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="Enter amount"

@@ -24,7 +24,7 @@ const Notifications = () => {
 
     const fetchNotifications = async () => {
         try {
-            const response = await fetch("https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/api/admin/notifications");
+            const response = await fetch("http://localhost:8080/api/admin/notifications");
             const data = await response.json();
             setNotifications(data);
             setLoading(false);
@@ -47,7 +47,7 @@ const Notifications = () => {
 
     const markAsRead = async (notification) => {
         try {
-            const response = await fetch(`https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/api/admin/notifications/${notification._id}/read`, {
+            const response = await fetch(`http://localhost:8080/api/admin/notifications/${notification._id}/read`, {
                 method: "PUT",
             });
             if (!response.ok) {

@@ -37,13 +37,16 @@ import AdminDashboard from "./AdminDashboard/Pages/Dashboard";
 import AdminUsers from "./AdminDashboard/Pages/Users";
 import AdminInvestments from "./AdminDashboard/Pages/Investments";
 import AdminProfits from "./AdminDashboard/Pages/Profits";
-import AdminWithdrawals from "./AdminDashboard/Pages/Withdrawals";
+// import AdminWithdrawals from "./AdminDashboard/Pages/Withdrawals";
 import ScrollToTop from "./Component/ScrollToTop";
 import ReferalUser from "./AdminDashboard/Pages/ReferalUser";
 import ProfitManagement from "./AdminDashboard/Pages/ProfitManagement";
 import Notifications from "./AdminDashboard/Pages/Notifications";
 import ReferralManagement from "./AdminDashboard/Pages/ReferralManagement";
 import ReferalEarningHistory from "./AdminDashboard/Pages/ReferalEarningHistory";
+import WithdrawRequest from "./AdminDashboard/Pages/WithdrawRequest";
+import UsersWallet from "./AdminDashboard/Pages/UsersWallet";
+import ProfitWalletTransferHistory from "./AdminDashboard/Pages/ProfitWalletTransferHistory";
 // import GoldTradingHistory from "./UserDashboard/Pages/GoldTradingHistory";
 // import Airbnbhistory from "./UserDashboard/Pages/Airbnbhistory";
 // import Amazonhistory from "./UserDashboard/Pages/Amazonhistory";
@@ -124,7 +127,9 @@ function App() {
                 <Route path="investments" element={<AdminInvestments />} />
                 <Route path="investments/:id" element={<AdminInvestments />} />
                 <Route path="profits" element={<AdminProfits />} />
-                <Route path="withdrawals" element={<AdminWithdrawals />} />
+                <Route path="withdraw-request" element={<WithdrawRequest />} />
+                <Route path="users-wallet" element={<UsersWallet />} />
+                <Route path="profit-wallet-transfer" element={<ProfitWalletTransferHistory />} />
                 <Route path="referal" element={<ReferalUser />} />
                 <Route path="referral-management" element={<ReferralManagement />} />
                 <Route path="referral-earning-history" element={<ReferalEarningHistory />} />

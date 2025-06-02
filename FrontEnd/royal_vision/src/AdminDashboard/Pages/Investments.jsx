@@ -79,7 +79,7 @@ const Investments = () => {
   const handleUpdatePaymentMode = async () => {
     console.log(selectedInvestment)
     try {
-      const response = await fetch(`https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/api/admin/updateinvestments`, {
+      const response = await fetch(`http://localhost:8080/api/admin/updateinvestments`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -103,7 +103,7 @@ const Investments = () => {
     if (window.confirm('Are you sure you want to delete this investment?')) {
       // alert(investmentId)
       try {
-        const response = await fetch(`https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/api/admin/deleteinvest/${investmentId}`, {
+        const response = await fetch(`http://localhost:8080/api/admin/deleteinvest/${investmentId}`, {
           method: 'DELETE',
         });
         const data=await response.json()
@@ -226,7 +226,7 @@ const Investments = () => {
   );
   const fetchInvestments = async () => {
     try {
-      const response = await fetch('https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/api/admin/investments');
+      const response = await fetch('http://localhost:8080/api/admin/investments');
       const data = await response.json();
       console.log(data)
       setInvestments(data.data);

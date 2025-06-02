@@ -19,98 +19,99 @@ const Amazonhistory = () => {
     return remainingDays > 0 ? remainingDays : 0;
   };
 
-  const handleSendProfitToWallet = async (investmentId) => {
+  const handleSendProfitToWallet = async (investment,profit) => {
     try {
       const token = localStorage.getItem('mytoken');
-      const response = await fetch('https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/dashboard/sendprofittowallet', {
+      const response = await fetch('http://localhost:8080/dashboard/sendprofittowallet', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${JSON.parse(token)}`,
         },
-        body: JSON.stringify({ investmentId }),
+        body: JSON.stringify({ investment,profit }),
       });
 
       if (!response.ok) throw new Error(await response.text());
       const result = await response.json();
       toast.success('Profit successfully sent to wallet!');
+      fetchAmazonData();
     } catch (err) {
       console.error(err);
       toast.error('Failed to send profit to wallet');
     }
   };
+  const fetchAmazonData = async () => {
+    try {
+      const token = localStorage.getItem('mytoken');
+      // Fetch investments
+      const investmentRes = await fetch('http://localhost:8080/dashboard/fetchallinvestment', {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${JSON.parse(token)}`,
+        },
+      });
 
-  useEffect(() => {
-    const fetchAmazonData = async () => {
-      try {
-        const token = localStorage.getItem('mytoken');
-        // Fetch investments
-        const investmentRes = await fetch('https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/dashboard/fetchallinvestment', {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${JSON.parse(token)}`,
-          },
-        });
+      if (!investmentRes.ok) throw new Error(await investmentRes.text());
+      const investments = await investmentRes.json();
 
-        if (!investmentRes.ok) throw new Error(await investmentRes.text());
-        const investments = await investmentRes.json();
+      const amazonData = investments.filter(item => 
+        item.investmentPlan === 'Amazon' && item.paymentMode === 'active'
+      );
+      setAmazonInvestments(amazonData);
+      const total = amazonData.reduce((sum, item) => sum + (item.price || 0), 0);
+      setTotalInvestment(total);
 
-        const amazonData = investments.filter(item => 
-          item.investmentPlan === 'Amazon' && item.paymentMode === 'active'
-        );
-        setAmazonInvestments(amazonData);
-        const total = amazonData.reduce((sum, item) => sum + (item.price || 0), 0);
-        setTotalInvestment(total);
+      // Fetch profits
+      const profitRes = await fetch('http://localhost:8080/dashboard/fetchprofit', {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${JSON.parse(token)}`,
+        },
+      });
 
-        // Fetch profits
-        const profitRes = await fetch('https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/dashboard/fetchprofit', {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${JSON.parse(token)}`,
-          },
-        });
+      if (!profitRes.ok) throw new Error(await profitRes.text());
+      const profits = await profitRes.json();
 
-        if (!profitRes.ok) throw new Error(await profitRes.text());
-        const profits = await profitRes.json();
+      // Filter profits for Amazon
+      const amazonProfits = profits.profits.filter(item => 
+        item.investmentPlanId === 'Amazon'
+      );
 
-        // Filter profits for Amazon
-        const amazonProfits = profits.profits.filter(item => 
-          item.investmentPlanId === 'Amazon'
-        );
-
-        // Calculate profits per investment
-        const profitsPerInvestment = {};
-        amazonProfits.forEach(profit => {
-          if (!profitsPerInvestment[profit.investmentId]) {
-            profitsPerInvestment[profit.investmentId] = {
-              total: 0,
-              today: 0
-            };
-          }
-          profitsPerInvestment[profit.investmentId].total += profit.amount || 0;
-          
-          const today = new Date().toISOString().split('T')[0];
-          if (profit.date?.split('T')[0] === today) {
-            profitsPerInvestment[profit.investmentId].today += profit.amount || 0;
-          }
-        });
-        setInvestmentProfits(profitsPerInvestment);
-
-        // Calculate total profit and today's profit
-        const totalProfitAmount = amazonProfits.reduce((sum, item) => sum + (item.amount || 0), 0);
-        setTotalProfit(totalProfitAmount);
-
+      // Calculate profits per investment
+      const profitsPerInvestment = {};
+      amazonProfits.forEach(profit => {
+        if (!profitsPerInvestment[profit.investmentId]) {
+          profitsPerInvestment[profit.investmentId] = {
+            total: 0,
+            today: 0
+          };
+        }
+        profitsPerInvestment[profit.investmentId].total += profit.amount || 0;
+        
         const today = new Date().toISOString().split('T')[0];
-        const todayProfitAmount = amazonProfits
-          .filter(item => item.date?.split('T')[0] === today)
-          .reduce((sum, item) => sum + (item.amount || 0), 0);
-        setTodayProfit(todayProfitAmount);
+        if (profit.date?.split('T')[0] === today) {
+          profitsPerInvestment[profit.investmentId].today += profit.amount || 0;
+        }
+      });
+      setInvestmentProfits(profitsPerInvestment);
 
-      } catch (err) {
-        console.error(err);
-        toast.error('Failed to load Amazon data');
-      }
-    };
+      // Calculate total profit and today's profit
+      const totalProfitAmount = amazonProfits.reduce((sum, item) => sum + (item.amount || 0), 0);
+      setTotalProfit(totalProfitAmount);
+
+      const today = new Date().toISOString().split('T')[0];
+      const todayProfitAmount = amazonProfits
+        .filter(item => item.date?.split('T')[0] === today)
+        .reduce((sum, item) => sum + (item.amount || 0), 0);
+      setTodayProfit(todayProfitAmount);
+
+    } catch (err) {
+      console.error(err);
+      toast.error('Failed to load Amazon data');
+    }
+  };
+  useEffect(() => {
+   
 
     fetchAmazonData();
   }, []);
@@ -227,7 +228,7 @@ const Amazonhistory = () => {
               </span>
             ) : (
               <button
-                onClick={() => handleSendProfitToWallet(investment._id)}
+                onClick={() => handleSendProfitToWallet(investment,profits.total)}
                 className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
               >
                 Send Profit to Wallet

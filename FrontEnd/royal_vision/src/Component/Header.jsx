@@ -73,7 +73,7 @@ const Header = () => {
     { label: "Dashboard", icon: <FaTachometerAlt />, path: "/dashboard" },
     { label: "Investment Plans", icon: <FaMoneyCheckAlt />, path: "/Plans" },
     { label: "Deposit", icon: <FaDownload />, path: "/Deposit" },
-    { label: "Withdraw", icon: <FaUpload />, path: "/Withdraw" },
+    // { label: "Withdraw", icon: <FaUpload />, path: "/Withdraw" },
     { label: "Wallet", icon: <FaWallet />, path: "/Wallet" },
     { label: "Referal", icon: <FaWallet />, path: "/referal" },
     { label: "Deposit History", icon: <FaHistory />, path: "/investment-history" },
@@ -115,7 +115,7 @@ const Header = () => {
   const fetchNotifications = async () => {
     try {
       const token = localStorage.getItem('mytoken');
-      const response = await fetch('https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/dashboard/notifications', {
+      const response = await fetch('http://localhost:8080/dashboard/notifications', {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${JSON.parse(token)}`,
@@ -133,7 +133,7 @@ const Header = () => {
   const markAsRead = async (notificationId) => {
     try {
       const token = localStorage.getItem('mytoken');
-      const response = await fetch(`https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/dashboard/notifications/${notificationId}/read`, {
+      const response = await fetch(`http://localhost:8080/dashboard/notifications/${notificationId}/read`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

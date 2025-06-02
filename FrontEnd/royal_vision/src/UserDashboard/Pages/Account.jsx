@@ -39,7 +39,7 @@ const Account = () => {
       if (profileImage) {
         const formData = new FormData();
         formData.append('img', profileImage);
-        const uploadRes = await fetch('https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/upload', {
+        const uploadRes = await fetch('http://localhost:8080/upload', {
           method: 'POST',
           body: formData,
           headers: {
@@ -50,7 +50,7 @@ const Account = () => {
         imageUrl = uploadData.url;
       }
       console.log(imageUrl)
-      const response = await fetch('https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/dashboard/updateprofile', {
+      const response = await fetch('http://localhost:8080/dashboard/updateprofile', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

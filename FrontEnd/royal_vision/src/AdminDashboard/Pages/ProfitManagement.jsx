@@ -18,7 +18,7 @@ const ProfitManagement = () => {
     try {
       const token = localStorage.getItem("mytoken");
       const response = await fetch(
-        "https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/api/admin/investments",
+        "http://localhost:8080/api/admin/investments",
         {
           headers: {
             "Content-Type": "application/json",

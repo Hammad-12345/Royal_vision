@@ -8,6 +8,8 @@ const Referral = require('../mvc/model/referralModel.js');
 const Notification = require('../mvc/model/notificationModel.js');
 const ReferralEarningHistory = require('../mvc/model/ReferalEarningHistory.js');
 const Wallet = require('../mvc/model/walletModel.js');
+const PlanProfitToWallet = require("../mvc/model/PlanProfitToWallet.js");
+const WithdrawRequest = require("../mvc/model/WithdrawRequest.js");
 
 // Get dashboard stats
 router.get('/stats', async (req, res) => {
@@ -46,7 +48,7 @@ router.get('/stats', async (req, res) => {
     const totalProfits = await Profit.aggregate([
       { $group: { _id: null, total: { $sum: '$amount' } } }
     ]);
-    const pendingWithdrawals = await Withdrawal.countDocuments({ status: 'pending' });
+    const pendingWithdrawals = await WithdrawRequest.countDocuments({ status: 'pending' });
 
     res.json({
       totalUsers,
@@ -628,6 +630,144 @@ router.get('/fetchreferalearning', async (req, res) => {
     });
   } catch (error) {
     console.error('Error fetching referral earnings:', error);
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
+  }
+});
+
+router.get("/userswallet", async (req, res) => {
+  try {
+    const wallets = await Wallet.find()
+      .populate('userId', 'Name EmailAddress')
+      .sort({ createdAt: -1 });
+
+    const formattedWallets = wallets.map(wallet => ({
+      id: wallet._id,
+      user: {
+        id: wallet.userId._id,
+        name: wallet.userId.Name,
+        email: wallet.userId.EmailAddress
+      },
+      balance: wallet.walletBalance,
+      createdAt: wallet.createdAt,
+      updatedAt: wallet.updatedAt
+    }));
+
+    res.json({
+      success: true,
+      data: formattedWallets,
+      total: formattedWallets.length
+    });
+  } catch (error) {
+    console.error('Error fetching wallet data:', error);
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
+  }
+});
+router.get("/PlanProfitToWallet",async(req,res)=>
+{
+  try {
+    const planProfitToWallet = await PlanProfitToWallet.find()
+    .populate('userId', 'Name EmailAddress')
+      .sort({ createdAt: -1 });
+
+    res.json({
+      success: true,
+      data: planProfitToWallet,
+      total: planProfitToWallet.length
+    }); 
+  } catch (error) {
+    console.error('Error fetching plan profit to wallet:', error);
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
+  }
+    
+})
+
+// Get all pending withdrawal requests
+router.get('/withdraw-requests', async (req, res) => {
+  try {
+    const withdrawRequests = await WithdrawRequest.find()
+      .populate('userId', 'Name EmailAddress')
+      .sort({ createdAt: -1 });
+
+    res.json({
+      success: true,
+      data: withdrawRequests,
+      total: withdrawRequests.length
+    });
+  } catch (error) {
+    console.error('Error fetching withdrawal requests:', error);
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
+  }
+});
+
+// Update withdrawal request status
+router.put('/updatewithdrawrequests', async (req, res) => {
+  try {
+    const {_id, status ,amount} = req.body;
+    const {_id:userId} = req.body.userId;
+    if(status === 'approved'){
+      const wallet = await Wallet.findOne({ userId: userId });
+      if (!wallet) {
+        return res.status(404).json({
+          success: false,
+          message: 'User wallet not found'
+        });
+      }
+      if(wallet.walletBalance < amount){
+        return res.status(400).json({
+          success: false,
+          message: 'Insufficient wallet balance'
+        });
+      }
+      wallet.walletBalance -= amount;
+      await wallet.save();
+      const updatedWithdrawRequest = await WithdrawRequest.findByIdAndUpdate(
+        _id,
+        { status: status },
+        { new: true }
+      ).populate('userId', 'Name EmailAddress');
+      const notification = await Notification.create({
+        userId: userId,
+        type: 'withdrawal',
+        title: 'Withdrawal Request Approved',
+        message: `Your withdrawal request of $${amount} has been approved`,
+        relatedId: _id,
+        onModel: 'Withdrawal'
+      }); 
+      return res.json({  
+        success: true,
+        message: 'Withdrawal request updated successfully',
+        data: updatedWithdrawRequest
+      });
+
+      
+    }
+    else{
+      const updatedWithdrawRequest = await WithdrawRequest.findByIdAndUpdate(
+        _id,
+        { status: status },
+        { new: true }
+      ).populate('userId', 'Name EmailAddress');
+      return res.json({  
+        success: true,
+        message: 'Withdrawal request updated successfully',
+        data: updatedWithdrawRequest
+      });
+    } 
+    
+  } catch (error) {
+    console.error('Error updating withdrawal request:', error);
     res.status(500).json({
       success: false,
       message: error.message

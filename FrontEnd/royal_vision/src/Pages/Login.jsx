@@ -20,7 +20,7 @@ const Login = () => {
   // ✅ LOGIN with fetch
   const onLoginSubmit = async (data) => {
     try {
-      const response = await fetch("https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/auth/login", {
+      const response = await fetch("http://localhost:8080/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -101,7 +101,7 @@ const Login = () => {
     }
     console.log(otp)
     try {
-      const response = await fetch("https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/auth/otp", {
+      const response = await fetch("http://localhost:8080/auth/otp", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -152,7 +152,7 @@ const Login = () => {
     };
   
     try {
-      const response = await fetch("https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/auth/newpassword", {
+      const response = await fetch("http://localhost:8080/auth/newpassword", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

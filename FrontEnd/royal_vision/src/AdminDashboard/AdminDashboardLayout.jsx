@@ -14,6 +14,8 @@ import {
   FaMoneyCheckAlt,
   FaWallet,
   FaUserPlus,
+  FaExchangeAlt,
+  FaHandHoldingUsd,
 } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -149,13 +151,16 @@ const AdminDashboardLayout = () => {
     { label: "Referal Users", icon: <FaUserFriends />, path: "/admin/referal" },
     { label: "Referral Management", icon: <FaUserFriends />, path: "/admin/referral-management" },
     { label: "Referral Earning History", icon: <FaUserFriends />, path: "/admin/referral-earning-history" },
+    { label: "Users Wallet", icon: <FaWallet />, path: "/admin/users-wallet" },
+    { label: "Profit Wallet Transfer", icon: <FaExchangeAlt />, path: "/admin/profit-wallet-transfer" },
+    { label: "Withdraw Request", icon: <FaHandHoldingUsd />, path: "/admin/withdraw-request" },
   ];
 
   const fetchNotifications = async () => {
     try {
       // const token = localStorage.getItem('mytoken');
       const response = await fetch(
-        "https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/api/admin/notifications",
+        "http://localhost:8080/api/admin/notifications",
         {
           headers: {
             "Content-Type": "application/json",
@@ -175,7 +180,7 @@ const AdminDashboardLayout = () => {
     try {
       // const token = localStorage.getItem('mytoken');
       const response = await fetch(
-        `https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/api/admin/notifications/${notification._id}/read`,
+        `http://localhost:8080/api/admin/notifications/${notification._id}/read`,
         {
           method: "PUT",
           headers: {

@@ -31,7 +31,7 @@ const Referal = () => {
     const fetchReferralData = async () => {
       try {
         const token = JSON.parse(localStorage.getItem('mytoken'));
-        const response = await fetch('https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/api/user/referral-data', {
+        const response = await fetch('http://localhost:8080/api/user/referral-data', {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json'
