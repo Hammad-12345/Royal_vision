@@ -81,7 +81,7 @@ const Withdrawhistory = () => {
     const fetchWithdrawals = async () => {
       try {
         const token = localStorage.getItem('mytoken');
-        const response = await fetch('http://localhost:8080/dashboard/withdrawrequests', {
+        const response = await fetch('https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/dashboard/withdrawrequests', {
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${JSON.parse(token)}`

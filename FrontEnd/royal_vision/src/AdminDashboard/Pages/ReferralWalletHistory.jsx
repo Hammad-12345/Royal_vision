@@ -125,7 +125,7 @@ const ReferralWalletHistory = () => {
     useEffect(() => {   
         const fetchReferralWalletHistory = async () => {
             try {
-                const response = await fetch('http://localhost:8080/api/admin/referralwallethistory');
+                const response = await fetch('https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/api/admin/referralwallethistory');
                 const data = await response.json()
                 console.log(data);
                 setReferralWalletHistory(data.data);

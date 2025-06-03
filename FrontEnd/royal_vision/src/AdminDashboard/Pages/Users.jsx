@@ -101,7 +101,7 @@ const Users = () => {
     if (window.confirm('Are you sure you want to delete this user?')) {
       
       try {
-        const response = await fetch(`http://localhost:8080/api/admin/deleteuser/${userId}`, {
+        const response = await fetch(`https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/api/admin/deleteuser/${userId}`, {
           method: 'DELETE',
         });
         
@@ -120,7 +120,7 @@ const Users = () => {
   };
   const fetchUsers = async () => {
     try {
-      const response = await fetch('http://localhost:8080/api/admin/users');
+      const response = await fetch('https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/api/admin/users');
       const data = await response.json();
       console.log(data)
       setUsers(data);

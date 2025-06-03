@@ -63,7 +63,7 @@ const Wallet = () => {
   useEffect(() => {
     const fetchWalletBalance = async () => {
       const response = await fetch(
-        "http://localhost:8080/dashboard/fetchwalletbalance",
+        "https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/dashboard/fetchwalletbalance",
         {
           method: "GET",
           headers: {

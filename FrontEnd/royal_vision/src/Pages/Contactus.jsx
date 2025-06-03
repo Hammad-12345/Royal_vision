@@ -70,7 +70,7 @@ const Contactus = () => {
   ];
   const onSubmit = async (data) => {
     try {
-      const response = await fetch("http://localhost:8080/contact/send", {
+      const response = await fetch("https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/contact/send", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

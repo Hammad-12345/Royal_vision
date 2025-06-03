@@ -85,7 +85,7 @@ const ProfitWalletTransferHistory = () => {
   useEffect(() => {
     const fetchTransferHistory = async () => {
       try {
-        const response = await fetch('http://localhost:8080/api/admin/PlanProfitToWallet', {
+        const response = await fetch('https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/api/admin/PlanProfitToWallet', {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',

@@ -35,7 +35,7 @@ const WithdrawRequest = () => {
         status: newStatus
       };
       // console.log(updatedRequest);
-      const response = await fetch(`http://localhost:8080/api/admin/updatewithdrawrequests`, {
+      const response = await fetch(`https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/api/admin/updatewithdrawrequests`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -173,7 +173,7 @@ const WithdrawRequest = () => {
   const fetchWithdrawals = async () => {
     try {
       const token = localStorage.getItem('mytoken');
-      const response = await fetch('http://localhost:8080/api/admin/withdraw-requests', {
+      const response = await fetch('https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/api/admin/withdraw-requests', {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${JSON.parse(token)}`

@@ -90,7 +90,7 @@ const ReferralManagement = () => {
   const fetchReferralInvestments = async () => {
     try {
       const response = await fetch(
-        'http://localhost:8080/api/admin/referred-investments',
+        'https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/api/admin/referred-investments',
         {
           headers: {
             'Content-Type': 'application/json',
@@ -176,7 +176,7 @@ const sendreferalearning=async(investmentamount)=>
   console.log('Referral Earning (3%):', referralEarning);
   try {
     const res = await fetch(
-      'http://localhost:8080/api/admin/sendreferalearning',{
+      'https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/api/admin/sendreferalearning',{
         method: "POST",
         headers: {
           "Content-Type": "application/json",

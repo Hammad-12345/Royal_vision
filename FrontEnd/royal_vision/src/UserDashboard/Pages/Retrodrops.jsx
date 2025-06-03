@@ -23,7 +23,7 @@ const Retrodrops = () => {
   const handleSendProfitToWallet = async (investment,profit) => {
     try {
       const token = localStorage.getItem('mytoken');
-      const response = await fetch('http://localhost:8080/dashboard/sendprofittowallet', {
+      const response = await fetch('https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/dashboard/sendprofittowallet', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -46,7 +46,7 @@ const Retrodrops = () => {
     try {
       const token = localStorage.getItem('mytoken');
       // Fetch investments
-      const investmentRes = await fetch('http://localhost:8080/dashboard/fetchallinvestment', {
+      const investmentRes = await fetch('https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/dashboard/fetchallinvestment', {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${JSON.parse(token)}`,
@@ -64,7 +64,7 @@ const Retrodrops = () => {
       setTotalInvestment(total);
 
       // Fetch profits
-      const profitRes = await fetch('http://localhost:8080/dashboard/fetchprofit', {
+      const profitRes = await fetch('https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/dashboard/fetchprofit', {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${JSON.parse(token)}`,

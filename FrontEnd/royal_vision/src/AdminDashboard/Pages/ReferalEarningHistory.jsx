@@ -99,7 +99,7 @@ const ReferalEarningHistory = () => {
   const fetchReferralEarnings = async () => {
     try {
       const response = await fetch(
-        'http://localhost:8080/api/admin/fetchreferalearning',
+        'https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/api/admin/fetchreferalearning',
         {
           headers: {
             'Content-Type': 'application/json',
