@@ -19,7 +19,7 @@ const Dashboard = () => {
   const [expanded, setExpanded] = useState(null);
   const [cardData, setCardData] = useState([
     { title: "Total Invest", count: 0 },
-    { title: "Total Profit", count: 0 },
+    { title: "Total Investment Profit", count: 0 },
   ]);
   const [animationKey, setAnimationKey] = useState(0);
   const [activePlans, setActivePlans] = useState([]);
@@ -104,7 +104,7 @@ const Dashboard = () => {
         settotalprofitchart(profitData.profits)
         let totals = {
           "Total Invest": 0,
-          "Total Profit": profitData.totalProfit || 0,
+          "Total Investment Profit": profitData.totalProfit || 0,
         };
 
         // Define all available investment plans

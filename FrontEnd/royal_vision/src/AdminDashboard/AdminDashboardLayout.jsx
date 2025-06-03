@@ -148,7 +148,7 @@ const AdminDashboardLayout = () => {
       icon: <FaChartLine />,
       path: "/admin/profit-management",
     },
-    { label: "Referal Users", icon: <FaUserFriends />, path: "/admin/referal" },
+    { label: "Referral Users", icon: <FaUserFriends />, path: "/admin/referal" },
     { label: "Referral Management", icon: <FaUserFriends />, path: "/admin/referral-management" },
     { label: "Referral Earning History", icon: <FaUserFriends />, path: "/admin/referral-earning-history" },
     { label: "Users Wallet", icon: <FaWallet />, path: "/admin/users-wallet" },

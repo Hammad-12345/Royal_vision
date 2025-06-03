@@ -57,7 +57,7 @@ const Retrodrops = () => {
       const investments = await investmentRes.json();
 
       const retrodropsData = investments.filter(item => 
-        item.investmentPlan === 'RetroDrops' && item.paymentMode === 'active' && item.expired===false
+        item.investmentPlan === 'RetroDrops' && item.paymentMode === 'active'
       );
       setRetrodropsInvestments(retrodropsData);
       const total = retrodropsData.reduce((sum, item) => sum + (item.price || 0), 0);
@@ -119,6 +119,7 @@ const Retrodrops = () => {
 
   const InvestmentCard = ({ investment }) => {
     const profits = investmentProfits[investment._id] || { total: 0, today: 0 };
+    console.log(profits)
     const remainingDays = calculateRemainingDays(investment.createdAt);
     
     return (

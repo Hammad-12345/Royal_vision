@@ -51,7 +51,7 @@ const OverallInvestmentHistory = () => {
   const navigate = useNavigate();
   const [data,setData]=useState([])
 
-  const isHome = location.pathname === '/';
+  const isHome = location.pathname === '/dashboard';
   const dataToShow = isHome ? data.slice(0, 5) : data;
   useEffect(() => {
     const fetchInvestments = async () => {

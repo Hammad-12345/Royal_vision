@@ -46,26 +46,17 @@ const Withdrawhistory = () => {
       header: 'Status',
       accessorKey: 'status',
       cell: (info) => {
-        const status = info.getValue();
-        let statusClass = '';
-        switch (status) {
-          case 'pending':
-            statusClass = 'text-yellow-400';
-            break;
-          case 'approved':
-            statusClass = 'text-green-400';
-            break;
-          case 'rejected':
-            statusClass = 'text-red-400';
-            break;
-          default:
-            statusClass = 'text-slate-400';
-        }
-        return (
-          <span className={`${statusClass} font-medium capitalize`}>
-            {status}
-          </span>
-        );
+        const color =
+        info.getValue() === 'approved'
+          ? 'bg-green-600'
+          : info.getValue() === 'rejected'
+          ? 'bg-red-600'
+          : 'bg-yellow-600';
+      return (
+        <span className={`px-3 py-1 rounded-full text-xs font-semibold ${color}`}>
+          {info.getValue()}
+        </span>
+      )
       }
     },
     {
@@ -114,19 +105,19 @@ const Withdrawhistory = () => {
   }
 
   return (
-    <div className="p-6">
+    <div>
       <h1 className="text-2xl font-bold mb-6">Withdrawal History</h1>
-      {withdrawals.length === 0 ? (
+      {/* {withdrawals.length === 0 ? (
         <div className="text-center text-gray-500 mt-8">
           No withdrawal requests found
         </div>
-      ) : (
+      ) : ( */}
         <Table 
           data={withdrawals} 
           columns={columns}
           pagination={true}
         />
-      )}
+      {/* )} */}
     </div>
   );
 };

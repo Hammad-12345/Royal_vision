@@ -210,17 +210,13 @@ const WithdrawRequest = () => {
 
   return (
     <div> 
-      {withdrawals.length === 0 ? (
-        <div className="text-center text-gray-500 mt-8">
-          No withdrawal requests found
-        </div>
-      ) : (
+     
         <Table 
           data={withdrawals} 
           columns={columns}
           pagination={true}
         />
-      )}
+     
     </div>
   );
 };

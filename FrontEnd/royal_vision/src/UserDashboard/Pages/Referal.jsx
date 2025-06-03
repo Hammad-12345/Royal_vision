@@ -30,7 +30,7 @@ const Referal = () => {
   const fetchEarningsHistory = async () => {
     try {
       const token = JSON.parse(localStorage.getItem('mytoken'));
-      const response = await fetch('https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/api/user/fetchreferalhistoryuser', {
+      const response = await fetch('http://localhost:8080/api/user/fetchreferalhistoryuser', {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -108,6 +108,15 @@ const Referal = () => {
       ),
     },
     {
+      header: 'Investment Id',
+      accessorFn: (row) => row.InvestId._id || 'N/A',
+      cell: (info) => (
+        <span className="text-blue-400 font-medium">
+          {info.getValue()}
+        </span>
+      ),
+    },
+    {
       header: 'Investment Plan',
       accessorKey: 'InvestPlan',
       cell: (info) => (
@@ -118,7 +127,7 @@ const Referal = () => {
     },
     {
       header: 'Amount',
-      accessorFn: (row) => `$${row.InvestAmount.toFixed(2)}`,
+      accessorFn: (row) => `$${row.InvestAmount}`,
       cell: (info) => (
         <span className="text-amber-400 font-medium">
           {info.getValue()}
@@ -127,7 +136,7 @@ const Referal = () => {
     },
     {
       header: 'Earning',
-      accessorFn: (row) => `$${row.Earning.toFixed(2)}`,
+      accessorFn: (row) => `$${row.Earning}`,
       cell: (info) => (
         <span className="text-green-400 font-medium">
           {info.getValue()}
@@ -155,10 +164,15 @@ const Referal = () => {
       header: 'Action',
       cell: (row) => (
         <button
-           className="inline-flex items-center px-3 py-3 bg-blue-500 text-white text-sm font-medium hover:bg-blue-600 rounded-lg transition-all duration-200"
-          onClick={() => handleAction(row.row.original)}
+          className={`inline-flex items-center px-3 py-3 text-white text-sm font-medium rounded-lg transition-all duration-200 ${
+            row.row.original.referalwalletflag 
+              ? 'bg-gray-400 cursor-not-allowed' 
+              : 'bg-blue-500 hover:bg-blue-600'
+          }`}
+          onClick={() => !row.row.original.referalwalletflag && handleAction(row.row.original)}
+          disabled={row.row.original.referalwalletflag}
         >
-        Send Referal Earning To Wallet
+          {row.row.original.referalwalletflag ? 'Already Sent to Wallet' : 'Send Referal Earning To Wallet'}
         </button>
       ),
     },
@@ -253,7 +267,7 @@ const Referal = () => {
     {
     try {
       const token = JSON.parse(localStorage.getItem('mytoken'));
-      const response = await fetch('https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/api/user/sendreferalearningtowallet', {
+      const response = await fetch('http://localhost:8080/api/user/sendreferalearningtowallet', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -402,30 +416,30 @@ const Referal = () => {
       {/* Earnings History Section */}
       <div className="rounded-xl shadow-md p-2 mb-12">
         <h2 className="text-2xl font-semibold text-white mb-6 font-poppins">Referal Earning History</h2>
-        {earningsHistory.length > 0 ? (
+        {/* {earningsHistory.length > 0 ? ( */}
           <Table 
             data={earningsHistory} 
             columns={earningsColumns}
             pagination={true}
           />
-        ) : (
+        {/* ) : (
           <p className="text-gray-300 text-center py-4">No earnings history available yet.</p>
-        )}
+        )} */}
       </div>
 
 
        {/* Earnings History Section */}
        <div className="rounded-xl shadow-md p-2 mb-12">
         <h2 className="text-2xl font-semibold text-white mb-6 font-poppins">Referal To Wallet History</h2>
-        {earningsHistory.length > 0 ? (
+        {/* {earningsHistory.length > 0 ? ( */}
           <Table 
             data={referaltowallethistory} 
             columns={referaltowallethistorycolumns}
             pagination={true}
           />
-        ) : (
+        {/* ) : (
           <p className="text-gray-300 text-center py-4">No earnings history available yet.</p>
-        )}
+        )} */}
       </div>
 
       <div className="text-center">
