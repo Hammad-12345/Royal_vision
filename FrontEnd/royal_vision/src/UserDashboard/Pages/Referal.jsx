@@ -101,31 +101,61 @@ const Referal = () => {
     {
       header: 'Referred User',
       accessorFn: (row) => row.ReferedTo?.EmailAddress || 'N/A',
+      cell: (info) => (
+        <span className="text-blue-400 font-medium">
+          {info.getValue()}
+        </span>
+      ),
     },
     {
       header: 'Investment Plan',
       accessorKey: 'InvestPlan',
+      cell: (info) => (
+        <span className="text-emerald-400 font-medium">
+          {info.getValue()}
+        </span>
+      ),
     },
     {
       header: 'Amount',
       accessorFn: (row) => `$${row.InvestAmount.toFixed(2)}`,
+      cell: (info) => (
+        <span className="text-amber-400 font-medium">
+          {info.getValue()}
+        </span>
+      ),
     },
     {
       header: 'Earning',
       accessorFn: (row) => `$${row.Earning.toFixed(2)}`,
-      cell: ({ getValue }) => (
-        <span className="text-green-400">{getValue()}</span>
+      cell: (info) => (
+        <span className="text-green-400 font-medium">
+          {info.getValue()}
+        </span>
+      ),
+    },
+    {
+      header: 'Earning %',
+      cell: () => (
+        <span className="text-purple-400 font-medium">
+          3%
+        </span>
       ),
     },
     {
       header: 'Date',
       accessorFn: (row) => formatTimestamp(row.createdAt),
+      cell: (info) => (
+        <span className="text-cyan-400 font-medium">
+          {info.getValue()}
+        </span>
+      ),
     },
     {
       header: 'Action',
       cell: (row) => (
         <button
-           className="inline-flex items-center px-3 py-3 bg-blue-500 text-sm font-medium  hover:bg-blue-600  rounded-lg transition-all duration-200"
+           className="inline-flex items-center px-3 py-3 bg-blue-500 text-white text-sm font-medium hover:bg-blue-600 rounded-lg transition-all duration-200"
           onClick={() => handleAction(row.row.original)}
         >
         Send Referal Earning To Wallet
@@ -135,7 +165,7 @@ const Referal = () => {
   ];
   const referaltowallethistorycolumns = [
     {
-        header: 'Refere to wallet Id',
+        header: 'Referel to wallet transfer Id',
         accessorFn: (row) => row._id || 'N/A',
         cell: (info) => (
             <span className="text-gray-300 font-medium">
