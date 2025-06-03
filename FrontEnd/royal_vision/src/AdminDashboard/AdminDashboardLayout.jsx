@@ -154,6 +154,7 @@ const AdminDashboardLayout = () => {
     { label: "Users Wallet", icon: <FaWallet />, path: "/admin/users-wallet" },
     { label: "Profit Wallet Transfer", icon: <FaExchangeAlt />, path: "/admin/profit-wallet-transfer" },
     { label: "Withdraw Request", icon: <FaHandHoldingUsd />, path: "/admin/withdraw-request" },
+    { label: "Referral Wallet History", icon: <FaWallet />, path: "/admin/referral-wallet-history" },
   ];
 
   const fetchNotifications = async () => {

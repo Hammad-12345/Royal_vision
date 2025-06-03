@@ -10,7 +10,7 @@ const ReferralEarningHistory = require('../mvc/model/ReferalEarningHistory.js');
 const Wallet = require('../mvc/model/walletModel.js');
 const PlanProfitToWallet = require("../mvc/model/PlanProfitToWallet.js");
 const WithdrawRequest = require("../mvc/model/WithdrawRequest.js");
-
+const ReferralWalletHistory = require("../mvc/model/referaltowallethistory.js");
 // Get dashboard stats
 router.get('/stats', async (req, res) => {
   try {
@@ -773,6 +773,26 @@ router.put('/updatewithdrawrequests', async (req, res) => {
       message: error.message
     });
   }
+});
+
+router.get('/referralwallethistory', async (req, res) => {
+  try {
+    const referralWalletHistory = await ReferralWalletHistory.find()
+      .populate('userId', 'Name EmailAddress')
+      .sort({ createdAt: -1 }); 
+
+    res.json({
+      success: true,
+      data: referralWalletHistory,
+      total: referralWalletHistory.length
+    });
+  } catch (error) {
+    console.error('Error fetching referral wallet history:', error);
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
+  } 
 });
 
 module.exports = router; 

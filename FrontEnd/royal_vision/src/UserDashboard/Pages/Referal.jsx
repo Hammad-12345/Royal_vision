@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FaShareAlt, FaCopy, FaUsers, FaGift, FaTimes, FaMoneyBillWave } from 'react-icons/fa';
 import Table from '../Component/Table';
+import { toast } from 'react-toastify';
 const formatTimestamp = (timestamp) => {
   const date = new Date(timestamp);
   const now = new Date();
@@ -25,7 +26,28 @@ const Referal = () => {
   });
   const [earningsHistory, setEarningsHistory] = useState([]);
   const [totalEarnings, setTotalEarnings] = useState(0);
-
+  const [referaltowallethistory, setReferaltowallethistory] = useState([]);
+  const fetchEarningsHistory = async () => {
+    try {
+      const token = JSON.parse(localStorage.getItem('mytoken'));
+      const response = await fetch('http://localhost:8080/api/user/fetchreferalhistoryuser', {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+      if (!response.ok) {
+        throw new Error('Failed to fetch earnings history');
+      }
+      const data = await response.json();
+      console.log(data)
+      setEarningsHistory(data.referralEarnings || []);
+      setReferaltowallethistory(data.fetchReferaltowallethistory || []);
+      setTotalEarnings(data.totalEarnings || 0);
+    } catch (error) {
+      console.error('Error fetching earnings history:', error);
+    }
+  };
   useEffect(() => {
     // Fetch user's referral code and stats
     const fetchReferralData = async () => {
@@ -53,26 +75,7 @@ const Referal = () => {
     };
 
     // Fetch referral earnings history
-    const fetchEarningsHistory = async () => {
-      try {
-        const token = JSON.parse(localStorage.getItem('mytoken'));
-        const response = await fetch('http://localhost:8080/api/user/fetchreferalhistoryuser', {
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          }
-        });
-        if (!response.ok) {
-          throw new Error('Failed to fetch earnings history');
-        }
-        const data = await response.json();
-        console.log(data)
-        setEarningsHistory(data.referralEarnings || []);
-        setTotalEarnings(data.totalEarnings || 0);
-      } catch (error) {
-        console.error('Error fetching earnings history:', error);
-      }
-    };
+   
 
     fetchReferralData();
     fetchEarningsHistory();
@@ -118,8 +121,133 @@ const Referal = () => {
       header: 'Date',
       accessorFn: (row) => formatTimestamp(row.createdAt),
     },
+    {
+      header: 'Action',
+      cell: (row) => (
+        <button
+           className="inline-flex items-center px-3 py-3 bg-blue-500 text-sm font-medium  hover:bg-blue-600  rounded-lg transition-all duration-200"
+          onClick={() => handleAction(row.row.original)}
+        >
+        Send Referal Earning To Wallet
+        </button>
+      ),
+    },
   ];
-
+  const referaltowallethistorycolumns = [
+    {
+        header: 'Refere to wallet Id',
+        accessorFn: (row) => row._id || 'N/A',
+        cell: (info) => (
+            <span className="text-gray-300 font-medium">
+                {info.getValue()}
+            </span>
+        )
+    },
+    {
+        header: 'Refered User Id',
+        accessorFn: (row) => row.ReferedTo || 'N/A',
+        cell: (info) => (
+            <span className="text-blue-400 font-medium">
+                {info.getValue()}
+            </span>
+        )
+    },
+    {
+      header: 'Investment Id',
+      accessorFn: (row) => row.investmentId || 'N/A',
+      cell: (info) => (
+          <span className="text-blue-400 font-medium">
+              {info.getValue()}
+          </span>
+      )
+  },
+    {
+        header: 'Investment Plan',
+        accessorKey: 'investmentPlan',
+        cell: (info) => (
+            <span className="text-emerald-400 font-medium">
+                {info.getValue()}
+            </span>
+        )
+    },
+    {
+        header: 'Investment Amount',
+        accessorKey: 'InvestmentAmount',
+        cell: (info) => (
+            <span className="text-green-400 font-medium">
+                ${info.getValue().toLocaleString()}
+            </span>
+        )
+    },
+    {
+        header: 'Amount To Wallet',
+        accessorKey: 'AmountToWallet',
+        cell: (info) => (
+            <span className="text-amber-400 font-medium">
+                ${info.getValue().toLocaleString()}
+            </span>
+        )
+    },
+    {
+        header: 'Remaining Amount',
+        accessorKey: 'RemainingInvestmentAmount',
+        cell: (info) => (
+            <span className="text-orange-400 font-medium">
+                ${parseFloat(info.getValue()).toLocaleString()}
+            </span>
+        )
+    },
+    {
+        header: 'Date',
+        accessorKey: 'createdAt',
+        cell: (info) => (
+            <span className="text-cyan-400 font-medium">
+                {formatTimestamp(info.getValue())}
+            </span>
+        )
+    },
+    {
+        header: 'Status',
+        accessorKey: 'status',
+        cell: (info) => (
+            <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                info.getValue() === 'completed' ? 'bg-green-500/20 text-green-400' : 'bg-yellow-500/20 text-yellow-400'
+            }`}>
+                {info.getValue().charAt(0).toUpperCase() + info.getValue().slice(1)}
+            </span>
+        )
+    }
+];
+  const handleAction = async(row) => {
+    if(totalEarnings > 0)
+    {
+    try {
+      const token = JSON.parse(localStorage.getItem('mytoken'));
+      const response = await fetch('http://localhost:8080/api/user/sendreferalearningtowallet', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(row)
+      });
+      if (!response.ok) {
+        throw new Error('Failed to send earnings to wallet');
+      }
+      const data = await response.json();
+      console.log(data);
+      toast.success(data.message || 'Earning sent to wallet successfully');
+      fetchEarningsHistory();
+    } catch (error) {
+      console.error('Error sending earnings to wallet:', error);
+    }
+  }
+  else
+  {
+    toast.error('No sufficient balance to send');
+  }
+  
+  };
   return (
     <div>
       <div className="text-center mb-12">
@@ -243,11 +371,26 @@ const Referal = () => {
 
       {/* Earnings History Section */}
       <div className="rounded-xl shadow-md p-2 mb-12">
-        <h2 className="text-2xl font-semibold text-white mb-6 font-poppins">Earnings History</h2>
+        <h2 className="text-2xl font-semibold text-white mb-6 font-poppins">Referal Earning History</h2>
         {earningsHistory.length > 0 ? (
           <Table 
             data={earningsHistory} 
             columns={earningsColumns}
+            pagination={true}
+          />
+        ) : (
+          <p className="text-gray-300 text-center py-4">No earnings history available yet.</p>
+        )}
+      </div>
+
+
+       {/* Earnings History Section */}
+       <div className="rounded-xl shadow-md p-2 mb-12">
+        <h2 className="text-2xl font-semibold text-white mb-6 font-poppins">Referal To Wallet History</h2>
+        {earningsHistory.length > 0 ? (
+          <Table 
+            data={referaltowallethistory} 
+            columns={referaltowallethistorycolumns}
             pagination={true}
           />
         ) : (

@@ -7,7 +7,7 @@ const ReferalEarningHistory = require("../model/ReferalEarningHistory");
 const Wallet = require("../model/walletModel");
 const PlanProfitToWallet = require("../model/PlanProfitToWallet");
 const WithdrawRequest = require("../model/WithdrawRequest");
-
+const Referaltowallethistory = require("../model/referaltowallethistory");
 const createDeposit = async (req, res) => {
   const {
     investmentPlan,
@@ -140,7 +140,9 @@ const fetchwalletbalance = async (req, res) => {
   try {
     const wallet = await Wallet.findOne({ userId });
     const ProfitToWallet = await PlanProfitToWallet.find({ userId });
-    res.status(200).json({ wallet, ProfitToWallet });
+    const ReferalToWallet = await Referaltowallethistory.find({ userId });
+    const WithdrawRequesthistory = await WithdrawRequest.find({ userId });
+    res.status(200).json({ wallet, ProfitToWallet, ReferalToWallet, WithdrawRequesthistory });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -150,7 +152,7 @@ const sendprofittowallet = async (req, res) => {
   try {
     const userId = req.userId;
     const { investment, profit } = req.body;
-console.log(investment)
+    console.log(investment)
     // Step 1: Update investment to expired
     const updatedInvestment = await Deposit.findByIdAndUpdate(
       investment._id,
@@ -163,11 +165,11 @@ console.log(investment)
         message: 'Investment plan not found'
       });
     }
-    const existingProfit = await Profit.findOne({investmentId:investment._id });
+    const existingProfit = await Profit.findOne({ investmentId: investment._id });
     console.log(existingProfit)
     if (existingProfit) {
       // Update existing profit by adding new amount
-      existingProfit.amount =0;
+      existingProfit.amount = 0;
       await existingProfit.save();
     }
 
@@ -207,9 +209,9 @@ console.log(investment)
 
   } catch (error) {
     console.error("Error in sendprofittowallet:", error);
-    res.status(500).json({ 
+    res.status(500).json({
       message: "Internal server error",
-      error: error.message 
+      error: error.message
     });
   }
 };
@@ -222,8 +224,8 @@ const createWithdrawRequest = async (req, res) => {
     // Check if user has sufficient balance
     const wallet = await Wallet.findOne({ userId });
     if (!wallet || wallet.walletBalance < amount) {
-      return res.status(400).json({ 
-        message: "Insufficient balance in wallet" 
+      return res.status(400).json({
+        message: "Insufficient balance in wallet"
       });
     }
 
@@ -231,7 +233,7 @@ const createWithdrawRequest = async (req, res) => {
     const withdrawRequest = await WithdrawRequest.create({
       userId,
       paymentMethod,
-      walletAddress:accountDetails,
+      walletAddress: accountDetails,
       amount,
       status: 'pending'
     });

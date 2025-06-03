@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import CountUp from "react-countup";
 import { FaWallet, FaExchangeAlt, FaHistory } from "react-icons/fa";
 import { GiCash } from "react-icons/gi";
+import { MdAccountBalance } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import Table from "../Component/Table";
 const formatTimestamp = (timestamp) => {
@@ -46,7 +47,10 @@ const Wallet = () => {
     ],
   };
   const [walletBalance, setWalletBalance] = useState(0);
+  const [totalApprovedWithdrawals, setTotalApprovedWithdrawals] = useState(0);
   const [profittowallet, setprofittowallet] = useState([]);
+  const [referaltoWallet, setreferaltoWallet] = useState([]);
+  const [withdrawRequest, setWithdrawRequest] = useState([]);
   const [transactions, setTransactions] = useState([]);
   const [isWithdrawModalOpen, setIsWithdrawModalOpen] = useState(false);
   const [withdrawalForm, setWithdrawalForm] = useState({
@@ -54,6 +58,7 @@ const Wallet = () => {
     paymentMethod: "bank",
   });
   const [isLoading, setIsLoading] = useState(false);
+  const [showHistory, setShowHistory] = useState(false);
 
   useEffect(() => {
     const fetchWalletBalance = async () => {
@@ -75,53 +80,34 @@ const Wallet = () => {
         data.wallet?.walletBalance != null ? data.wallet.walletBalance : 0
       );
       setprofittowallet(data.ProfitToWallet ? data.ProfitToWallet : []);
+      setreferaltoWallet(data.ReferalToWallet ? data.ReferalToWallet : []);
+      setWithdrawRequest(data.WithdrawRequesthistory ? data.WithdrawRequesthistory : []);
+      
+      // Calculate total approved withdrawals
+      const approvedWithdrawals = data.WithdrawRequesthistory
+        ? data.WithdrawRequesthistory
+            .filter(request => request.status === 'approved')
+            .reduce((sum, request) => sum + (request.amount || 0), 0)
+        : 0;
+      setTotalApprovedWithdrawals(approvedWithdrawals);
     };
     fetchWalletBalance();
   }, []);
 
-  const handleWithdrawalSubmit = async (e) => {
-    e.preventDefault();
-    setIsLoading(true);
-    try {
-      const response = await fetch("http://localhost:8080/dashboard/withdraw", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${JSON.parse(
-            localStorage.getItem("mytoken")
-          )}`,
-        },
-        body: JSON.stringify(withdrawalForm),
-      });
-      const data = await response.json();
-      if (response.ok) {
-        setWalletBalance((prev) => prev - withdrawalForm.amount);
-        setIsWithdrawModalOpen(false);
-        // Reset form
-        setWithdrawalForm({ amount: "", paymentMethod: "bank" });
-      } else {
-        alert(data.message || "Withdrawal failed");
-      }
-    } catch (error) {
-      alert("Error processing withdrawal");
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   const columns = [
     {
-      header: 'Profit Transfer Id',
+      header: 'Profit To Wallet Transfer Id',
       accessorKey: '_id',
       cell: (info) => (
-        <span className="text-cyan-400 font-medium">#{info.getValue()}</span>
+        <span className="text-cyan-400 font-medium">{info.getValue()}</span>
       )
     },
     {
       header: 'investmentId',
       accessorKey: 'investmentId',
       cell: (info) => (
-        <span className="text-indigo-400 font-medium">#{info.getValue()}</span>
+        <span className="text-indigo-400 font-medium">{info.getValue()}</span>
       )
     },
     {
@@ -161,10 +147,134 @@ const Wallet = () => {
     }
   ];
 
+  const ReferalToWalletColumns = [
+    {
+      header: 'Referal To Wallet Transfer Id',
+      accessorKey: '_id',
+      cell: (info) => (
+        <span className="text-cyan-400 font-medium">{info.getValue()}</span>
+      )
+    },
+    {
+      header: 'Referal To Id',
+      accessorKey: 'ReferedTo',
+      cell: (info) => (
+        <span className="text-cyan-400 font-medium">{info.getValue()}</span>
+      )
+    },
+    {
+      header: 'investment Id',
+      accessorKey: 'investmentId',
+      cell: (info) => (
+        <span className="text-indigo-400 font-medium">{info.getValue()}</span>
+      )
+    },
+    {
+      header: 'investment Plan',
+      accessorKey: 'investmentPlan',
+      cell: (info) => (
+        <span className="text-violet-400 font-medium">{info.getValue()}</span>
+      )
+    },
+    {
+      header: 'Investment Amount',
+      accessorKey: 'InvestmentAmount',
+      cell: (info) => (
+        <span className="text-sky-300">${info.getValue()}</span>
+      )
+    },
+    {
+      header: 'Amount To Wallet',
+      accessorKey: 'AmountToWallet',
+      cell: (info) => (
+        <span className="text-emerald-400 font-medium">${info.getValue()}</span>
+      )
+    },
+    {
+      header: 'Remaining Investment Amount',
+      accessorKey: 'RemainingInvestmentAmount',
+      cell: (info) => (
+        <span className="text-amber-400">{info.getValue()}</span>
+      )
+    },
+    {
+      header: 'createdAt',
+      accessorKey: 'createdAt',
+      cell: (info) => (
+        <span className="text-slate-400 text-sm">{formatTimestamp(info.getValue())}</span>
+      )
+    }
+  ];
+
+  const WithdrawRequestColumns = [
+    {
+      header: 'Withdrawal ID',
+      accessorKey: '_id',
+      cell: (info) => (
+        <span className="px-2 py-1 rounded text-blue-600">
+          {info.getValue() || 'N/A'}
+        </span>
+      )
+    },
+    {
+      header: 'Amount',
+      accessorKey: 'amount',
+      cell: (info) => (
+        <span className="px-2 py-1 rounded text-emerald-600">
+          ${info.getValue()}
+        </span>
+      )
+    },
+    {
+      header: 'Method',
+      accessorKey: 'paymentMethod',
+      cell: (info) => (
+        <span className="px-2 py-1 rounded text-cyan-600">
+          {info.getValue()}
+        </span>
+      )
+    },
+    {
+      header: 'Wallet Address',
+      accessorKey: 'walletAddress',
+      cell: (info) => (
+        <span className="px-2 py-1 rounded text-sky-600">
+          {info.getValue()}
+        </span>
+      )
+    },
+    {
+      header: 'Status',
+      accessorKey: 'status',
+      cell: (info) => {
+        const color =
+        info.getValue() === 'approved'
+          ? 'bg-green-600'
+          : info.getValue() === 'rejected'
+          ? 'bg-red-600'
+          : 'bg-yellow-600';
+      return (
+        <span className={`px-3 py-1 rounded-full text-xs font-semibold ${color}`}>
+          {info.getValue()}
+        </span>
+      )
+      }
+    },
+    {
+      header: 'Date',
+      accessorKey: 'createdAt',
+      cell: (info) => (
+        <span className="px-2 py-1 rounded text-orange-600 text-sm">
+          {formatTimestamp(info.getValue())}
+        </span>
+      )
+    },
+   
+  ];
+
   return (
-    <div className="relative">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-6">My Wallet</h1>
+    <div className="relative space-y-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="bg-gradient-to-br from-[#0F1120] to-[#1E2140] rounded-2xl p-8 text-white shadow-lg">
           <div className="flex items-center gap-6">
             <div className="bg-white/20 p-4 rounded-full">
@@ -186,9 +296,34 @@ const Wallet = () => {
             </div>
           </div>
         </div>
+
+        <div className="bg-gradient-to-br from-[#1E2140] to-[#0F1120] rounded-2xl p-8 text-white shadow-lg">
+          <div className="flex items-center gap-6">
+            <div className="bg-white/20 p-4 rounded-full">
+              <MdAccountBalance className="text-4xl" />
+            </div>
+            <div>
+              <h3 className="text-lg font-medium opacity-90 mb-2">
+                Total Earnings
+              </h3>
+              <h2 className="text-4xl font-semibold">
+                $
+                <CountUp
+                  end={walletBalance + totalApprovedWithdrawals}
+                  decimals={2}
+                  duration={2.5}
+                  separator=","
+                />
+              </h2>
+              <p className="text-sm opacity-75 mt-2">
+                (Including {totalApprovedWithdrawals.toFixed(2)} withdrawn)
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <div className="flex gap-4 mb-8">
+      <div className="flex gap-4">
         <button
           onClick={() => navigate("/Withdraw")}
           disabled={walletBalance < 50}
@@ -196,20 +331,49 @@ const Wallet = () => {
         >
           <GiCash /> Withdraw
         </button>
-        <button className="flex items-center gap-2 px-6 py-3 bg-gray-100 text-gray-700 rounded-lg font-medium hover:bg-gray-200 transition-colors">
+        <button 
+          onClick={() => setShowHistory(!showHistory)}
+          className={`flex items-center gap-2 px-6 py-3 rounded-lg font-medium transition-colors ${
+            showHistory ? 'bg-blue-500 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+          }`}
+        >
           <FaHistory /> History
         </button>
       </div>
 
-      {/* Profit to Wallet History Table */}
-      <div className="shadow-sm">
-        <h3 className="text-xl font-semibold mb-4">Profit to Wallet History</h3>
-        <Table 
-          data={profittowallet} 
-          columns={columns}
-          pagination={true}
-        />
-      </div>
+      {showHistory && (
+        <div className="space-y-8">
+          {/* Profit to Wallet History Table */}
+          <div className="shadow-sm">
+            <h3 className="text-xl font-semibold mb-4">Profit to Wallet History</h3>
+            <Table 
+              data={profittowallet} 
+              columns={columns}
+              pagination={true}
+            />
+          </div>
+
+          {/* Referal to Wallet History Table */}
+          <div className="shadow-sm">
+            <h3 className="text-xl font-semibold mb-4">Referal to Wallet History</h3>
+            <Table 
+              data={referaltoWallet} 
+              columns={ReferalToWalletColumns}
+              pagination={true}
+            />
+          </div>
+
+          {/* Withdraw Request History Table */}
+          <div className="shadow-sm">
+            <h3 className="text-xl font-semibold mb-4">Withdraw Request History</h3>
+            <Table 
+              data={withdrawRequest} 
+              columns={WithdrawRequestColumns}    
+              pagination={true}
+            />
+          </div>
+        </div>
+      )}
 
       {/* <div className="bg-white rounded-2xl p-6 shadow-sm">
         <h3 className="text-xl font-semibold text-gray-800 mb-4">Recent Transactions</h3>

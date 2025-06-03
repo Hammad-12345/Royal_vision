@@ -27,7 +27,7 @@ const UsersWallet = () => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-[60vh]">
+      <div className="flex items-center justify-center h-screen">
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
       </div>
     );
@@ -45,7 +45,7 @@ const UsersWallet = () => {
   }
 
   return (
-    <div className="p-2 ">
+    <div>
       <div className="mb-8">
         <h1 className="text-3xl font-bold">User Wallets</h1>
         <p className="text-gray-400 mt-2">Manage and monitor user wallet balances</p>

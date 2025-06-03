@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { getReferralData, processReferral, fetchReferralEarningHistory } = require('../controller/referralController');
+const { getReferralData, processReferral, fetchReferralEarningHistory,sendReferalEarningToWallet } = require('../controller/referralController');
 const { verifyToken } = require('../Middleware/auth');
 
 // Get user's referral data
@@ -10,6 +10,8 @@ router.get('/referral-data', verifyToken, getReferralData);
 router.post('/process-referral', verifyToken, processReferral);
 
 router.get('/fetchreferalhistoryuser',verifyToken, fetchReferralEarningHistory)
+
+router.post('/sendreferalearningtowallet',verifyToken, sendReferalEarningToWallet)
 
 
 // Get all referrals (admin only)

@@ -121,31 +121,17 @@ const WithdrawRequest = () => {
       header: 'Status',
       accessorKey: 'status',
       cell: (info) => {
-        const status = info.getValue();
-        let statusClass = '';
-        let bgClass = '';
-        switch (status) {
-          case 'pending':
-            statusClass = 'text-yellow-700';
-            bgClass = 'bg-yellow-100';
-            break;
-          case 'approved':
-            statusClass = 'text-green-700';
-            bgClass = 'bg-green-100';
-            break;
-          case 'rejected':
-            statusClass = 'text-red-700';
-            bgClass = 'bg-red-100';
-            break;
-          default:
-            statusClass = 'text-gray-700';
-            bgClass = 'bg-gray-100';
-        }
-        return (
-          <span className={`${statusClass} ${bgClass} px-2 py-1 rounded capitalize`}>
-            {status}
-          </span>
-        );
+        const color =
+        info.getValue() === 'approved'
+          ? 'bg-green-600'
+          : info.getValue() === 'rejected'
+          ? 'bg-red-600'
+          : 'bg-yellow-600';
+      return (
+        <span className={`px-3 py-1 rounded-full text-xs font-semibold ${color}`}>
+          {info.getValue()}
+        </span>
+      )
       }
     },
     {
