@@ -30,7 +30,7 @@ const Referal = () => {
   const fetchEarningsHistory = async () => {
     try {
       const token = JSON.parse(localStorage.getItem('mytoken'));
-      const response = await fetch('http://localhost:8080/api/user/fetchreferalhistoryuser', {
+      const response = await fetch('https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/api/user/fetchreferalhistoryuser', {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -267,7 +267,7 @@ const Referal = () => {
     {
     try {
       const token = JSON.parse(localStorage.getItem('mytoken'));
-      const response = await fetch('http://localhost:8080/api/user/sendreferalearningtowallet', {
+      const response = await fetch('https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/api/user/sendreferalearningtowallet', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
