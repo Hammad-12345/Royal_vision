@@ -217,7 +217,7 @@ const GoldTradingHistory = () => {
               {new Date(investment.createdAt).toLocaleDateString()}
             </span>
           </div>
-          <div className="mt-4 flex items-center justify-between">
+          <div className="mt-4 flex sm:flex-row flex-col sm:space-y-0 space-y-2 sm:items-center justify-between">
             <div className="flex items-center space-x-3">
               <FaWallet className="text-blue-400" />
               <span className="text-gray-300">Withdrawal Status</span>
