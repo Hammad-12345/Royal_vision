@@ -8,7 +8,7 @@ const GoldTradingHistory = () => {
   const [totalProfit, setTotalProfit] = useState(0);
   const [todayProfit, setTodayProfit] = useState(0);
   const [goldInvestments, setGoldInvestments] = useState([]);
-  console.log(goldInvestments);
+  const [loading, setLoading] = useState(true);
   const [investmentProfits, setInvestmentProfits] = useState({});
 
   const calculateRemainingDays = (createdAt) => {
@@ -43,6 +43,7 @@ const GoldTradingHistory = () => {
   };
   const fetchGoldTradingData = async () => {
     try {
+      setLoading(true);
       const token = localStorage.getItem('mytoken');
       // Fetch investments
       const investmentRes = await fetch('https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/dashboard/fetchallinvestment', {
@@ -109,6 +110,8 @@ const GoldTradingHistory = () => {
     } catch (err) {
       console.error(err);
       toast.error('Failed to load Gold Trading data');
+    } finally {
+      setLoading(false);
     }
   };
   useEffect(() => {
@@ -116,13 +119,19 @@ const GoldTradingHistory = () => {
     fetchGoldTradingData();
   }, []);
 
-  const InvestmentCard = ({ investment }) => {
+  const InvestmentCard = ({ investment, index }) => {
     const profits = investmentProfits[investment._id] || { total: 0, today: 0 };
     const remainingDays = calculateRemainingDays(investment.createdAt);
     
     return (
-      <div className="space-y-6 mb-8">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+      <div className="space-y-6 mb-8 border border-gray-600 p-4 rounded-lg">
+        <div className="flex">
+          <span className="bg-blue-500 text-white px-3 py-1 rounded-full text-lg font-medium">
+            Investment 0{index + 1}
+          </span>
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="bg-gradient-to-br from-[#0F1120] to-[#070c3e] p-6 rounded-xl shadow-lg">
             <h3 className="text-gray-400 text-sm font-medium mb-2">Total Investment</h3>
             <div className="text-2xl font-bold text-blue-400">
@@ -130,29 +139,61 @@ const GoldTradingHistory = () => {
             </div>
           </div>
 
-          <div className="bg-gradient-to-br from-[#0F1120] to-[#070c3e] p-6 rounded-xl shadow-lg">
+          {/* <div className="bg-gradient-to-br from-[#0F1120] to-[#070c3e] p-6 rounded-xl shadow-lg">
             <h3 className="text-gray-400 text-sm font-medium mb-2">Status</h3>
             <div className="text-2xl font-bold">
               <span className="text-green-400">Active</span>
             </div>
+          </div> */}
+
+          <div className="bg-gradient-to-br from-[#0F1120] to-[#070c3e] p-6 rounded-xl shadow-lg">
+            <div className="flex items-center space-x-4">
+              <div className="p-3 rounded-full text-green-400 bg-opacity-20">
+                <FaMoneyBillWave className="w-6 h-6" />
+              </div>
+              <div>
+                <h3 className="text-gray-400 text-sm font-medium">Total Profit</h3>
+                <div className="text-xl font-bold text-green-400">
+                  {
+                    profits.total > 0 ? <CountUp end={profits.total} duration={2} prefix="$" separator="," /> : 'N/A'
+                  }
+                </div>
+              </div>
+            </div>
           </div>
 
           <div className="bg-gradient-to-br from-[#0F1120] to-[#070c3e] p-6 rounded-xl shadow-lg">
+            <div className="flex items-center space-x-4">
+              <div className="p-3 rounded-full text-green-400 bg-opacity-20">
+                <FaCalendarAlt className="w-6 h-6" />
+              </div>
+              <div>
+                <h3 className="text-gray-400 text-sm font-medium">Today's Profit</h3>
+                <div className="text-xl font-bold text-green-400">
+                  {
+                    profits.today > 0 ? <CountUp end={profits.today} duration={2} prefix="$" separator="," /> : 'N/A'
+                  }
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* <div className="bg-gradient-to-br from-[#0F1120] to-[#070c3e] p-6 rounded-xl shadow-lg">
             <h3 className="text-gray-400 text-sm font-medium mb-2">Daily Profit</h3>
             <div className="text-2xl font-bold">
               <span className="text-green-400">1.5% - 3.5%</span>
               <span className="text-gray-400 text-sm ml-2">(15 Days)</span>
             </div>
-          </div>
+          </div> */}
 
-          <div className="bg-gradient-to-br from-[#0F1120] to-[#070c3e] p-6 rounded-xl shadow-lg">
+          {/* <div className="bg-gradient-to-br from-[#0F1120] to-[#070c3e] p-6 rounded-xl shadow-lg">
             <h3 className="text-gray-400 text-sm font-medium mb-2">Withdrawal</h3>
             <div className="text-2xl font-bold text-blue-400">After 15 days</div>
-          </div>
+          </div> */}
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div className="bg-gradient-to-br from-[#0F1120] to-[#070c3e] p-6 rounded-xl shadow-lg">
+        {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"> */}
+          {/* <div className="bg-gradient-to-br from-[#0F1120] to-[#070c3e] p-6 rounded-xl shadow-lg">
             <div className="flex items-center space-x-4">
               <div className="p-3 rounded-full text-pink bg-opacity-20">
                 <FaChartLine className="w-6 h-6" />
@@ -164,9 +205,9 @@ const GoldTradingHistory = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
 
-          <div className="bg-gradient-to-br from-[#0F1120] to-[#070c3e] p-6 rounded-xl shadow-lg">
+          {/* <div className="bg-gradient-to-br from-[#0F1120] to-[#070c3e] p-6 rounded-xl shadow-lg">
             <div className="flex items-center space-x-4">
               <div className="p-3 rounded-full text-green-400 bg-opacity-20">
                 <FaMoneyBillWave className="w-6 h-6" />
@@ -192,9 +233,9 @@ const GoldTradingHistory = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
 
-          <div className="bg-gradient-to-br from-[#0F1120] to-[#070c3e] p-6 rounded-xl shadow-lg">
+          {/* <div className="bg-gradient-to-br from-[#0F1120] to-[#070c3e] p-6 rounded-xl shadow-lg">
             <div className="flex items-center space-x-4">
               <div className="p-3 rounded-full text-blue-400 bg-opacity-20">
                 <FaWallet className="w-6 h-6" />
@@ -204,8 +245,8 @@ const GoldTradingHistory = () => {
                 <div className="text-xl font-bold text-blue-400">0$</div>
               </div>
             </div>
-          </div>
-        </div>
+          </div> */}
+        {/* </div> */}
 
         <div className="bg-gradient-to-br from-[#0F1120] to-[#070c3e] p-6 rounded-xl shadow-lg">
           <div className="flex items-center justify-between">
@@ -224,7 +265,7 @@ const GoldTradingHistory = () => {
             </div>
             {remainingDays > 0 ? (
               <span className="text-yellow-400 font-medium">
-                {remainingDays} days remaining until withdrawal
+               <span className='text-red-400 font-bold text-xl'>{remainingDays}</span> days remaining until send profit to wallet for withdrawal
               </span>
             ) : (
               <button
@@ -242,9 +283,19 @@ const GoldTradingHistory = () => {
 
   return (
     <div className="space-y-6">
-      {goldInvestments.map((investment, index) => (
-        <InvestmentCard key={investment._id || index} investment={investment} />
-      ))}
+      {loading ? (
+        <div className="flex justify-center items-center min-h-[200px]">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+        </div>
+      ) : goldInvestments.length === 0 ? (
+        <div className="text-center text-gray-400 py-8">
+          No gold trading investments found
+        </div>
+      ) : (
+        goldInvestments.map((investment, index) => (
+          <InvestmentCard key={investment._id || index} investment={investment} index={index} />
+        ))
+      )}
     </div>
   );
 };

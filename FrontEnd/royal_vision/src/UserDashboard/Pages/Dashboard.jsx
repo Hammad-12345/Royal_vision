@@ -286,9 +286,9 @@ const Dashboard = () => {
 
                   {HistoryComponent && (
                     <div className="mt-4 sm:mt-6">
-                      <h3 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4">
-                        Investment History
-                      </h3>
+                      {/* <h3 className="text-base sm:text-2xl font-semibold mb-3 sm:mb-4">
+                        Plans Summary
+                      </h3> */}
                       <HistoryComponent />
                     </div>
                   )}
