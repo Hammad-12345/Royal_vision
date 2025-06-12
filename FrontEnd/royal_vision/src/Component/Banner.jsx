@@ -46,11 +46,11 @@ const Banner = () => {
 
       <div className="absolute w-full top-1/3 text-white text-3xl sm:text-5xl font-semibold py-6 font-poppins lg:w-3/4 px-4">
         <div>
-        Overland Solutions Group — Bridging Innovation Across Commerce, Lifestyle &
-        Emerging Markets
+          Overland Solutions Group — Connecting Innovation to Real-World
+          Impact.Successful investment is about managing risk , Not avoiding.
         </div>
         <div className="mt-6">
-          <button 
+          <button
             onClick={handleGetStarted}
             className="bg-blue-600 hover:bg-blue-700 text-white text-lg px-6 py-3 rounded-full transition duration-300"
           >

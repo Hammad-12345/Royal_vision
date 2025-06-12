@@ -274,16 +274,16 @@ const Airbnbhistory = () => {
         {/* </div> */}
 
         <div className="bg-gradient-to-br from-[#0F1120] to-[#070c3e] p-6 rounded-xl shadow-lg">
-          <div className="flex items-center justify-between">
+          <div className="flex sm:flex-row flex-col sm:space-y-0 space-y-2 sm:items-center justify-between">
             <div className="flex items-center space-x-3">
               <FaCalendarAlt className="text-blue-400" />
               <span className="text-gray-300">Investment Date</span>
             </div>
-            <div className="text-right">
+            <div>
               <span className="text-blue-400 font-medium">
                 {new Date(investment.createdAt).toLocaleString()}
               </span>
-              <div className="text-sm text-gray-400">
+              <div className="sm:text-sm text-xs text-gray-400">
                 {formatRelativeTime(investment.createdAt)}
               </div>
             </div>
