@@ -85,7 +85,7 @@ const Deposit = () => {
         paymentMode: "pending",
       };
 
-      const response = await fetch("http://localhost:8080/dashboard/deposit", {
+      const response = await fetch("https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/dashboard/deposit", {
         method: "POST",
         body: JSON.stringify(depositData),
         headers: {
@@ -98,17 +98,17 @@ const Deposit = () => {
         throw new Error("Network response was not ok");
       }
       const data = await response.json();
-      console.log("Deposit created:", data);
-      if(data.message === 'You have already invested in this plan 3 times. Please choose a different plan.') {
+      if(data.message === 'You already have 3 active plans under that investment plan. Please choose a different plan.') {
         toast.error(data.message);
         setShowPaymentDetails(false);
         return;
       }
+      console.log("Deposit created:", data);
       toast.success("Deposit created successfully!");
       navigate('/investment-history')
     } catch (error) {
       console.error("Error submitting deposit:", error);
-      toast.error(error.message);
+      toast.error("Error creating deposit. Please try again.");
     }
     setShowPaymentDetails(false);
   };
