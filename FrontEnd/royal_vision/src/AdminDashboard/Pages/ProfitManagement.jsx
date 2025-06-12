@@ -101,7 +101,7 @@ const ProfitManagement = () => {
           investmentId: selectedInvestment.id,
           userId: selectedInvestment.userId,
           investmentPlanId: selectedInvestment.investmentPlan,
-          amount: calculatedAmount,
+          amount: Math.floor(calculatedAmount),
         }),
       });
 

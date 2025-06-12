@@ -20,6 +20,32 @@ const Airbnbhistory = () => {
     return remainingDays > 0 ? remainingDays : 0;
   };
 
+  const formatRelativeTime = (dateString) => {
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffInSeconds = Math.floor((now - date) / 1000);
+    const remainingSeconds = diffInSeconds % 60;
+    if (diffInSeconds < 60) return 'just now';
+    
+    const diffInMinutes = Math.floor(diffInSeconds / 60);
+    if (diffInMinutes < 60) return `${diffInMinutes} minute${diffInMinutes > 1 ? 's' : ''} ${remainingSeconds > 0 ? `and ${remainingSeconds} second${remainingSeconds > 1 ? 's' : ''}` : ''} ago`;
+    
+    const diffInHours = Math.floor(diffInMinutes / 60);
+    const remainingMinutes = diffInMinutes % 60;
+   
+    if (diffInHours < 24) {
+      if (remainingMinutes === 0) {
+        return `${diffInHours} hour${diffInHours > 1 ? 's' : ''} ago`;
+      }
+      return `${diffInHours} hour${diffInHours > 1 ? 's' : ''} ${remainingMinutes} minute${remainingMinutes > 1 ? 's' : ''} ${remainingSeconds > 0 ? `and ${remainingSeconds} second${remainingSeconds > 1 ? 's' : ''}` : ''} ago`;
+    }
+    
+    const diffInDays = Math.floor(diffInHours / 24);
+    if (diffInDays < 7) return `${diffInDays} day${diffInDays > 1 ? 's' : ''} ago`;
+    
+    return date.toLocaleDateString();
+  };
+
   const handleSendProfitToWallet = async (investment,profit) => {
     try {
       const token = localStorage.getItem('mytoken');
@@ -58,7 +84,7 @@ const Airbnbhistory = () => {
 
       const airbnbData = investments.filter(item => 
         item.investmentPlan === 'AirBnB' && item.paymentMode === 'active'
-      );
+      ).sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
       setAirbnbInvestments(airbnbData);
       const total = airbnbData.reduce((sum, item) => sum + (item.price || 0), 0);
       setTotalInvestment(total);
@@ -134,7 +160,9 @@ const Airbnbhistory = () => {
           <div className="bg-gradient-to-br from-[#0F1120] to-[#070c3e] p-6 rounded-xl shadow-lg">
             <h3 className="text-gray-400 text-sm font-medium mb-2">Total Investment</h3>
             <div className="text-2xl font-bold text-blue-400">
-              <CountUp end={investment.price || 0} duration={2} prefix="$" separator="," />
+             {
+              investment.price > 0 ? <span className="text-blue-400">${investment.price}</span> : 'N/A'
+             }
             </div>
           </div>
           <div className="bg-gradient-to-br from-[#0F1120] to-[#070c3e] p-6 rounded-xl shadow-lg">
@@ -146,7 +174,7 @@ const Airbnbhistory = () => {
                 <h3 className="text-gray-400 text-sm font-medium">Total Profit</h3>
                 <div className="text-xl font-bold text-green-400">
                   {
-                    profits.total > 0 ? <CountUp end={profits.total} duration={2} prefix="$" separator="," /> : 'N/A'
+                    profits.total > 0 ? <span className="text-green-400">${Math.floor(profits.total)}</span> : 'N/A'
                   }
                 </div>
               </div>
@@ -161,7 +189,7 @@ const Airbnbhistory = () => {
                 <h3 className="text-gray-400 text-sm font-medium">Today's Profit</h3>
                 <div className="text-xl font-bold text-green-400">
                   {
-                    profits.today > 0 ? <CountUp end={profits.today} duration={2} prefix="$" separator="," /> : 'N/A'
+                    profits.today > 0 ? <span className="text-green-400">${Math.floor(profits.today)}</span> : 'N/A'
                   }
                 </div>
               </div>
@@ -251,9 +279,14 @@ const Airbnbhistory = () => {
               <FaCalendarAlt className="text-blue-400" />
               <span className="text-gray-300">Investment Date</span>
             </div>
-            <span className="text-blue-400 font-medium">
-              {new Date(investment.createdAt).toLocaleDateString()}
-            </span>
+            <div className="text-right">
+              <span className="text-blue-400 font-medium">
+                {new Date(investment.createdAt).toLocaleString()}
+              </span>
+              <div className="text-sm text-gray-400">
+                {formatRelativeTime(investment.createdAt)}
+              </div>
+            </div>
           </div>
           <div className="mt-4 flex sm:flex-row flex-col sm:space-y-0 space-y-2 sm:items-center justify-between">
             <div className="flex items-center space-x-3">
@@ -266,7 +299,7 @@ const Airbnbhistory = () => {
             
             ) : (
               <button
-                onClick={() => handleSendProfitToWallet(investment,profits.total)}
+                onClick={() => handleSendProfitToWallet(investment,Math.floor(profits.total))}
                 disabled={profits.total===0}
                 className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
               >

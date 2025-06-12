@@ -104,7 +104,7 @@ const Dashboard = () => {
         settotalprofitchart(profitData.profits)
         let totals = {
           "Total Invest": 0,
-          "Total Investment Profit": profitData.totalProfit || 0,
+          "Total Investment Profit": Math.floor(profitData.totalProfit) || 0,
         };
 
         // Define all available investment plans
@@ -221,12 +221,9 @@ const Dashboard = () => {
                 <div className="flex justify-between items-center w-full space-x-2">
                   <span className="text-sm sm:text-base">{plan.name}</span>
                   <span className="text-blue-400 font-semibold text-sm sm:text-base">
-                    <CountUp
-                      end={plan.amount}
-                      duration={2}
-                      prefix="$"
-                      separator=","
-                    />
+                   {
+                  Math.floor(plan.amount)
+                   }
                   </span>
                 </div>
               }
@@ -238,12 +235,7 @@ const Dashboard = () => {
                         Total Investment
                       </h4>
                       <p className="text-lg sm:text-xl font-bold text-blue-400">
-                        <CountUp
-                          end={plan.amount}
-                          duration={2}
-                          prefix="$"
-                          separator=","
-                        />
+                      ${Math.floor(plan.amount)}
                       </p>
                     </div>
                     <div className="bg-gradient-to-br from-[#0F1120] to-[#070c3e] p-3 sm:p-4 rounded-lg">
