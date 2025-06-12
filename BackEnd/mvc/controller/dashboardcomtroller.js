@@ -46,7 +46,6 @@ const createDeposit = async (req, res) => {
       screenshot,
       paymentMode,
       referalPayment: false,
-      expired: false
     });
 
     console.log("Deposit created successfully:", deposit);
