@@ -263,7 +263,7 @@ const Referal = () => {
     }
 ];
   const handleAction = async(row) => {
-    if(totalEarnings > 0)
+    if(totalEarnings > 50)
     {
     try {
       const token = JSON.parse(localStorage.getItem('mytoken'));
