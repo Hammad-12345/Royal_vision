@@ -279,7 +279,7 @@ const Airbnbhistory = () => {
               <FaCalendarAlt className="text-blue-400" />
               <span className="text-gray-300">Investment Date</span>
             </div>
-            <div>
+            <div className="sm:text-right">
               <span className="text-blue-400 font-medium">
                 {new Date(investment.createdAt).toLocaleString()}
               </span>
@@ -294,8 +294,8 @@ const Airbnbhistory = () => {
               <span className="text-gray-300">Withdrawal Status</span>
             </div>
             {remainingDays > 0 ? (
-              <span className="text-yellow-400 font-medium">
-           <span className="text-red-400 font-bold text-xl"> {remainingDays} </span> days remaining until send profit to wallet for withdrawal </span>
+              <span className="text-white font-medium">
+           <span className="text-white font-bold text-xl"> {remainingDays} </span> days remaining until send profit to wallet for withdrawal </span>
             
             ) : (
               <button

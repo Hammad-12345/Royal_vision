@@ -232,15 +232,15 @@ const Referal = () => {
             </span>
         )
     },
-    {
-        header: 'Remaining Amount',
-        accessorKey: 'RemainingInvestmentAmount',
-        cell: (info) => (
-            <span className="text-orange-400 font-medium">
-                ${parseFloat(info.getValue()).toLocaleString()}
-            </span>
-        )
-    },
+    // {
+    //     header: 'Remaining Amount',
+    //     accessorKey: 'RemainingInvestmentAmount',
+    //     cell: (info) => (
+    //         <span className="text-orange-400 font-medium">
+    //             ${parseFloat(info.getValue()).toLocaleString()}
+    //         </span>
+    //     )
+    // },
     {
         header: 'Date',
         accessorKey: 'createdAt',
