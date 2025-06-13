@@ -47,7 +47,7 @@ const Banner = () => {
       <div className="absolute w-full top-1/3 text-white text-3xl sm:text-5xl font-semibold py-6 font-poppins lg:w-3/4 px-4">
         <div>
           Overland Solutions Group — Connecting Innovation to Real-World
-          Impact.Successful investment is about managing risk , Not avoiding.
+          Impact. Successful investment is about managing risk , Not avoiding.
         </div>
         <div className="mt-6">
           <button

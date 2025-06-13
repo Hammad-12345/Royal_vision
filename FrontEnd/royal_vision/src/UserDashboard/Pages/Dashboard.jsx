@@ -248,13 +248,13 @@ const Dashboard = () => {
                         {plan.name === "Gold Trading"
                           ? "1.5% - 3.5%"
                           : plan.name === "RetroDrops"
-                          ? "35% - 50% (180 Days)"
+                          ? "N/A"
                           : plan.name === "Amazon"
-                          ? "13% - 15% (Monthly)"
+                          ? "N/A"
                           : plan.name === "AirBnB"
-                          ? "7.5% - 10% (Monthly)"
+                          ? "N/A"
                           : plan.name === "Mineral Water"
-                          ? "8.5% - 12.5% (Monthly)"
+                          ? "N/A"
                           : "N/A"}
                       </p>
                     </div>
