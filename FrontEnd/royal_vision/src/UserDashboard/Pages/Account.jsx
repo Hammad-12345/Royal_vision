@@ -11,6 +11,7 @@ const Account = () => {
   const user = useSelector((state) => state.Token.userDetail);
   const [profileImage, setProfileImage] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const {
     register,
@@ -35,6 +36,7 @@ const Account = () => {
 
   const onSubmit = async (data) => {
     try {
+      setIsLoading(true);
       let imageUrl = null;
       if (profileImage) {
         const formData = new FormData();
@@ -78,6 +80,8 @@ const Account = () => {
     } catch (error) {
       console.error('Error updating profile:', error);
       toast.error('Failed to update profile. Please try again.');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -161,9 +165,21 @@ const Account = () => {
 
         <button
           type="submit"
-          className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition duration-300"
+          disabled={isLoading}
+          className={`w-full text-white font-semibold py-3 rounded-lg transition duration-300 relative ${
+            isLoading 
+              ? 'bg-blue-400 cursor-not-allowed opacity-70' 
+              : 'bg-blue-600 hover:bg-blue-700'
+          }`}
         >
-          Save Changes
+          {isLoading ? (
+            <div className="flex items-center justify-center">
+              <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
+              Updating...
+            </div>
+          ) : (
+            'Save Changes'
+          )}
         </button>
       </form>
     </div>

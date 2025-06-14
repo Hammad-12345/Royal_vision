@@ -19,6 +19,7 @@ const Referal = () => {
   const [referralCode, setReferralCode] = useState('');
   const [referralLink, setReferralLink] = useState('');
   const [showDetails, setShowDetails] = useState(false);
+  const [isLoading, setIsLoading] = useState({});
   const [referralStats, setReferralStats] = useState({
     totalReferrals: 0,
     successfulReferrals: 0,
@@ -168,11 +169,23 @@ const Referal = () => {
             row.row.original.referalwalletflag 
               ? 'bg-gray-400 cursor-not-allowed' 
               : 'bg-blue-500 hover:bg-blue-600'
-          }`}
+          } disabled:opacity-50 disabled:cursor-not-allowed`}
           onClick={() => !row.row.original.referalwalletflag && handleAction(row.row.original)}
-          disabled={row.row.original.referalwalletflag}
+          disabled={row.row.original.referalwalletflag || isLoading[row.row.original._id]}
         >
-          {row.row.original.referalwalletflag ? 'Already Sent to Wallet' : 'Send Referal Earning To Wallet'}
+          {isLoading[row.row.original._id] ? (
+            <>
+              <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              Processing...
+            </>
+          ) : row.row.original.referalwalletflag ? (
+            'Already Sent to Wallet'
+          ) : (
+            'Send Referal Earning To Wallet'
+          )}
         </button>
       ),
     },
@@ -265,32 +278,32 @@ const Referal = () => {
   const handleAction = async(row) => {
     if(totalEarnings > 50)
     {
-    try {
-      const token = JSON.parse(localStorage.getItem('mytoken'));
-      const response = await fetch('https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/api/user/sendreferalearningtowallet', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(row)
-      });
-      if (!response.ok) {
-        throw new Error('Failed to send earnings to wallet');
+      setIsLoading(prev => ({ ...prev, [row._id]: true }));
+      try {
+        const token = JSON.parse(localStorage.getItem('mytoken'));
+        const response = await fetch('https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/api/user/sendreferalearningtowallet', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(row)
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to send earnings to wallet');
+        }
+
+        const data = await response.json();
+        toast.success('Earnings sent to wallet successfully!');
+        fetchEarningsHistory(); // Refresh the data
+      } catch (error) {
+        console.error('Error sending earnings to wallet:', error);
+        toast.error(error.message || 'Failed to send earnings to wallet');
+      } finally {
+        setIsLoading(prev => ({ ...prev, [row._id]: false }));
       }
-      const data = await response.json();
-      console.log(data);
-      toast.success(data.message || 'Earning sent to wallet successfully');
-      fetchEarningsHistory();
-    } catch (error) {
-      console.error('Error sending earnings to wallet:', error);
     }
-  }
-  else
-  {
-    toast.error('No sufficient balance to send');
-  }
-  
   };
   return (
     <div>

@@ -15,6 +15,7 @@ const GoldTradingHistory = () => {
   const [goldInvestments, setGoldInvestments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [investmentProfits, setInvestmentProfits] = useState({});
+  const [sendingProfits, setSendingProfits] = useState({});
 
   const calculateRemainingDays = (createdAt) => {
     const investmentDate = new Date(createdAt);
@@ -64,6 +65,7 @@ const GoldTradingHistory = () => {
 
   const handleSendProfitToWallet = async (investment, profit) => {
     try {
+      setSendingProfits(prev => ({ ...prev, [investment._id]: true }));
       const token = localStorage.getItem("mytoken");
       const response = await fetch(
         "https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/dashboard/sendprofittowallet",
@@ -84,6 +86,8 @@ const GoldTradingHistory = () => {
     } catch (err) {
       console.error(err);
       toast.error("Failed to send profit to wallet");
+    } finally {
+      setSendingProfits(prev => ({ ...prev, [investment._id]: false }));
     }
   };
   const fetchGoldTradingData = async () => {
@@ -178,6 +182,7 @@ const GoldTradingHistory = () => {
   const InvestmentCard = ({ investment, index }) => {
     const profits = investmentProfits[investment._id] || { total: 0, today: 0 };
     const remainingDays = calculateRemainingDays(investment.createdAt);
+    const isSendingProfit = sendingProfits[investment._id] || false;
 
     return (
       <div className="space-y-6 mb-8 border border-gray-600 p-4 rounded-lg">
@@ -350,17 +355,29 @@ const GoldTradingHistory = () => {
                 days remaining until send profit to wallet for withdrawal
               </span>
             ) : (
-              <button
-                onClick={() =>
-                  handleSendProfitToWallet(
-                    investment,
-                    Math.floor(profits.total)
-                  )
-                }
-                className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
-              >
-                Send Profit to Wallet
-              </button>
+              <div className="flex justify-end">
+                <button
+                  onClick={() => handleSendProfitToWallet(investment, profits.total)}
+                  disabled={isSendingProfit || profits.total <= 0}
+                  className={`flex items-center space-x-2 px-4 py-2 rounded-lg ${
+                    isSendingProfit || profits.total <= 0
+                      ? "bg-gray-600 cursor-not-allowed"
+                      : "bg-blue-600 hover:bg-blue-700"
+                  } text-white transition-colors duration-200`}
+                >
+                  {isSendingProfit ? (
+                    <>
+                      <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                      <span>Sending...</span>
+                    </>
+                  ) : (
+                    <>
+                      <FaWallet className="w-5 h-5" />
+                      <span>Send to Wallet</span>
+                    </>
+                  )}
+                </button>
+              </div>
             )}
           </div>
         </div>

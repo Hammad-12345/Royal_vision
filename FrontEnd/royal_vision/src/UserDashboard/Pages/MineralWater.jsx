@@ -10,6 +10,7 @@ const MineralWater = () => {
   const [todayProfit, setTodayProfit] = useState(0);
   const [mineralWaterInvestments, setMineralWaterInvestments] = useState([]);
   const [investmentProfits, setInvestmentProfits] = useState({});
+  const [loadingInvestments, setLoadingInvestments] = useState({});
 
   const calculateRemainingDays = (createdAt) => {
     const investmentDate = new Date(createdAt);
@@ -46,8 +47,9 @@ const MineralWater = () => {
     return date.toLocaleDateString();
   };
 
-  const handleSendProfitToWallet = async (investment,profit) => {
+  const handleSendProfitToWallet = async (investment, profit) => {
     try {
+      setLoadingInvestments(prev => ({ ...prev, [investment._id]: true }));
       const token = localStorage.getItem('mytoken');
       const response = await fetch('https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/dashboard/sendprofittowallet', {
         method: 'POST',
@@ -55,7 +57,7 @@ const MineralWater = () => {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${JSON.parse(token)}`,
         },
-        body: JSON.stringify({ investment,profit }),
+        body: JSON.stringify({ investment, profit }),
       });
 
       if (!response.ok) throw new Error(await response.text());
@@ -65,6 +67,8 @@ const MineralWater = () => {
     } catch (err) {
       console.error(err);
       toast.error('Failed to send profit to wallet');
+    } finally {
+      setLoadingInvestments(prev => ({ ...prev, [investment._id]: false }));
     }
   };
   const fetchMineralWaterData = async () => {
@@ -147,6 +151,7 @@ const MineralWater = () => {
   const InvestmentCard = ({ investment, index }) => {
     const profits = investmentProfits[investment._id] || { total: 0, today: 0 };
     const remainingDays = calculateRemainingDays(investment.createdAt);
+    const isLoading = loadingInvestments[investment._id];
     
     return (
       <div className="space-y-6 mb-8 border border-gray-600 p-4 rounded-lg">
@@ -299,12 +304,29 @@ const MineralWater = () => {
                <span className='text-white font-bold text-xl'>{remainingDays}</span> days remaining until send profit to wallet for withdrawal
               </span>
             ) : (
-              <button
-                onClick={() => handleSendProfitToWallet(investment,Math.floor(profits.total))}
-                className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
-              >
-                Send Profit to Wallet
-              </button>
+              <div className="flex justify-end">
+                <button
+                  onClick={() => handleSendProfitToWallet(investment, profits.total)}
+                  disabled={isLoading || profits.total <= 0}
+                  className={`flex items-center space-x-2 px-4 py-2 rounded-lg ${
+                    isLoading || profits.total <= 0
+                      ? 'bg-gray-600 cursor-not-allowed'
+                      : 'bg-blue-600 hover:bg-blue-700'
+                  } text-white transition-colors`}
+                >
+                  {isLoading ? (
+                    <>
+                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                      <span>Sending...</span>
+                    </>
+                  ) : (
+                    <>
+                      <FaWallet className="w-4 h-4" />
+                      <span>Send to Wallet</span>
+                    </>
+                  )}
+                </button>
+              </div>
             )}
           </div>
         </div>

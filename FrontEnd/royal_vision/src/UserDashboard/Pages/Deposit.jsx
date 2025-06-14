@@ -24,6 +24,8 @@ const paymentMethods = [
 const Deposit = () => {
   const navigate = useNavigate()
   const { id } = useParams();
+  const [isLoading, setIsLoading] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
   const {
     register,
     handleSubmit,
@@ -48,9 +50,14 @@ const Deposit = () => {
   }, [id, reset]);
 
   const onSubmit = (data) => {
-    console.log("Deposit Submitted:", data);
-    setSubmittedData(data);
-    setShowPaymentDetails(true);
+    // setIsLoading(true);
+    // try {
+      console.log("Deposit Submitted:", data);
+      setSubmittedData(data);
+      setShowPaymentDetails(true);
+    // } finally {
+    //   setIsLoading(false);
+    // }
   };
 
   const handlePlanChange = (e) => {
@@ -60,6 +67,7 @@ const Deposit = () => {
 
   const handleSecondFormSubmit = async (e) => {
     e.preventDefault();
+    setIsUploading(true);
     try {
       // 1. Upload screenshot to backend
       const formData = new FormData();
@@ -109,8 +117,10 @@ const Deposit = () => {
     } catch (error) {
       console.error("Error submitting deposit:", error);
       toast.error("Error creating deposit. Please try again.");
+    } finally {
+      setIsUploading(false);
+      setShowPaymentDetails(false);
     }
-    setShowPaymentDetails(false);
   };
 
   const selectedPayment = paymentMethods.find(
@@ -201,9 +211,20 @@ const Deposit = () => {
             </div>
             <button
               type="submit"
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-md text-sm sm:text-base transition-colors duration-200"
+              disabled={isLoading}
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-md text-sm sm:text-base transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
             >
-              Submit Deposit
+              {isLoading ? (
+                <>
+                  <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  Submitting...
+                </>
+              ) : (
+                "Next"
+              )}
             </button>
           </form>
         ) : (
@@ -258,9 +279,20 @@ const Deposit = () => {
 
             <button
               type="submit"
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-md text-sm sm:text-base transition-colors duration-200"
+              disabled={isUploading}
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-md text-sm sm:text-base transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
             >
-              Save and Share Address
+              {isUploading ? (
+                <>
+                  <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  Submitting...
+                </>
+              ) : (
+                "Submit"
+              )}
             </button>
           </form>
         )}
