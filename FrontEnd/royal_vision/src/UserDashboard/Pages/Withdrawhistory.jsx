@@ -96,28 +96,15 @@ const Withdrawhistory = () => {
     fetchWithdrawals();
   }, []);
 
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <FaSpinner className="animate-spin text-4xl text-blue-500" />
-      </div>
-    );
-  }
-
   return (
     <div>
       <h1 className="text-2xl font-bold mb-6">Withdrawal History</h1>
-      {/* {withdrawals.length === 0 ? (
-        <div className="text-center text-gray-500 mt-8">
-          No withdrawal requests found
-        </div>
-      ) : ( */}
-        <Table 
-          data={withdrawals} 
-          columns={columns}
-          pagination={true}
-        />
-      {/* )} */}
+      <Table 
+        data={withdrawals} 
+        columns={columns}
+        pagination={true}
+        loading={loading}
+      />
     </div>
   );
 };

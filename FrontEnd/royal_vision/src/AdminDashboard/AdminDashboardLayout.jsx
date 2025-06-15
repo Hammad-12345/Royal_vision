@@ -287,22 +287,22 @@ const AdminDashboardLayout = () => {
         className={`fixed top-0 left-0 h-full z-20 flex flex-col border-r border-gray-800 shadow-2xl transition-all duration-300 ease-in-out bg-gradient-to-b from-black via-blue-950 to-black bg-opacity-95 ${
           isSidebarOpen
             ? "w-64 translate-x-0"
-            : " -translate-x-full md:w-20 md:translate-x-0"
+            : " -translate-x-full md:w-24 md:translate-x-0"
         }`}
       >
         <div className="p-4 text-xl font-bold text-center border-b border-gray-800 flex justify-between items-center">
           <div className="w-full flex items-center flex-col justify-center">
             <img
-              src="https://d3hwx9f38knfi9.cloudfront.net/logodesign.png"
+              src="https://overlandresources.s3.eu-north-1.amazonaws.com/newlogo-removebg-preview.png"
               className={`${
-                isSidebarOpen ? "w-12 h-12 sm:w-16 sm:h-16" : "w-12 h-12"
+                isSidebarOpen ? "w-20 h-12 sm:w-24 sm:h-16" : ""
               }`}
               alt="logo"
             />
             {isSidebarOpen && (
               <span className="uppercase text-[10px] sm:text-xs font-poppins text-white">
                 {" "}
-                Overland Solutions
+                Overland Solutions Group
               </span>
             )}
           </div>
@@ -347,7 +347,7 @@ const AdminDashboardLayout = () => {
       {/* Main Content */}
       <div
         className={`flex-1 transition-all duration-300 ease-in-out ${
-          isSidebarOpen ? "md:ml-64" : "md:ml-20"
+          isSidebarOpen ? "md:ml-64" : "md:ml-24"
         } flex flex-col h-full overflow-hidden`}
       >
         {/* Header */}

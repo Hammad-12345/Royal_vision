@@ -49,14 +49,17 @@ const columns = [
 const OverallInvestmentHistory = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const [data,setData]=useState([])
+  const [data, setData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const isHome = location.pathname === '/dashboard';
   const dataToShow = isHome ? data.slice(0, 5) : data;
+  
   useEffect(() => {
     const fetchInvestments = async () => {
       try {
-        const token = localStorage.getItem('mytoken'); // adjust key as you stored it
+        setIsLoading(true);
+        const token = localStorage.getItem('mytoken');
         const res = await fetch('https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/dashboard/fetchallinvestment', {
           headers: {
             'Content-Type': 'application/json',
@@ -69,18 +72,21 @@ const OverallInvestmentHistory = () => {
       } catch (err) {
         console.error(err);
         toast.error('Failed to load investments');
+      } finally {
+        setIsLoading(false);
       }
     };
 
     fetchInvestments();
   }, []);
+
   return (
     <div className="w-full block">
       <div className='flex justify-between items-center'>
-      <h1 className="text-xl sm:text-2xl font-bold text-white mb-3 sm:mb-4">Deposit History</h1>
-      <h1 className="text-base sm:text-lg font-bold text-white mb-3 sm:mb-4">Total {data.length}</h1>
+        <h1 className="text-xl sm:text-2xl font-bold text-white mb-3 sm:mb-4">Deposit History</h1>
+        <h1 className="text-base sm:text-lg font-bold text-white mb-3 sm:mb-4">Total {data.length}</h1>
       </div>
-      <Table data={dataToShow} columns={columns} pagination={isHome? false:true} />
+      <Table data={dataToShow} columns={columns} pagination={isHome? false:true} loading={isLoading} />
 
       {isHome && (
         <div className="mt-3 sm:mt-4 text-right">

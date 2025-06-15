@@ -20,6 +20,8 @@ const Referal = () => {
   const [referralLink, setReferralLink] = useState('');
   const [showDetails, setShowDetails] = useState(false);
   const [isLoading, setIsLoading] = useState({});
+  const [isReferralDataLoading, setIsReferralDataLoading] = useState(true);
+  const [isEarningsLoading, setIsEarningsLoading] = useState(true);
   const [referralStats, setReferralStats] = useState({
     totalReferrals: 0,
     successfulReferrals: 0,
@@ -29,6 +31,7 @@ const Referal = () => {
   const [totalEarnings, setTotalEarnings] = useState(0);
   const [referaltowallethistory, setReferaltowallethistory] = useState([]);
   const fetchEarningsHistory = async () => {
+    setIsEarningsLoading(true);
     try {
       const token = JSON.parse(localStorage.getItem('mytoken'));
       const response = await fetch('https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/api/user/fetchreferalhistoryuser', {
@@ -47,11 +50,14 @@ const Referal = () => {
       setTotalEarnings(data.totalEarnings || 0);
     } catch (error) {
       console.error('Error fetching earnings history:', error);
+    } finally {
+      setIsEarningsLoading(false);
     }
   };
   useEffect(() => {
     // Fetch user's referral code and stats
     const fetchReferralData = async () => {
+      setIsReferralDataLoading(true);
       try {
         const token = JSON.parse(localStorage.getItem('mytoken'));
         const response = await fetch('https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/api/user/referral-data', {
@@ -72,11 +78,10 @@ const Referal = () => {
         setReferralLink(`${baseUrl}/signup/ref/${data.referralCode}`);
       } catch (error) {
         console.error('Error fetching referral data:', error);
+      } finally {
+        setIsReferralDataLoading(false);
       }
     };
-
-    // Fetch referral earnings history
-   
 
     fetchReferralData();
     fetchEarningsHistory();
@@ -315,66 +320,92 @@ const Referal = () => {
       <div className="bg-gradient-to-br from-[#0F1120] to-[#1E2140] rounded-xl p-8 mb-12 text-center">
         <h2 className="text-2xl font-semibold text-white mb-6">Your Referral Link</h2>
         <div className="flex sm:flex-row flex-col items-center justify-center gap-4 mb-6">
-          <span className="text-lg font-bold text-white px-6 py-3 bg-gray-800 rounded-lg border-2 border-dashed border-blue-500 break-all">
-            {referralLink || 'Loading...'}
-          </span>
-          <button 
-            className={`flex items-center gap-2 px-4 py-2 rounded-lg text-white transition-colors duration-300 ${
-              copied ? 'bg-green-500' : 'bg-blue-500 hover:bg-blue-600'
-            }`}
-            onClick={handleCopyCode}
-          >
-            <FaCopy /> {copied ? 'Copied!' : 'Copy'}
-          </button>
+          {isReferralDataLoading ? (
+            <div className="flex items-center justify-center w-full">
+              <svg className="animate-spin h-8 w-8 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+            </div>
+          ) : (
+            <>
+              <span className="text-lg font-bold text-white px-6 py-3 bg-gray-800 rounded-lg border-2 border-dashed border-blue-500 break-all">
+                {referralLink || 'Loading...'}
+              </span>
+              <button 
+                className={`flex items-center gap-2 px-4 py-2 rounded-lg text-white transition-colors duration-300 ${
+                  copied ? 'bg-green-500' : 'bg-blue-500 hover:bg-blue-600'
+                }`}
+                onClick={handleCopyCode}
+              >
+                <FaCopy /> {copied ? 'Copied!' : 'Copy'}
+              </button>
+            </>
+          )}
         </div>
         <button 
           className="flex items-center gap-2 px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors duration-300 mx-auto"
           onClick={handleShare}
+          disabled={isReferralDataLoading}
         >
           <FaShareAlt /> Share with Friends
         </button>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
-        <div className="bg-gradient-to-br from-[#0F1120] to-[#1E2140] p-6 rounded-xl shadow-md flex items-center gap-4">
-          <FaUsers className="text-3xl text-blue-500" />
-          <div>
-            <h3 className="text-sm text-gray-300 mb-1">Total Referrals</h3>
-            <p className="text-2xl font-bold text-white">{referralStats.totalReferrals}</p>
-          </div>
-        </div>
-        <div className="bg-gradient-to-br from-[#0F1120] to-[#1E2140] p-6 rounded-xl shadow-md flex items-center gap-4">
-          <FaGift className="text-3xl text-blue-500" />
-          <div>
-            <h3 className="text-sm text-gray-300 mb-1">Successful Referrals</h3>
-            <p className="text-2xl font-bold text-white">{referralStats.successfulReferrals}</p>
-          </div>
-        </div>
-        <div className="bg-gradient-to-br from-[#0F1120] to-[#1E2140] p-6 rounded-xl shadow-md flex items-center gap-4">
-          <FaUsers className="text-3xl text-blue-500" />
-          <div>
-            <h3 className="text-sm text-gray-300 mb-1">Referred To</h3>
-            <p className="text-2xl font-bold text-white">
-              {referralStats.referredTo?.length > 0 ? referralStats.referredTo.length : "No one"}
-            </p>
-            {referralStats.referredTo?.length > 0 && (
-              <button
-                onClick={() => setShowDetails(true)}
-                className="mt-2 text-sm text-blue-500 hover:text-blue-600"
-              >
-                View Details
-              </button>
-            )}
-          </div>
-        </div>
-        <div className="bg-gradient-to-br from-[#0F1120] to-[#1E2140] p-6 rounded-xl shadow-md flex items-center gap-4">
-          <FaMoneyBillWave className="text-3xl text-blue-500" />
-          <div>
-            <h3 className="text-sm text-gray-300 mb-1">Total Earnings</h3>
-            <p className="text-2xl font-bold text-white">${totalEarnings.toFixed(2)}</p>
-          </div>
-        </div> 
-      
+        {isReferralDataLoading ? (
+          // Loading skeleton for stats
+          Array(4).fill(0).map((_, index) => (
+            <div key={index} className="bg-gradient-to-br from-[#0F1120] to-[#1E2140] p-6 rounded-xl shadow-md flex items-center gap-4">
+              <div className="w-12 h-12 bg-gray-700 rounded-full animate-pulse"></div>
+              <div className="flex-1">
+                <div className="h-4 bg-gray-700 rounded w-24 mb-2 animate-pulse"></div>
+                <div className="h-6 bg-gray-700 rounded w-16 animate-pulse"></div>
+              </div>
+            </div>
+          ))
+        ) : (
+          <>
+            <div className="bg-gradient-to-br from-[#0F1120] to-[#1E2140] p-6 rounded-xl shadow-md flex items-center gap-4">
+              <FaUsers className="text-3xl text-blue-500" />
+              <div>
+                <h3 className="text-sm text-gray-300 mb-1">Total Referrals</h3>
+                <p className="text-2xl font-bold text-white">{referralStats.totalReferrals}</p>
+              </div>
+            </div>
+            <div className="bg-gradient-to-br from-[#0F1120] to-[#1E2140] p-6 rounded-xl shadow-md flex items-center gap-4">
+              <FaGift className="text-3xl text-blue-500" />
+              <div>
+                <h3 className="text-sm text-gray-300 mb-1">Successful Referrals</h3>
+                <p className="text-2xl font-bold text-white">{referralStats.successfulReferrals}</p>
+              </div>
+            </div>
+            <div className="bg-gradient-to-br from-[#0F1120] to-[#1E2140] p-6 rounded-xl shadow-md flex items-center gap-4">
+              <FaUsers className="text-3xl text-blue-500" />
+              <div>
+                <h3 className="text-sm text-gray-300 mb-1">Referred To</h3>
+                <p className="text-2xl font-bold text-white">
+                  {referralStats.referredTo?.length > 0 ? referralStats.referredTo.length : "No one"}
+                </p>
+                {referralStats.referredTo?.length > 0 && (
+                  <button
+                    onClick={() => setShowDetails(true)}
+                    className="mt-2 text-sm text-blue-500 hover:text-blue-600"
+                  >
+                    View Details
+                  </button>
+                )}
+              </div>
+            </div>
+            <div className="bg-gradient-to-br from-[#0F1120] to-[#1E2140] p-6 rounded-xl shadow-md flex items-center gap-4">
+              <FaMoneyBillWave className="text-3xl text-blue-500" />
+              <div>
+                <h3 className="text-sm text-gray-300 mb-1">Total Earnings</h3>
+                <p className="text-2xl font-bold text-white">${totalEarnings.toFixed(2)}</p>
+              </div>
+            </div>
+          </>
+        )}
       </div>
 
       {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
@@ -429,30 +460,42 @@ const Referal = () => {
       {/* Earnings History Section */}
       <div className="rounded-xl shadow-md p-2 mb-12">
         <h2 className="text-2xl font-semibold text-white mb-6 font-poppins">Referal Earning History</h2>
-        {/* {earningsHistory.length > 0 ? ( */}
+        {/* {isEarningsLoading ? (
+          <div className="flex items-center justify-center py-8">
+          <svg className="animate-spin h-12 w-12" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+          </div>
+      ) : ( */}
           <Table 
             data={earningsHistory} 
             columns={earningsColumns}
             pagination={true}
+            loading={isEarningsLoading}
           />
-        {/* ) : (
-          <p className="text-gray-300 text-center py-4">No earnings history available yet.</p>
-        )} */}
+        {/* )} */}
       </div>
 
 
        {/* Earnings History Section */}
        <div className="rounded-xl shadow-md p-2 mb-12">
         <h2 className="text-2xl font-semibold text-white mb-6 font-poppins">Referal To Wallet History</h2>
-        {/* {earningsHistory.length > 0 ? ( */}
+        {/* {isEarningsLoading ? (
+          <div className="flex items-center justify-center py-8">
+            <svg className="animate-spin h-12 w-12" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+          </div>
+        ) : ( */}
           <Table 
             data={referaltowallethistory} 
             columns={referaltowallethistorycolumns}
             pagination={true}
+            loading={isEarningsLoading}
           />
-        {/* ) : (
-          <p className="text-gray-300 text-center py-4">No earnings history available yet.</p>
-        )} */}
+        {/* )} */}
       </div>
 
       <div className="text-center">

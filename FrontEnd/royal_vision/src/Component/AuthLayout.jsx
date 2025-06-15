@@ -54,10 +54,10 @@ const AuthLayout = () => {
     >
       {/* Left Section */}
       <div className="space-y-6 sm:space-y-8 mb-8 sm:mb-0">
-        <div className="lg:w-44 flex flex-col items-center text-white hover:text-blue-200 transition-colors font-poppins">
+        <div className="lg:w-44 flex flex-col items-center xl:mx-0 mx-auto text-white hover:text-blue-200 transition-colors font-poppins">
           <img
-            src="https://d3hwx9f38knfi9.cloudfront.net/logodesign.png"
-            className="w-20 h-20 sm:w-24 sm:h-24"
+            src="https://overlandresources.s3.eu-north-1.amazonaws.com/newlogo-removebg-preview.png"
+            className="w-32 h-20 sm:w-40 sm:h-24"
             alt=""
           />
           <span className="text-sm sm:text-base uppercase font-poppins">Overland Solutions</span>

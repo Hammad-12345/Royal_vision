@@ -184,7 +184,7 @@ const UserDashboardLayout = () => {
               className="text-2xl font-bold text-white hover:text-blue-400 transition-colors font-poppins"
             >
               <img
-                src="https://d3hwx9f38knfi9.cloudfront.net/logodesign.png"
+                src="https://overlandresources.s3.eu-north-1.amazonaws.com/newlogo.jpg"
                 className="w-16 h-16"
                 alt="logo"
               />

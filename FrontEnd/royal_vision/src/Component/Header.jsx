@@ -210,19 +210,19 @@ const Header = () => {
                             <div className="flex items-center">
               <button
                 onClick={() => setSidebarOpen(!sidebarOpen)}
-                className="text-gray-400 hover:text-white transition-colors text-xl sm:text-2xl mr-4"
+                className="text-gray-400 hover:text-white transition-colors text-xl sm:text-2xl"
               >
                 <FaBars />
               </button>
               <div className="flex-shrink-0 flex  items-center space-x-2 sm:space-x-4">
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center">
               <Link
                 to="/"
                 className="text-2xl font-bold text-white hover:text-blue-400 transition-colors font-poppins"
               >
                 <img
-                  src="https://d3hwx9f38knfi9.cloudfront.net/logodesign.png"
-                  className="w-12 h-12 sm:w-16 sm:h-16"
+                  src="https://overlandresources.s3.eu-north-1.amazonaws.com/newlogo-removebg-preview.png"
+                  className="w-20 h-12 sm:w-24 sm:h-16"
                   alt="logo"
                 />
               </Link>
@@ -237,19 +237,19 @@ const Header = () => {
               <div className="flex items-center">
               <button
                 onClick={() => setMenuOpen(!menuOpen)}
-                className="text-gray-400 hover:text-white transition-colors text-xl sm:text-2xl mr-4 lg:hidden"
+                className="text-gray-400 hover:text-white transition-colors text-xl sm:text-2xl lg:hidden"
               >
                 <FaBars />
               </button>
-              <div className="flex-shrink-0 flex  items-center space-x-2 sm:space-x-4">
-              <div className="flex items-center space-x-2">
+              <div className="flex-shrink-0 flex  items-center ">
+              <div className="flex items-center">
               <Link
                 to="/"
                 className="text-2xl font-bold text-white hover:text-blue-400 transition-colors font-poppins"
               >
                 <img
-                  src="https://d3hwx9f38knfi9.cloudfront.net/logodesign.png"
-                  className="w-12 h-12 sm:w-16 sm:h-16"
+                  src="https://overlandresources.s3.eu-north-1.amazonaws.com/newlogo-removebg-preview.png"
+                  className="w-20 h-12 sm:w-24 sm:h-16"
                   alt="logo"
                 />
               </Link>
@@ -317,7 +317,7 @@ const Header = () => {
                 <>
                   <Link
                     to={"/signin"}
-                    className="bg-blue-600 font-semibold rounded-full text-white sm:px-6 px-4 py-2 hover:bg-blue-500 transition-colors duration-300 font-poppins backdrop-blur-sm"
+                    className="bg-blue-600 font-semibold rounded-full text-white sm:px-6 px-4 py-2 hover:bg-blue-500 transition-colors duration-300 font-poppins backdrop-blur-sm sm:block hidden"
                   >
                     Sign In
                   </Link>
@@ -385,8 +385,8 @@ const Header = () => {
           <div className="flex justify-end items-center border-b border-gray-800 pb-4">
             {/* Close button removed as requested */}
           </div>
-          <nav className="pt-4">
-            <ul className="space-y-2">
+          <nav className="py-4">
+            <ul className="space-y-4">
               {publicLinks.map(({ label, path }) => (
                 <li key={label}>
                   <Link
@@ -400,6 +400,14 @@ const Header = () => {
                   </Link>
                 </li>
               ))}
+              <li className="my-4">
+              <Link
+                    to={"/signin"}
+                    className="bg-blue-600  font-semibold rounded-full text-white sm:px-6 px-4 py-2 hover:bg-blue-500 transition-colors duration-300 font-poppins backdrop-blur-sm sm:hidden"
+                  >
+                    Sign In
+                  </Link>
+              </li>
             </ul>
           </nav>
         </div>
@@ -412,15 +420,15 @@ const Header = () => {
           className={`fixed left-0 h-full z-40 flex flex-col border-r border-gray-800 shadow-2xl transition-all duration-300 bg-gradient-to-r from-black via-blue-950 to-black ${
             sidebarOpen ? "w-72" : "w-0 overflow-hidden"
           }`}
-        > <div className="flex-shrink-0 flex  items-center space-x-2 sm:space-x-4 border-b border-gray-600  p-4">
-        <div className="flex items-center space-x-2">
+        > <div className="flex-shrink-0 flex  items-center space-x-2 sm:space-x-4 border-b border-gray-600 py-2">
+        <div className="flex items-center">
         <Link
           to="/"
           className="text-2xl font-bold text-white hover:text-blue-400 transition-colors font-poppins"
         >
           <img
-            src="https://d3hwx9f38knfi9.cloudfront.net/logodesign.png"
-            className="w-16 h-16"
+            src="https://overlandresources.s3.eu-north-1.amazonaws.com/newlogo-removebg-preview.png"
+            className="w-24 h-16"
             alt="logo"
           />
         </Link>
