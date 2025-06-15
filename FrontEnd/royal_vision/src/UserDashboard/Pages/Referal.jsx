@@ -520,7 +520,8 @@ const Referal = () => {
               3
             </div>
             <h3 className="text-lg font-semibold text-white mb-2">You both earn</h3>
-            <p className="text-gray-300">You and your friend both receive rewards!</p>
+            <p className="text-gray-300">You earn 3% instantly and an additional 3% each time the investor makes a withdrawal.
+            </p>
           </div>
         </div>
       </div>
