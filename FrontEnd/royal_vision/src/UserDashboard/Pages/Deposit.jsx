@@ -8,7 +8,7 @@ const plans = [
   { name: "Gold Trading", mininvest: "$100" },
   { name: "RetroDrops", mininvest: "$1000" },
   { name: "Amazon", mininvest: "$5000" },
-  { name: "AirBnB", mininvest: "$2000" },
+  { name: "AirBnB", mininvest: "$5000" },
   { name: "Mineral Water", mininvest: "$5000" },
 ];
 

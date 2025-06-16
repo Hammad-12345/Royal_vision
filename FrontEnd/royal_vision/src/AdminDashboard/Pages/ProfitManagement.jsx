@@ -124,9 +124,9 @@ const ProfitManagement = () => {
       case "RetroDrops":
         return "35% - 50% (180 Days)";
       case "Amazon":
-        return "13% - 15% (Monthly)";
+        return "25% - 30% (Monthly)";
       case "AirBnB":
-        return "7.5% - 10% (Monthly)";
+        return "50% (Monthly)";
       case "Mineral Water":
         return "8.5% - 12.5% (Monthly)";
       default:
@@ -152,13 +152,13 @@ const ProfitManagement = () => {
         }
         break;
       case "Amazon":
-        if (numValue < 13 || numValue > 15) {
-          return "Interest must be between 13% and 15%";
+        if (numValue < 25 || numValue > 30) {
+          return "Interest must be between 25% and 30%";
         }
         break;
       case "AirBnB":
-        if (numValue < 7.5 || numValue > 10) {
-          return "Interest must be between 7.5% and 10%";
+        if (numValue==0 || numValue > 50) {
+          return "Interest must be greater then 0 and less or equal to 50%";
         }
         break;
       case "Mineral Water":
@@ -290,9 +290,9 @@ const ProfitManagement = () => {
                   : selectedInvestment.investmentPlan === "RetroDrops"
                   ? "35% - 50% (180 Days)"
                   : selectedInvestment.investmentPlan === "Amazon"
-                  ? "13% - 15% (Monthly)"
+                  ? "25% - 30% (Monthly)"
                   : selectedInvestment.investmentPlan === "AirBnB"
-                  ? "7.5% - 10% (Monthly)"
+                  ? "50% (Monthly)"
                   : selectedInvestment.investmentPlan === "Mineral Water"
                   ? "8.5% - 12.5% (Monthly)"
                   : "N/A"}
