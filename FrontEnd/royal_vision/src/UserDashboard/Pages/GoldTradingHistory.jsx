@@ -135,7 +135,7 @@ const GoldTradingHistory = () => {
 
       // Filter profits for GoldTrading
       const goldProfits = profits.profits.filter(
-        (item) => item.investmentPlanId === "Gold Trading"
+        (item) => item.investmentPlanId === "Gold Trading" && item.sendtoWallet === false
       );
 
       // Calculate profits per investment
@@ -181,7 +181,7 @@ const GoldTradingHistory = () => {
 
   const InvestmentCard = ({ investment, index }) => {
     const profits = investmentProfits[investment._id] || { total: 0, today: 0 };
-    const remainingDays = calculateRemainingDays(investment.createdAt);
+    const remainingDays = calculateRemainingDays(investment.updatedAt);
     const isSendingProfit = sendingProfits[investment._id] || false;
 
     return (

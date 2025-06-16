@@ -21,6 +21,8 @@ const Dashboard = () => {
   const [cardData, setCardData] = useState([
     { title: "Total Invest", count: 0 },
     { title: "Total Investment Profit", count: 0 },
+    { title: "Wallet Profit", count: 0 },
+    { title: "Pending Profit", count: 0 },
   ]);
   const [animationKey, setAnimationKey] = useState(0);
   const [activePlans, setActivePlans] = useState([]);
@@ -104,9 +106,24 @@ const Dashboard = () => {
         const profitData = await profitRes.json();
         console.log('Profit data:', profitData);
         settotalprofitchart(profitData.profits)
+        
+        // Calculate wallet and pending profits
+        let walletProfit = 0;
+        let pendingProfit = 0;
+        
+        profitData.profits.forEach(profit => {
+          if (profit.sendtoWallet) {
+            walletProfit += Number(profit.amount) || 0;
+          } else {
+            pendingProfit += Number(profit.amount) || 0;
+          }
+        });
+
         let totals = {
           "Total Invest": 0,
           "Total Investment Profit": Math.floor(profitData.totalProfit) || 0,
+          "Wallet Profit": Math.floor(walletProfit) || 0,
+          "Pending Profit": Math.floor(pendingProfit) || 0,
         };
 
         // Define all available investment plans

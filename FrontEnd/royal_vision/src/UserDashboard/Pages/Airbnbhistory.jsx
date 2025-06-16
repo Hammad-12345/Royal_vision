@@ -106,7 +106,7 @@ const Airbnbhistory = () => {
 
       // Filter profits for Airbnb
       const airbnbProfits = profits.profits.filter(item => 
-        item.investmentPlanId === 'AirBnB'
+        item.investmentPlanId === 'AirBnB' && item.sendtoWallet === false
       );
 
       // Calculate profits per investment
@@ -150,7 +150,7 @@ const Airbnbhistory = () => {
 
   const InvestmentCard = ({ investment, index }) => {
     const profits = investmentProfits[investment._id] || { total: 0, today: 0 };
-    const remainingDays = calculateRemainingDays(investment.createdAt);
+    const remainingDays = calculateRemainingDays(investment.updatedAt);
     const isLoading = loadingInvestments[investment._id];
     
     return (

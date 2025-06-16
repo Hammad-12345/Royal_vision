@@ -106,7 +106,7 @@ const Amazonhistory = () => {
 
       // Filter profits for Amazon
       const amazonProfits = profits.profits.filter(item => 
-        item.investmentPlanId === 'Amazon'
+        item.investmentPlanId === 'Amazon' && item.sendtoWallet === false
       );
 
       // Calculate profits per investment
@@ -152,7 +152,7 @@ const Amazonhistory = () => {
 
   const InvestmentCard = ({ investment, index }) => {
     const profits = investmentProfits[investment._id] || { total: 0, today: 0 };
-    const remainingDays = calculateRemainingDays(investment.createdAt);
+    const remainingDays = calculateRemainingDays(investment.updatedAt);
     const isLoading = loadingInvestments[investment._id];
     
     return (

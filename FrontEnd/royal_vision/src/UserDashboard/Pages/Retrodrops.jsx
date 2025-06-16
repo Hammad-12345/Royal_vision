@@ -109,7 +109,7 @@ const Retrodrops = () => {
 
       // Filter profits for Retrodrops
       const retrodropsProfits = profits.profits.filter(item => 
-        item.investmentPlanId === 'RetroDrops'
+        item.investmentPlanId === 'RetroDrops' && item.sendtoWallet === false
       );
 
       // Calculate profits per investment
@@ -154,8 +154,7 @@ const Retrodrops = () => {
 
   const InvestmentCard = ({ investment, index }) => {
     const profits = investmentProfits[investment._id] || { total: 0, today: 0 };
-    console.log(profits)
-    const remainingDays = calculateRemainingDays(investment.createdAt);
+    const remainingDays = calculateRemainingDays(investment.updatedAt);
     const isLoading = loadingInvestments[investment._id];
     
     return (
