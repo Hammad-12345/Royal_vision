@@ -6,7 +6,7 @@ const ProfitCalculator = () => {
   const [profit, setProfit] = useState("");
 
   const planRates = {
-    "Gold Trading": { min: 1.5, max: 3.5, type: "daily", duration: 30 },
+    "Gold/Stocks": { min: 1.5, max: 3.5, type: "daily", duration: 30 },
     RetroDrops: { min: 0, max: 0, type: "none", duration: 0 },
     // "Amazon": { min: 13, max: 15, type: "monthly", duration: 1 },
     // "AirBnB": { min: 7.5, max: 10, type: "monthly", duration: 1 },
@@ -33,7 +33,7 @@ const ProfitCalculator = () => {
       return;
     }
 
-    if (plan === "Gold Trading") {
+    if (plan === "Gold/Stocks") {
       const minProfit = (num * 1.5) / 100;
       const maxProfit = (num * 3.5) / 100;
       setProfit(`${minProfit} to ${maxProfit}`);
