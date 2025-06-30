@@ -128,7 +128,7 @@ const Dashboard = () => {
 
         // Define all available investment plans
         const allPlans = [
-          "Gold Trading",
+          "Gold/Stocks",
           "AirBnB",
           "RetroDrops",
           "Mineral Water",
@@ -250,7 +250,7 @@ const Dashboard = () => {
         <h2 className="text-xl sm:text-2xl font-bold mb-4">Active Investment Plans</h2>
         {activePlans.map((plan, index) => {
           const HistoryComponent = {
-            "Gold Trading": GoldTradingHistory,
+            "Gold/Stocks": GoldTradingHistory,
             AirBnB: AirbnbHistory,
             RetroDrops: Retrodrops,
             "Mineral Water": MineralWater,
@@ -289,7 +289,7 @@ const Dashboard = () => {
                     <div className="bg-gradient-to-br from-[#0F1120] to-[#070c3e] p-3 sm:p-4 rounded-lg">
                       <h4 className="text-gray-400 text-xs sm:text-sm">Daily Profit</h4>
                       <p className="text-lg sm:text-xl font-bold text-green-400">
-                        {plan.name === "Gold Trading"
+                        {plan.name === "Gold/Stocks"
                           ? "1.5% - 3.5%"
                           : plan.name === "RetroDrops"
                           ? "N/A"
@@ -305,7 +305,7 @@ const Dashboard = () => {
                     <div className="bg-gradient-to-br from-[#0F1120] to-[#070c3e] p-3 sm:p-4 rounded-lg">
                       <h4 className="text-gray-400 text-xs sm:text-sm">Withdrawal</h4>
                       <p className="text-lg sm:text-xl font-bold text-blue-400">
-                        {plan.name === "Gold Trading"
+                        {plan.name === "Gold/Stocks"
                           ? "Every 15 days"
                           : plan.name === "RetroDrops"
                           ? "After 6 months"
