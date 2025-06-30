@@ -135,7 +135,7 @@ const GoldTradingHistory = () => {
 
       // Filter profits for GoldTrading
       const goldProfits = profits.profits.filter(
-        (item) => item.investmentPlanId === "Gold Trading" && item.sendtoWallet === false
+        (item) => item.investmentPlanId === "Gold/Stocks" && item.sendtoWallet === false
       );
 
       // Calculate profits per investment
@@ -170,7 +170,7 @@ const GoldTradingHistory = () => {
       setTodayProfit(todayProfitAmount);
     } catch (err) {
       console.error(err);
-      toast.error("Failed to load Gold Trading data");
+      toast.error("Failed to load Gold/Stocks data");
     } finally {
       setLoading(false);
     }
@@ -415,7 +415,7 @@ const GoldTradingHistory = () => {
       </div>
       ) : goldInvestments.length === 0 ? (
         <div className="text-center text-gray-400 py-8">
-          No gold trading investments found
+          No Gold/Stocks investments found
         </div>
       ) : (
         goldInvestments.map((investment, index) => (
