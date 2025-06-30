@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
 
 const plans = [
-  { name: "Gold Trading", mininvest: "$100" },
+  { name: "Gold/Stocks", mininvest: "$100" },
   { name: "RetroDrops", mininvest: "$1000" },
   { name: "Amazon", mininvest: "$5000" },
   { name: "AirBnB", mininvest: "$5000" },

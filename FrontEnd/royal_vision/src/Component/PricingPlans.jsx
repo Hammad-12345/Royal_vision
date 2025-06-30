@@ -5,8 +5,8 @@ import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 const plans = [
   {
-    name: "Gold Trading",
-    text: "Gold trading is the buying and selling of gold for profit through physical assets or financial instruments like ETFs, futures, and CFDs. Valued for its stability and diversification, it attracts traders aiming to benefit from market price fluctuations.",
+    name: "Gold/Stocks",
+    text: "Gold/Stocks is the buying and selling of gold for profit through physical assets or financial instruments like ETFs, futures, and CFDs. Valued for its stability and diversification, it attracts traders aiming to benefit from market price fluctuations.",
     mininvest: "$100",
     accountType: "Daily profit: 1.5% to 3.5%",
     withdrawal: "Every 15 days",

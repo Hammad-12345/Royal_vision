@@ -111,7 +111,7 @@ const GoldTradingHistory = () => {
       const goldData = investments
         .filter(
           (item) =>
-            item.investmentPlan === "Gold Trading" &&
+            item.investmentPlan === "Gold/Stocks" &&
             item.paymentMode === "active"
         )
         .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
