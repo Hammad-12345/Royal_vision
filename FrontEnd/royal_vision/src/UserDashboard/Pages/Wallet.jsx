@@ -367,7 +367,7 @@ const Wallet = () => {
       <div className="flex gap-4">
         <button
           onClick={() => navigate("/Withdraw")}
-          disabled={walletBalance < 50}
+          disabled={walletBalance < 20}
           className={`flex items-center gap-2 px-6 py-3 rounded-lg font-medium transition-colors bg-blue-500 text-white`}
         >
           <GiCash /> Withdraw

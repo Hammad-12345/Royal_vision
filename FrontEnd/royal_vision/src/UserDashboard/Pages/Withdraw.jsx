@@ -139,7 +139,7 @@ const Withdraw = () => {
             type="number"
             {...register("amount", {
               required: "Amount is required",
-              min: { value: 50, message: "Minimum withdrawal is $50" },
+              min: { value: 20, message: "Minimum withdrawal is $20" },
               max: { value: walletBalance, message: `Maximum withdrawal is $${walletBalance}` },
             })}
             className="w-full px-4 py-2 border border-gray-300 bg-transparent rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
