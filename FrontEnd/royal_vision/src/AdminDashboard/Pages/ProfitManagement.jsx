@@ -64,7 +64,7 @@ const ProfitManagement = () => {
 
       // Calculate profit based on investment plan
       switch (selectedInvestment.investmentPlan) {
-        case "Gold Trading":
+        case "Gold/Stocks":
           // 2.5% daily profit (average of 1.5% and 3.5%)
           calculatedAmount = investmentAmount * (adminInterestPercentage / 100);
           break;
@@ -118,8 +118,9 @@ const ProfitManagement = () => {
   };
 
   const getProfitRange = (plan) => {
+    console.log(plan);
     switch (plan) {
-      case "Gold Trading":
+      case "Gold/Stocks":
         return "1.5% - 3.5%";
       case "RetroDrops":
         return "35% - 50% (180 Days)";
@@ -141,7 +142,7 @@ const ProfitManagement = () => {
     }
 
     switch (plan) {
-      case "Gold Trading":
+      case "Gold/Stocks":
         if (numValue < 1.5 || numValue > 3.5) {
           return "Interest must be between 1.5% and 3.5%";
         }
@@ -285,7 +286,7 @@ const ProfitManagement = () => {
                 Daily Profit Rate
               </label>
               <div className="w-full p-2 rounded bg-gray-800 text-white">
-                {selectedInvestment.investmentPlan === "Gold Trading"
+                {selectedInvestment.investmentPlan === "Gold/Stocks"
                   ? "1.5% - 3.5%"
                   : selectedInvestment.investmentPlan === "RetroDrops"
                   ? "35% - 50% (180 Days)"

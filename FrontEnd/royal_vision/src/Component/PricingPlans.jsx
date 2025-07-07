@@ -67,6 +67,12 @@ const PricingPlans = ({ showAll = false }) => {
   const [selectedPlan, setSelectedPlan] = useState(null);
   const visiblePlans = showAll ? plans : plans.slice(0, 3);
 
+  // Function to format plan name for route
+  function formatPlanRouteName(name) {
+    if (name === "Gold/Stocks") return "GoldStocks";
+    return name;
+  }
+
   return (
     <div className={` font-poppins bg-gradient-to-r ${isHomePage && "p-6"} from-black via-blue-950 to-black`}>
       
@@ -214,7 +220,7 @@ const PricingPlans = ({ showAll = false }) => {
           </div>
 
           <div className="mt-8 text-center">
-            <Link to={token ? `/Deposit/${selectedPlan.name}` : "/signin"} className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-full font-semibold text-lg transition">
+            <Link to={token ? `/Deposit/${formatPlanRouteName(selectedPlan.name)}` : "/signin"} className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-full font-semibold text-lg transition">
               Deposit Now
             </Link>
           </div>

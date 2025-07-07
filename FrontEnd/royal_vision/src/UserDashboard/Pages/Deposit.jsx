@@ -24,6 +24,7 @@ const paymentMethods = [
 const Deposit = () => {
   const navigate = useNavigate()
   const { id } = useParams();
+  console.log(id);
   const [isLoading, setIsLoading] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
   const {
@@ -38,15 +39,19 @@ const Deposit = () => {
   const [showPaymentDetails, setShowPaymentDetails] = useState(false);
   const [submittedData, setSubmittedData] = useState(null);
   const [screenshot, setScreenshot] = useState(null);
+  const defaultPaymentMethod = paymentMethods[0].name; // Tron (TRC20)
 
   useEffect(() => {
     if (id) {
       const plan = plans.find(p => p.name.toLowerCase() === id.toLowerCase());
       if (plan) {
         setSelectedPlan(plan);
-        reset({ plan: plan.name });
+        reset({ plan: plan.name, paymentMethod: defaultPaymentMethod });
+        return;
       }
     }
+    // If no id or plan not found, set default payment method
+    reset({ plan: plans[0].name, paymentMethod: defaultPaymentMethod });
   }, [id, reset]);
 
   const onSubmit = (data) => {
@@ -188,6 +193,7 @@ const Deposit = () => {
                 {...register("paymentMethod", {
                   required: "Payment method is required",
                 })}
+                defaultValue={defaultPaymentMethod}
                 className="w-full px-3 sm:px-4 py-2 bg-transparent border rounded-md text-sm sm:text-base"
               >
                 <option value="" disabled>
