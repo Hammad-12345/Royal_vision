@@ -288,7 +288,7 @@ const Investments = () => {
                   <img 
                     src={selectedInvestment.screenshot} 
                     alt="Payment Screenshot" 
-                    className="w-full h-auto object-cover"
+                    className="w-full h-96 object-contain"
                   />
                 </div>
               </div>
