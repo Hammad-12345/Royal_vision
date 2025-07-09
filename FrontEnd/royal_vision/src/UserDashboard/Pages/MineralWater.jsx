@@ -179,7 +179,7 @@ const MineralWater = () => {
                 <h3 className="text-gray-400 text-sm font-medium">Total Profit</h3>
                 <div className="text-xl font-bold text-green-400">
                   {
-                    profits.total > 0 ? <span className="text-green-400">${Math.floor(profits.total)}</span> : 'N/A'
+                    profits.total > 0 ? <span className="text-green-400">${profits.total}</span> : 'N/A'
                   }
                 </div>
               </div>
@@ -195,7 +195,7 @@ const MineralWater = () => {
                 <h3 className="text-gray-400 text-sm font-medium">Today's Profit</h3>
                 <div className="text-xl font-bold text-green-400">
                   {
-                    profits.today > 0 ? <span className="text-green-400">${Math.floor(profits.today)}</span> : 'N/A'
+                    profits.today > 0 ? <span className="text-green-400">${profits.today}</span> : 'N/A'
                   }
                 </div>
               </div>

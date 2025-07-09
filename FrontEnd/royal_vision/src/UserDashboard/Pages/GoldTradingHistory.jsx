@@ -225,7 +225,7 @@ const GoldTradingHistory = () => {
                 <div className="text-xl font-bold text-green-400">
                   {profits.total > 0 ? (
                     <span className="text-green-400">
-                      ${Math.floor(profits.total)}
+                      ${profits.total}
                     </span>
                   ) : (
                     "N/A"
@@ -247,7 +247,7 @@ const GoldTradingHistory = () => {
                 <div className="text-xl font-bold text-green-400">
                   {profits.today > 0 ? (
                     <span className="text-green-400">
-                      ${Math.floor(profits.today)}
+                      ${profits.today}
                     </span>
                   ) : (
                     "N/A"

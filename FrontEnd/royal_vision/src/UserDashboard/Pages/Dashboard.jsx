@@ -121,9 +121,9 @@ const Dashboard = () => {
 
         let totals = {
           "Total Invest": 0,
-          "Total Investment Profit": Math.floor(profitData.totalProfit) || 0,
-          "Wallet Profit": Math.floor(walletProfit) || 0,
-          "Pending Profit": Math.floor(pendingProfit) || 0,
+          "Total Investment Profit": profitData.totalProfit || 0,
+          "Wallet Profit": walletProfit || 0,
+          "Pending Profit": pendingProfit || 0,
         };
 
         // Define all available investment plans
@@ -266,7 +266,7 @@ const Dashboard = () => {
                   <span className="text-sm sm:text-base">{plan.name}</span>
                   <span className="text-blue-400 font-semibold text-sm sm:text-base">
                    {
-                  Math.floor(plan.amount)
+                plan.amount
                    }
                   </span>
                 </div>
@@ -279,7 +279,7 @@ const Dashboard = () => {
                         Total Investment
                       </h4>
                       <p className="text-lg sm:text-xl font-bold text-blue-400">
-                      ${Math.floor(plan.amount)}
+                      ${plan.amount}
                       </p>
                     </div>
                     <div className="bg-gradient-to-br from-[#0F1120] to-[#070c3e] p-3 sm:p-4 rounded-lg">
