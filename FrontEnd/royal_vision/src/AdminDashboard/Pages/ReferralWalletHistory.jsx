@@ -38,6 +38,15 @@ const ReferralWalletHistory = () => {
             )
         },
         {
+            header: 'User Name',
+            accessorFn: (row) => row.userId?.Name || 'N/A',
+            cell: (info) => (
+                <span className="text-blue-400 font-medium">
+                    {info.getValue()}
+                </span>
+            )
+        },
+        {
             header: 'Email',
             accessorFn: (row) => row.userId?.EmailAddress || 'N/A',
             cell: (info) => (

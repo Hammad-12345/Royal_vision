@@ -82,6 +82,15 @@ const WithdrawRequest = () => {
       )
     },
     {
+      header: 'User Name',
+      accessorKey: 'userId.Name',
+      cell: (info) => (
+        <span className="px-2 py-1 rounded text-purple-600">
+          {info.getValue() || 'N/A'}
+        </span>
+      )
+    },
+    {
       header: 'User Email',
       accessorKey: 'userId.EmailAddress',
       cell: (info) => (

@@ -39,6 +39,7 @@ document.head.appendChild(styleSheet);
 
 const Investments = () => {
   const [investments, setInvestments] = useState([]);
+  // console.log(investments)
   const [loading, setLoading] = useState(true);
   const [selectedInvestment, setSelectedInvestment] = useState(null);
   console.log(selectedInvestment)
@@ -124,7 +125,7 @@ const Investments = () => {
     () => [
       {
         accessorKey: 'id',
-        header: 'ID',
+        header: 'Investment ID',
         cell: (info) => (
           <span className="font-medium">{info.getValue()}</span>
         ),
@@ -134,6 +135,15 @@ const Investments = () => {
         header: 'User ID',
         cell: (info) => (
           <span className="font-medium">{info.getValue()}</span>
+        ),
+      },
+      {
+        accessorKey: 'userName',
+        header: 'userName',
+        cell: (info) => (
+          <span className="text-purple-600 font-semibold hover:text-purple-800 transition-colors">
+            {info.getValue()}
+          </span>
         ),
       },
       {

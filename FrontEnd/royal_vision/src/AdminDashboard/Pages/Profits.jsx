@@ -20,10 +20,24 @@ const Profits = () => {
 
   const columns = [
     {
-      header: 'User',
+      header: 'Investment ID',
+      accessorKey: 'investmentId._id',
+      cell: ({ row }) => (
+        <span className="font-medium text-white">{row.original.investmentId._id}</span>
+      )
+    },
+    {
+      header: 'User ID',
       accessorKey: 'userId._id',
       cell: ({ row }) => (
         <span className="font-medium text-white">{row.original.userId._id}</span>
+      )
+    },
+    {
+      header: 'UserName',
+      accessorKey: 'userId.Name',
+      cell: ({ row }) => (
+        <span className="text-purple-600 hover:text-purple-600 transition-colors">{row.original.userId.Name}</span>
       )
     },
     {
@@ -31,13 +45,6 @@ const Profits = () => {
       accessorKey: 'userId.EmailAddress',
       cell: ({ row }) => (
         <span className="text-blue-600 hover:text-blue-800 transition-colors">{row.original.userId.EmailAddress}</span>
-      )
-    },
-    {
-      header: 'Investment ID',
-      accessorKey: 'investmentId._id',
-      cell: ({ row }) => (
-        <span className="font-medium text-white">{row.original.investmentId._id}</span>
       )
     },
     {

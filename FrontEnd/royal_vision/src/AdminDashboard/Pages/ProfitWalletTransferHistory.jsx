@@ -32,6 +32,13 @@ const ProfitWalletTransferHistory = () => {
       )
     },
     {
+      header: 'user name',
+      accessorKey: 'userId.Name',
+      cell: (info) => (
+        <span className="text-purple-600 font-medium">{info.getValue()}</span>
+      )
+    },
+    {
       header: 'user email',
       accessorKey: 'userId.EmailAddress',
       cell: (info) => (

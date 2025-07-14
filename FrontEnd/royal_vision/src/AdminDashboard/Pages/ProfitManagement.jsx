@@ -184,17 +184,26 @@ const ProfitManagement = () => {
 
   const columns = [
     {
-      header: "Invest ID",
+      header: "Investment ID",
       accessorKey: "id",
       cell: (info) => (
         <span className="font-medium">{info.getValue()}</span>
       ),
     },
     {
-      header: "User",
+      header: "User ID",
       accessorKey: "userId",
       cell: (info) => (
         <span className="font-medium">{info.getValue()}</span>
+      ),
+    },
+    {
+      accessorKey: 'userName',
+      header: 'userName',
+      cell: (info) => (
+        <span className="text-purple-600 font-semibold hover:text-purple-800 transition-colors">
+          {info.getValue()}
+        </span>
       ),
     },
     {

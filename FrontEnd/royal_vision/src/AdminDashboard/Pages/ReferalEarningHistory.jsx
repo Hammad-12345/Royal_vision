@@ -28,16 +28,22 @@ const ReferalEarningHistory = () => {
         <span className="font-medium text-blue-400 hover:text-blue-300 transition-colors">{info.getValue()}</span>
       ),
     }),
+    columnHelper.accessor('ReferedFrom.Name', {
+      header: 'Refered From Name',
+      cell: (info) => (
+        <span className="font-medium text-purple-600 hover:text-purple-600 transition-colors">{info.getValue()}</span>
+      ),
+    }),
     columnHelper.accessor('ReferedFrom.EmailAddress', {
         header: 'Refered From Email',
         cell: (info) => (
           <span className="font-medium text-cyan-400 hover:text-cyan-300 transition-colors">{info.getValue()}</span>
         ),
       }),
-      columnHelper.accessor('ReferedTo._id', {
-        header: 'Refered To ID',
+      columnHelper.accessor('ReferedTo.Name', {
+        header: 'Refered To Name',
         cell: (info) => (
-          <span className="font-medium text-indigo-400 hover:text-indigo-300 transition-colors">{info.getValue()}</span>
+          <span className="font-medium text-purple-600 hover:text-purple-600 transition-colors">{info.getValue()}</span>
         ),
       }),
       columnHelper.accessor('ReferedTo.EmailAddress', {

@@ -12,6 +12,14 @@ const ReferalUser = () => {
   const columnHelper = createColumnHelper();
 
   const columns = [
+    columnHelper.accessor("userId.Name", {
+      header: "Referral UserName",
+      cell: (info) => (
+        <span className="text-purple-600 hover:text-purple-600 transition-colors">
+          {info.getValue()}
+        </span>
+      ),
+    }),
     columnHelper.accessor("userId._id", {
       header: "Referral From (ID)",
       cell: (info) => (
@@ -26,6 +34,7 @@ const ReferalUser = () => {
         </span>
       ),
     }),
+  
     columnHelper.accessor("referralCode", {
       header: "Referral From (Code)",
       cell: (info) => (
