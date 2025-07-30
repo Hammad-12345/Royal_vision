@@ -281,7 +281,7 @@ const Referal = () => {
     }
 ];
   const handleAction = async(row) => {
-    if(totalEarnings > 50)
+    if(totalEarnings > 20)
     {
       setIsLoading(prev => ({ ...prev, [row._id]: true }));
       try {
@@ -520,7 +520,7 @@ const Referal = () => {
               3
             </div>
             <h3 className="text-lg font-semibold text-white mb-2">You both earn</h3>
-            <p className="text-gray-300">You receive 5% directly and 5% of the investor’s profit every time they withdraw.
+            <p className="text-gray-300">You receive 5% directly and 5% of the investor’s profit one time they withdraw.
             </p>
           </div>
         </div>
