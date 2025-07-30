@@ -51,7 +51,7 @@ const ReferralManagement = () => {
       header: 'Earnings',
       cell: (info) => (
         <span className="font-semibold text-purple-600">
-         3%
+         5%
         </span>
       ),
     }),
@@ -171,9 +171,9 @@ const ReferralManagement = () => {
   ];
 const sendreferalearning=async(investmentamount)=>
 {
-  const referralEarning = investmentamount.amount * 0.03;
+  const referralEarning = investmentamount.amount * 0.05;
   console.log('Investment Amount:', investmentamount.amount);
-  console.log('Referral Earning (3%):', referralEarning);
+  console.log('Referral Earning (5%):', referralEarning);
   try {
     const res = await fetch(
       'https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/api/admin/sendreferalearning',{
@@ -279,7 +279,7 @@ const sendreferalearning=async(investmentamount)=>
                       </p>
                     </div>
                     <div>
-                      <p className="text-sm text-gray-600">Referral Earnings (3%)</p>
+                      <p className="text-sm text-gray-600">Referral Earnings (5%)</p>
                       <p className="text-lg font-semibold text-purple-600">
                         ${(investment.amount * 0.03).toFixed(2)}
                       </p>
