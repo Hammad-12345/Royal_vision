@@ -39,9 +39,32 @@ const Login = () => {
       const result = await response.json();
       toast.success(result.message);
       settoken(result.token);
+      console.log(result)
+
+      const mytoken = JSON.stringify(result.token);
+      const user = JSON.stringify(result.user);
+    
+      localStorage.setItem("mytoken", mytoken);
+      localStorage.setItem("user", user);
+    
+      dispatch(
+        LoggedIn({
+          token: result.token,
+          user: result.user,
+        })
+      ); 
+      if(result.user.Role==='user')
+      {
+        navigate("/");
+      }
+      else 
+      {
+        navigate("/admin")
+      }
+    
 
       // Proceed to OTP or next step
-      setStep(2);
+      // setStep(2);
     } catch (error) {
       console.error("Login error:", error.message);
       toast.error("Login failed: " + error.message);
