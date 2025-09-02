@@ -161,7 +161,7 @@ const AdminDashboardLayout = () => {
     try {
       // const token = localStorage.getItem('mytoken');
       const response = await fetch(
-        "https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/api/admin/notifications",
+        "https://overland-23a4680d9e06.herokuapp.com/api/admin/notifications",
         {
           headers: {
             "Content-Type": "application/json",
@@ -181,7 +181,7 @@ const AdminDashboardLayout = () => {
     try {
       // const token = localStorage.getItem('mytoken');
       const response = await fetch(
-        `https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/api/admin/notifications/${notification._id}/read`,
+        `https://overland-23a4680d9e06.herokuapp.com/api/admin/notifications/${notification._id}/read`,
         {
           method: "PUT",
           headers: {

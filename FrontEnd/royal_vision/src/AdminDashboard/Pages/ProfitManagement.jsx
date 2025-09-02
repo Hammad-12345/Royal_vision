@@ -18,7 +18,7 @@ const ProfitManagement = () => {
     try {
       const token = localStorage.getItem("mytoken");
       const response = await fetch(
-        "https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/api/admin/investments",
+        "https://overland-23a4680d9e06.herokuapp.com/api/admin/investments",
         {
           headers: {
             "Content-Type": "application/json",
@@ -92,7 +92,7 @@ const ProfitManagement = () => {
           toast.error("Invalid investment plan");
           return;
       }
-      const response = await fetch("https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/api/admin/add-profit", {
+      const response = await fetch("https://overland-23a4680d9e06.herokuapp.com/api/admin/add-profit", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

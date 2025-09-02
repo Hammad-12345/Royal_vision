@@ -34,7 +34,7 @@ const Referal = () => {
     setIsEarningsLoading(true);
     try {
       const token = JSON.parse(localStorage.getItem('mytoken'));
-      const response = await fetch('https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/api/user/fetchreferalhistoryuser', {
+      const response = await fetch('https://overland-23a4680d9e06.herokuapp.com/api/user/fetchreferalhistoryuser', {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -60,7 +60,7 @@ const Referal = () => {
       setIsReferralDataLoading(true);
       try {
         const token = JSON.parse(localStorage.getItem('mytoken'));
-        const response = await fetch('https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/api/user/referral-data', {
+        const response = await fetch('https://overland-23a4680d9e06.herokuapp.com/api/user/referral-data', {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json'
@@ -286,7 +286,7 @@ const Referal = () => {
       setIsLoading(prev => ({ ...prev, [row._id]: true }));
       try {
         const token = JSON.parse(localStorage.getItem('mytoken'));
-        const response = await fetch('https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/api/user/sendreferalearningtowallet', {
+        const response = await fetch('https://overland-23a4680d9e06.herokuapp.com/api/user/sendreferalearningtowallet', {
           method: 'POST',
           headers: {
             'Authorization': `Bearer ${token}`,

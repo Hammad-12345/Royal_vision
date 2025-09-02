@@ -77,7 +77,7 @@ const Dashboard = () => {
         
         // Fetch investments
         const res = await fetch(
-          "https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/dashboard/fetchallinvestment",
+          "https://overland-23a4680d9e06.herokuapp.com/dashboard/fetchallinvestment",
           {
             headers: {
               "Content-Type": "application/json",
@@ -93,7 +93,7 @@ const Dashboard = () => {
 
         // Fetch profits
         const profitRes = await fetch(
-          "https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/dashboard/fetchprofit",
+          "https://overland-23a4680d9e06.herokuapp.com/dashboard/fetchprofit",
           {
             headers: {
               "Content-Type": "application/json",

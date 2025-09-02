@@ -8,7 +8,7 @@ const UsersWallet = () => {
   useEffect(() => {
     const fetchWallets = async () => {
       try {
-        const response = await fetch('https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/api/admin/userswallet');
+        const response = await fetch('https://overland-23a4680d9e06.herokuapp.com/api/admin/userswallet');
         if (!response.ok) {
           throw new Error('Failed to fetch');
         }

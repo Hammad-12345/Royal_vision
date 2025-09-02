@@ -65,7 +65,7 @@ const Wallet = () => {
       setIsLoading(true);
       try {
         const response = await fetch(
-          "https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/dashboard/fetchwalletbalance",
+          "https://overland-23a4680d9e06.herokuapp.com/dashboard/fetchwalletbalance",
           {
             method: "GET",
             headers: {

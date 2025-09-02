@@ -115,7 +115,7 @@ const Header = () => {
   const fetchNotifications = async () => {
     try {
       const token = localStorage.getItem('mytoken');
-      const response = await fetch('https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/dashboard/notifications', {
+      const response = await fetch('https://overland-23a4680d9e06.herokuapp.com/dashboard/notifications', {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${JSON.parse(token)}`,
@@ -133,7 +133,7 @@ const Header = () => {
   const markAsRead = async (notificationId) => {
     try {
       const token = localStorage.getItem('mytoken');
-      const response = await fetch(`https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/dashboard/notifications/${notificationId}/read`, {
+      const response = await fetch(`https://overland-23a4680d9e06.herokuapp.com/dashboard/notifications/${notificationId}/read`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

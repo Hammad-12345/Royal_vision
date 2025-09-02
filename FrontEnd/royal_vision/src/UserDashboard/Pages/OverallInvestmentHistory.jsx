@@ -60,7 +60,7 @@ const OverallInvestmentHistory = () => {
       try {
         setIsLoading(true);
         const token = localStorage.getItem('mytoken');
-        const res = await fetch('https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/dashboard/fetchallinvestment', {
+        const res = await fetch('https://overland-23a4680d9e06.herokuapp.com/dashboard/fetchallinvestment', {
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${JSON.parse(localStorage.getItem('mytoken'))}`,

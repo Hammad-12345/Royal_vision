@@ -18,7 +18,7 @@ const Dashboard = () => {
     const fetchData = async () => {
       try {
         setIsLoading(true);
-        const statsResponse = await fetch('https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/api/admin/stats');
+        const statsResponse = await fetch('https://overland-23a4680d9e06.herokuapp.com/api/admin/stats');
         const statsData = await statsResponse.json();
         console.log(statsData)
         setStats(statsData);

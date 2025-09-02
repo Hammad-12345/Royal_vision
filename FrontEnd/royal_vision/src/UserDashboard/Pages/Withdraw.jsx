@@ -23,7 +23,7 @@ const Withdraw = () => {
     const fetchWalletBalance = async () => {
       try {
         const token = localStorage.getItem("mytoken");
-        const response = await fetch("https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/dashboard/fetchwalletbalance", {
+        const response = await fetch("https://overland-23a4680d9e06.herokuapp.com/dashboard/fetchwalletbalance", {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${JSON.parse(token)}`,
@@ -47,7 +47,7 @@ const Withdraw = () => {
     try {
       console.log("Withdraw Request:", data);
       const token = localStorage.getItem("mytoken");
-      const response = await fetch("https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/dashboard/withdraw", {
+      const response = await fetch("https://overland-23a4680d9e06.herokuapp.com/dashboard/withdraw", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

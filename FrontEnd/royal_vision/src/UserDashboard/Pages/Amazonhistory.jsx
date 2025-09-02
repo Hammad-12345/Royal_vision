@@ -51,7 +51,7 @@ const Amazonhistory = () => {
     try {
       setLoadingInvestments(prev => ({ ...prev, [investment._id]: true }));
       const token = localStorage.getItem('mytoken');
-      const response = await fetch('https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/dashboard/sendprofittowallet', {
+      const response = await fetch('https://overland-23a4680d9e06.herokuapp.com/dashboard/sendprofittowallet', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -76,7 +76,7 @@ const Amazonhistory = () => {
       setIsLoading(true);
       const token = localStorage.getItem('mytoken');
       // Fetch investments
-      const investmentRes = await fetch('https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/dashboard/fetchallinvestment', {
+      const investmentRes = await fetch('https://overland-23a4680d9e06.herokuapp.com/dashboard/fetchallinvestment', {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${JSON.parse(token)}`,
@@ -94,7 +94,7 @@ const Amazonhistory = () => {
       setTotalInvestment(total);
 
       // Fetch profits
-      const profitRes = await fetch('https://overlandbackendnew-d897dd9d7fdc.herokuapp.com/dashboard/fetchprofit', {
+      const profitRes = await fetch('https://overland-23a4680d9e06.herokuapp.com/dashboard/fetchprofit', {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${JSON.parse(token)}`,
