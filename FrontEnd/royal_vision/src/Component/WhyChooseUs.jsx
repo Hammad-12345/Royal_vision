@@ -71,7 +71,8 @@ const WhyChooseUs = () => {
     <section
       className="bg-cover bg-no-repeat py-16 px-3 text-blue-600 font-poppins"
       style={{
-        backgroundImage: `url(https://d3hwx9f38knfi9.cloudfront.net/Royaltrading1.jpg)`,
+        // backgroundImage: `url(https://d3hwx9f38knfi9.cloudfront.net/Royaltrading1.jpg)`,
+        backgroundImage: `url(Royaltrading2.jpg)`,
         backgroundColor: "rgba(31, 41, 55, 0.75)",
         backgroundBlendMode: "multiply",
         backgroundAttachment: "fixed",

@@ -54,16 +54,20 @@ const ProfitCalculator = () => {
 
   return (
     <div
-      className="py-12 px-4 flex flex-col items-center font-poppins relative"
+      className="py-12 px-4 flex flex-col items-center font-poppins relative h-[600px]"
       style={{
-        backgroundImage: `url(https://d3hwx9f38knfi9.cloudfront.net/forexlight1.jpg)`,
-        backgroundAttachment: "fixed",
+        // backgroundImage: `url(https://d3hwx9f38knfi9.cloudfront.net/forexlight1.jpg)`,
+        backgroundImage: `url(profitcalculator.jpg)`,
+        backgroundColor: "hsl(215.86deg 49.32% 6.9% / 91%)",
+        backgroundBlendMode: "overlay",
+        backgroundAttachment:"fixed",
+        backgroundPosition:"50% 50%"
       }}
     >
-      <h2 className="text-4xl font-bold text-center text-black">
+      <h2 className="text-4xl font-bold text-center text-white">
         Profit <span className="text-blue-600 font-extrabold">Calculator</span>
       </h2>
-      <p className="text-center lg:w-2/4 md:w-4/5 mt-4">
+      <p className="text-center lg:w-2/4 md:w-4/5 mt-4 text-white">
         You must know the calculation before investing in any plan, so you never
         make mistakes. Check the calculation and you will get as our calculator
         says.

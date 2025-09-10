@@ -27,7 +27,8 @@ const Banner = () => {
         className="absolute inset-0 w-full h-full object-cover"
       >
         <source
-          src="https://overlandresources.s3.eu-north-1.amazonaws.com/NewTodayOverlandVideo.mp4"
+          // src="https://overlandresources.s3.eu-north-1.amazonaws.com/NewTodayOverlandVideo.mp4"
+          src="NewTodayOverlandVideo.mp4"
           type="video/mp4"
         />
       </video>

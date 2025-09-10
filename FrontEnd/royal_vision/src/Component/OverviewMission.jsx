@@ -35,7 +35,7 @@ const OverviewMission = () => {
         <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-6">
           {overviewmissionvision.map((item) => (
             <>
-              <div className="space-y-4 border border-gray-300 shadow-lg p-4 rounded-2xl">
+              <div className="space-y-4 text-white border border-white shadow-lg p-4 rounded-2xl">
                 <h1 className="text-2xl font-bold">{item.Title}</h1>
                 <div>{item.paragraph}</div>
               </div>

@@ -221,7 +221,8 @@ const Header = () => {
                 className="text-2xl font-bold text-white hover:text-blue-400 transition-colors font-poppins"
               >
                 <img
-                  src="https://overlandresources.s3.eu-north-1.amazonaws.com/newlogo-removebg-preview.png"
+                  // src="https://overlandresources.s3.eu-north-1.amazonaws.com/newlogo-removebg-preview.png"
+                  src="newlogoremovebgpreview.png"
                   className="w-20 h-12 sm:w-24 sm:h-16"
                   alt="logo"
                 />
@@ -248,7 +249,8 @@ const Header = () => {
                 className="text-2xl font-bold text-white hover:text-blue-400 transition-colors font-poppins"
               >
                 <img
-                  src="https://overlandresources.s3.eu-north-1.amazonaws.com/newlogo-removebg-preview.png"
+                  // src="https://overlandresources.s3.eu-north-1.amazonaws.com/newlogo-removebg-preview.png"
+                  src="newlogoremovebgpreview.png"
                   className="w-20 h-12 sm:w-24 sm:h-16"
                   alt="logo"
                 />
@@ -427,7 +429,8 @@ const Header = () => {
           className="text-2xl font-bold text-white hover:text-blue-400 transition-colors font-poppins"
         >
           <img
-            src="https://overlandresources.s3.eu-north-1.amazonaws.com/newlogo-removebg-preview.png"
+            // src="https://overlandresources.s3.eu-north-1.amazonaws.com/newlogo-removebg-preview.png"
+            src="newlogoremovebgpreview.png"
             className="w-24 h-16"
             alt="logo"
           />

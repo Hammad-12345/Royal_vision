@@ -16,7 +16,8 @@ const Footer = () => {
         <div className="w-full flex flex-col items-center justify-between space-y-6 py-8 px-4 sm:px-6 lg:px-8">
           <div className="text-2xl flex flex-col items-center text-white hover:text-blue-200 transition-colors font-poppins">
             <img 
-              src="https://overlandresources.s3.eu-north-1.amazonaws.com/newlogo-removebg-preview.png"  
+              // src="https://overlandresources.s3.eu-north-1.amazonaws.com/newlogo-removebg-preview.png"
+              src="newlogoremovebgpreview.png"  
               className="w-20 h-12 sm:w-24 sm:h-16"
               alt="Overland Solutions Logo" 
             />

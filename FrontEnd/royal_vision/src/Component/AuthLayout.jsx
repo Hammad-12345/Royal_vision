@@ -47,7 +47,8 @@ const AuthLayout = () => {
     <div
       className="grid grid-cols-1 bg-cover xl:space-y-0 space-y-8 xl:grid-cols-2 min-h-screen font-poppins px-4 sm:px-6 lg:px-8 py-8 sm:py-12 text-white"
       style={{
-        backgroundImage: `url(https://d3hwx9f38knfi9.cloudfront.net/Auth.jpg)`,
+        // backgroundImage: `url(https://d3hwx9f38knfi9.cloudfront.net/Auth.jpg)`,
+        backgroundImage: `url(Contactusbg.jpg)`,
         backgroundColor: "hsl(215.86deg 49.32% 6.9% / 91%)",
         backgroundBlendMode: "overlay",
       }}
@@ -56,7 +57,8 @@ const AuthLayout = () => {
       <div className="space-y-6 sm:space-y-8 mb-8 sm:mb-0">
         <div className="lg:w-44 flex flex-col items-center xl:mx-0 mx-auto text-white hover:text-blue-200 transition-colors font-poppins">
           <img
-            src="https://overlandresources.s3.eu-north-1.amazonaws.com/newlogo-removebg-preview.png"
+            // src="https://overlandresources.s3.eu-north-1.amazonaws.com/newlogo-removebg-preview.png"
+            src="newlogoremovebgpreview.png"
             className="w-32 h-20 sm:w-40 sm:h-24"
             alt=""
           />

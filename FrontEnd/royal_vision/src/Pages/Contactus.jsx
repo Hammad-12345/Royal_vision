@@ -99,7 +99,8 @@ const Contactus = () => {
     <div
       className=" py-8 px-4 sm:px-6 lg:px-8 bg-cover space-y-4"
       style={{
-        backgroundImage: `url(https://d3hwx9f38knfi9.cloudfront.net/Auth.jpg)`,
+        // backgroundImage: `url(https://d3hwx9f38knfi9.cloudfront.net/Auth.jpg)`,
+        backgroundImage: `url(Contactusbg.jpg)`,
         backgroundColor: "hsl(215.86deg 49.32% 6.9% / 91%)",
         backgroundBlendMode: "overlay",
         backgroundAttachment:"fixed",
